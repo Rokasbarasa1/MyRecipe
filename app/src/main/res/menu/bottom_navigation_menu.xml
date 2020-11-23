@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/recipes"
+        android:title="Recipe"
+        android:icon="@drawable/recipes"
+        />
+    <item
+        android:id="@+id/calendar"
+        android:title="Calendar"
+        android:icon="@drawable/calendar"
+        />
+    <item
+        android:id="@+id/grocery"
+        android:title="Grocery"
+        android:icon="@drawable/grocery"
+        />
+    <item
+        android:id="@+id/random"
+        android:title="Random"
+        android:icon="@drawable/random"
+        />
+</menu>
