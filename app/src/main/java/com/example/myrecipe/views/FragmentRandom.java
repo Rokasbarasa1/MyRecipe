@@ -11,10 +11,12 @@ import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.myrecipe.R;
 import com.example.myrecipe.models.Recipe;
+import com.example.myrecipe.viewModels.ViewModelCreateRecipe;
 import com.example.myrecipe.viewModels.ViewModelRandom;
 import com.example.myrecipe.viewModels.ViewModelSeeRecipe;
 
@@ -46,8 +48,7 @@ public class FragmentRandom extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_random, container, false);
 
-        viewModel = ViewModelProviders.of(this).get(ViewModelRandom.class);
-        viewModel.init();
+        viewModel = new ViewModelProvider(this).get(ViewModelRandom.class);
 
         name = rootView.findViewById(R.id.random_recipe_name);
         prepTime = rootView.findViewById(R.id.random_recipe_prepTime);
@@ -65,6 +66,7 @@ public class FragmentRandom extends Fragment {
             @Override
             public void onClick(View v) {
                 setRecipe(viewModel.getRandomRecipe());
+                upArrow.setDisplayHomeAsUpEnabled(false);
             }
         });
 

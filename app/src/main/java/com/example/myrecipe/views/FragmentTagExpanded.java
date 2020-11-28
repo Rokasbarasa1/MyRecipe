@@ -11,6 +11,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +20,7 @@ import com.example.myrecipe.R;
 import com.example.myrecipe.adapter.AdapterRecipe;
 import com.example.myrecipe.models.Recipe;
 import com.example.myrecipe.models.Tag;
+import com.example.myrecipe.viewModels.ViewModelRandom;
 import com.example.myrecipe.viewModels.ViewModelTagsExpanded;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -53,7 +55,7 @@ public class FragmentTagExpanded extends Fragment implements AdapterRecipe.OnLis
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_tag_expanded, container, false);
-        viewModel = ViewModelProviders.of(this).get(ViewModelTagsExpanded.class);
+        viewModel = new ViewModelProvider(this).get(ViewModelTagsExpanded.class);
 
         //Tag List
         initRecipesRecyclerView(rootView);
@@ -65,7 +67,7 @@ public class FragmentTagExpanded extends Fragment implements AdapterRecipe.OnLis
 
     @SuppressLint("FragmentLiveDataObserve")
     private void initRecipesRecyclerView(View rootView){
-        viewModel.init(currentTag);
+        viewModel.setExpandedTag(currentTag);
         viewModel.getRecipes().observe(this, new Observer<List<Recipe>>() {
             @Override
             public void onChanged(List<Recipe> tags) {

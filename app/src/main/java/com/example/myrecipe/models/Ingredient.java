@@ -1,11 +1,24 @@
 package com.example.myrecipe.models;
 
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Ignore;
+import androidx.room.Index;
+import androidx.room.PrimaryKey;
+
+@Entity(foreignKeys = @ForeignKey(entity = Recipe.class, parentColumns = "id", childColumns = "recipeId"),
+        indices = {@Index(value = {"recipeId"})})
 public class Ingredient {
+    @PrimaryKey (autoGenerate = true)
+    private long id;
+    private long recipeId;
+    @Ignore
     private String rawString;
     private String name;
     private double quantity;
     private String unitOfMeassure;
 
+    @Ignore
     public Ingredient() {
         rawString = "";
         name = "";
@@ -20,7 +33,19 @@ public class Ingredient {
         this.unitOfMeassure = unitOfMeassure;
     }
 
-    public String getRaw() {
+    public void setRecipeId(long recipeId) {
+        this.recipeId = recipeId;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public long getRecipeId() {
+        return recipeId;
+    }
+
+    public String getRawString() {
         return rawString;
     }
 
@@ -38,6 +63,14 @@ public class Ingredient {
 
     public String getUnitOfMeassure() {
         return unitOfMeassure;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setRawString(String rawString) {
+        this.rawString = rawString;
     }
 
     public String getAsString(){

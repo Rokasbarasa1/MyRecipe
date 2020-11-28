@@ -1,22 +1,23 @@
 package com.example.myrecipe.viewModels;
 
+import android.app.Application;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.example.myrecipe.models.Tag;
 import com.example.myrecipe.repository.TagsRepository;
 
 import java.util.List;
 
-public class ViewModelTags extends ViewModel {
+public class ViewModelTags extends AndroidViewModel {
     private LiveData<List<Tag>> tags;
     private TagsRepository repo;
 
-    public void init(){
-        if(tags != null){
-            return;
-        }
-        repo = TagsRepository.getInstance();
+    public ViewModelTags(@NonNull Application application) {
+        super(application);
+        repo = TagsRepository.getInstance(application);
         tags = repo.getTags();
     }
 
@@ -26,9 +27,5 @@ public class ViewModelTags extends ViewModel {
 
     public Tag getTag(int position) {
         return repo.getTag(position);
-    }
-
-    public void refreshTags() {
-        tags = repo.getTags();
     }
 }

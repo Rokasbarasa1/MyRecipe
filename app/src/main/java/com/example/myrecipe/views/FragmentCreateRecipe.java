@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.MultiAutoCompleteTextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +20,7 @@ import com.example.myrecipe.models.Ingredient;
 import com.example.myrecipe.viewModels.ViewModelCreateRecipe;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.List;
 
 public class FragmentCreateRecipe extends Fragment implements  AdapterNewRecipeIngredient.OnEditTextListener{
@@ -44,8 +46,7 @@ public class FragmentCreateRecipe extends Fragment implements  AdapterNewRecipeI
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_create_recipe, container, false);
 
-        viewModel = ViewModelProviders.of(this).get(ViewModelCreateRecipe.class);
-        viewModel.init();
+        viewModel = new ViewModelProvider(this).get(ViewModelCreateRecipe.class);
         Button removeButton = rootView.findViewById(R.id.remove_ingredient_button);
         Button addButton = rootView.findViewById(R.id.add_ingredient_button);
         Button finishButton = rootView.findViewById(R.id.finish_ingredient_button);

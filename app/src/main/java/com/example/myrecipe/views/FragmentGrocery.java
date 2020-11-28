@@ -16,6 +16,7 @@ import com.example.myrecipe.models.Ingredient;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.List;
 
 public class FragmentGrocery extends Fragment {
     private RecyclerView ingredientList;

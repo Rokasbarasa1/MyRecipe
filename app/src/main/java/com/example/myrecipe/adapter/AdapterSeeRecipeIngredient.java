@@ -30,7 +30,7 @@ public class AdapterSeeRecipeIngredient extends RecyclerView.Adapter<AdapterSeeR
 
     @Override
     public void onBindViewHolder(@NonNull AdapterSeeRecipeIngredient.ViewHolder viewHolder, int position) {
-        viewHolder.name.setText(ingredients.get(position).getRaw());
+        viewHolder.name.setText(ingredients.get(position).getRawString());
     }
 
     @Override

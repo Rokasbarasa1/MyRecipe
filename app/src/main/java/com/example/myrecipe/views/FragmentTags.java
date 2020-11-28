@@ -11,6 +11,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +20,7 @@ import com.example.myrecipe.R;
 import com.example.myrecipe.adapter.AdapterTag;
 import com.example.myrecipe.models.Tag;
 import com.example.myrecipe.viewModels.ViewModelTags;
+import com.example.myrecipe.viewModels.ViewModelTagsExpanded;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
@@ -60,8 +62,8 @@ public class FragmentTags extends Fragment implements AdapterTag.OnListTagClickL
 
     @SuppressLint("FragmentLiveDataObserve")
     private void initTagsRecyclerView(View rootView){
-        viewModelTags = ViewModelProviders.of(this).get(ViewModelTags.class);
-        viewModelTags.init();
+        viewModelTags = new ViewModelProvider(this).get(ViewModelTags.class);
+
         viewModelTags.getTags().observe(this, new Observer<List<Tag>>() {
             @Override
             public void onChanged(List<Tag> tags) {

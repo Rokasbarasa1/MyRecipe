@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,6 +16,7 @@ import com.example.myrecipe.R;
 import com.example.myrecipe.adapter.AdapterSeeRecipeIngredient;
 import com.example.myrecipe.models.Ingredient;
 import com.example.myrecipe.models.Recipe;
+import com.example.myrecipe.viewModels.ViewModelRandom;
 import com.example.myrecipe.viewModels.ViewModelSeeRecipe;
 
 import java.util.List;
@@ -43,8 +45,8 @@ public class FragmentSeeRecipe extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_see_recipe, container, false);
 
-        viewModel = ViewModelProviders.of(this).get(ViewModelSeeRecipe.class);
-        viewModel.init(nameOfRecipe);
+        viewModel = new ViewModelProvider(this).get(ViewModelSeeRecipe.class);
+        viewModel.setSelectedRecipe(nameOfRecipe);
         selectedRecipe = viewModel.getRecipe();
 
         name = rootView.findViewById(R.id.recipeName);

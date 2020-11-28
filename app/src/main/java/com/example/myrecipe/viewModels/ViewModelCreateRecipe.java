@@ -1,38 +1,51 @@
 package com.example.myrecipe.viewModels;
 
+import android.app.Application;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.ViewModel;
 
 import com.example.myrecipe.models.Ingredient;
 import com.example.myrecipe.models.Recipe;
 import com.example.myrecipe.models.Tag;
+import com.example.myrecipe.repository.CreateRecipeRepository;
 import com.example.myrecipe.repository.TagsRepository;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
-public class ViewModelCreateRecipe extends ViewModel {
-    private TagsRepository repo;
-    private ArrayList<Ingredient> ingredients;
+public class ViewModelCreateRecipe extends AndroidViewModel {
+    private CreateRecipeRepository repo;
+    private List<Ingredient> ingredients;
 
-    public void init(){
-        repo = TagsRepository.getInstance();
+    public ViewModelCreateRecipe(@NonNull Application application) {
+        super(application);
+        repo = CreateRecipeRepository.getInstance(application);
         ingredients = new ArrayList<>();
     }
 
     public void addRecipe(String name, String prepTime, String cookTime, String servingSize, String description, String tags){
-        ArrayList<Tag> splitTags = new ArrayList<>();
+        List<Tag> splitTags = new ArrayList<>();
+        List<Tag> tagsInSystem = repo.getTags();
         String[] tagsIndividual = tags.split(",");
+        boolean added;
         for (int i = 0; i < tagsIndividual.length; i++) {
-            splitTags.add(new Tag(tagsIndividual[i]));
-        }
-        for (int i = 0; i < tagsIndividual.length; i++) {
-            System.out.println(tagsIndividual[i]);
+            added = false;
+            for (int j = 0; j < tagsInSystem.size(); j++) {
+                if(tagsIndividual[i].equals(tagsInSystem.get(j).getName())){
+                    splitTags.add(tagsInSystem.get(j));
+                    added = true;
+                    break;
+                }
+            }
+            if(!added)
+                splitTags.add(new Tag(tagsIndividual[i]));
         }
         Recipe newRecipe = new Recipe(name, Integer.parseInt(prepTime), Integer.parseInt(cookTime), Integer.parseInt(servingSize), ingredients, description, splitTags);
         repo.addRecipe(newRecipe);
-        Log.d("AddedRecipe",  "" + name );
     }
 
     public void ingredientUpdated(int index, String text) {
@@ -60,8 +73,6 @@ public class ViewModelCreateRecipe extends ViewModel {
             }else {
                 ingredients.add(newIngredient);
             }
-            // TODO : THIS IS VERY PErformance intensive rather listen to loose focus on editText field.
-            Log.d("IngredientUpdated", "updated ingredient " + index );
         }
     }
 }

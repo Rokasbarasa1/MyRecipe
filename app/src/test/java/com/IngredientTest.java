@@ -23,7 +23,7 @@ public class IngredientTest {
     @Test
     public void emptyGetRawString(){
         ingredient = new Ingredient();
-        assertEquals("", ingredient.getRaw());
+        assertEquals("", ingredient.getRawString());
     }
 
     @Test
@@ -48,7 +48,7 @@ public class IngredientTest {
     @Test
     public void fullGetRawString(){
         ingredient = new Ingredient("Name", 0.1, "g");
-        assertEquals("Name 0.1g", ingredient.getRaw());
+        assertEquals("Name 0.1g", ingredient.getRawString());
     }
 
     @Test
@@ -74,6 +74,6 @@ public class IngredientTest {
     public void setRaw(){
         ingredient = new Ingredient("Name", 0.1, "g");
         ingredient.setRaw("Raw");
-        assertEquals("Raw", ingredient.getRaw());
+        assertEquals("Raw", ingredient.getRawString());
     }
 }

@@ -1,59 +1,63 @@
 package com.example.myrecipe.repository;
 
+import android.app.Application;
+import android.os.AsyncTask;
+
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.myrecipe.models.Ingredient;
-import com.example.myrecipe.models.Recipe;
+import com.example.myrecipe.dao.IngredientDAO;
+import com.example.myrecipe.dao.RecipeDAO;
+import com.example.myrecipe.dao.RecipeDatabase;
+import com.example.myrecipe.dao.RecipeTagDAO;
 import com.example.myrecipe.models.Tag;
+import com.example.myrecipe.dao.TagDAO;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class TagsRepository {
     private static TagsRepository instance;
-    private ArrayList<Tag> tagDataSet = new ArrayList<>();
-    private ArrayList<Recipe> recipeDataSet = new ArrayList<>();
+    private RecipeDAO recipeDAO;
+    private TagDAO tagDAO;
+    private IngredientDAO ingredientDAO;
+    private RecipeTagDAO recipeTagDAO;
+    private List<Tag> currentTags;
 
+    private TagsRepository(Application application){
+        RecipeDatabase database = RecipeDatabase.getInstance(application);
+        recipeDAO = database.recipeDAO();
+        tagDAO = database.tagDAO();
+        ingredientDAO = database.ingredientDAO();
+        recipeTagDAO = database.recipeTagDAO();
+    }
 
-    public static TagsRepository getInstance(){
+    public static TagsRepository getInstance(Application application){
         if(instance == null){
-            instance = new TagsRepository();
+            instance = new TagsRepository(application);
         }
         return instance;
     }
 
     public MutableLiveData<List<Tag>> getTags(){
-        if(tagDataSet.size() == 0){
-            setTags();
+        try {
+            currentTags = new GetAllTagsAsync(tagDAO).execute().get();
+            MutableLiveData<List<Tag>> data = new MutableLiveData<>();
+            data.setValue(currentTags);
+            return data;
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-        MutableLiveData<List<Tag>> data = new MutableLiveData<>();
-        data.setValue(tagDataSet);
-        return data;
-    }
-
-    public Recipe getRecipe(int index){
-        return recipeDataSet.get(index);
+        return new MutableLiveData<>();
     }
 
     public Tag getTag(int index){
-        return tagDataSet.get(index);
+        return currentTags.get(index);
     }
-
+/*
     private void setTags(){
-        /*
-        tagDataSet.add(new Tag("Asian"));
-        tagDataSet.add(new Tag("Catalan"));
-        tagDataSet.add(new Tag("Spanish"));
-        tagDataSet.add(new Tag("Savory"));
-        tagDataSet.add(new Tag("Sweet"));
-        tagDataSet.add(new Tag("Easy"));
-        tagDataSet.add(new Tag("Complicated"));
-        tagDataSet.add(new Tag("Chicken"));
-        tagDataSet.add(new Tag("Beef"));
-        tagDataSet.add(new Tag("Pork"));
-        tagDataSet.add(new Tag("Complicated"));
-
-         */
         Ingredient ingredient1 = new Ingredient("Basmati rice", 350, "g");
         Ingredient ingredient2 = new Ingredient("Chicken breast", 450, "g");
         Ingredient ingredient3 = new Ingredient("Coconut milk", 200, "g");
@@ -61,7 +65,7 @@ public class TagsRepository {
         Ingredient ingredient5 = new Ingredient("Butter", 15, "g");
 
 
-        ArrayList<Ingredient> ingredientList = new ArrayList<>();
+        List<Ingredient> ingredientList = new List<>();
         ingredientList.add(ingredient1);
         ingredientList.add(ingredient2);
         ingredientList.add(ingredient3);
@@ -73,7 +77,7 @@ public class TagsRepository {
         Tag tag3 = new Tag("Easy");
         Tag tag4 = new Tag("Rice");
 
-        ArrayList<Tag> tagList = new ArrayList<>();
+        List<Tag> tagList = new List<>();
         tagList.add(tag1);
         tagList.add(tag2);
         tagList.add(tag3);
@@ -88,57 +92,18 @@ public class TagsRepository {
                 , tagList);
         addRecipe(recipe);
     }
+ */
 
-    public void addRecipe(Recipe newRecipe) {
-        recipeDataSet.add(newRecipe);
-        ArrayList<String> currentTagStrings = new ArrayList<>();
-        for (Tag repoTag : tagDataSet) {
-            currentTagStrings.add(repoTag.getName());
+    private class GetAllTagsAsync extends AsyncTask<Void, Void, List<Tag>> {
+        private TagDAO tagDAO;
+
+        private GetAllTagsAsync(TagDAO tagDAO){
+            this.tagDAO = tagDAO;
         }
-        for (int i = 0; i < newRecipe.getTags().size(); i++) {
-            if(newRecipe.getTags().get(i).getName().equals(""))
-                continue;
-            if(!currentTagStrings.contains(newRecipe.getTags().get(i).getName())){
-                tagDataSet.add(newRecipe.getTags().get(i));
-            }
+
+        @Override
+        protected List<Tag> doInBackground(Void... voids) {
+            return tagDAO.getAllTags();
         }
-    }
-
-    public MutableLiveData<List<Recipe>> getRecipes() {
-        MutableLiveData<List<Recipe>> data = new MutableLiveData<>();
-        data.setValue(recipeDataSet);
-        return data;
-    }
-
-    public MutableLiveData<List<Recipe>> getRecipesByTag(Tag tag) {
-        ArrayList<Recipe> selectedRecipes = new ArrayList<>();
-        for (int i = 0; i < recipeDataSet.size(); i++) {
-            for (int j = 0; j < recipeDataSet.get(i).getTags().size(); j++) {
-                if(recipeDataSet.get(i).getTags().get(j).getName().equals(tag.getName()))
-                    selectedRecipes.add(recipeDataSet.get(i));
-            }
-        }
-        MutableLiveData<List<Recipe>> data = new MutableLiveData<>();
-        data.setValue(selectedRecipes);
-        return data;
-    }
-
-    public Recipe getRecipeByName(String recipeName) {
-        Recipe selectedRecipe = null;
-        for (int i = 0; i < recipeDataSet.size(); i++) {
-            if(recipeDataSet.get(i).getName().equals(recipeName)){
-                selectedRecipe = recipeDataSet.get(i);
-                break;
-            }
-        }
-        return selectedRecipe;
-    }
-
-    public Recipe getRandomRecipe() {
-        if(recipeDataSet.size() != 0){
-            int randomNumber = 0 + (int)(Math.random() * recipeDataSet.size());
-            return recipeDataSet.get(randomNumber);
-        }else
-            return null;
     }
 }

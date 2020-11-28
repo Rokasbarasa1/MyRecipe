@@ -34,7 +34,7 @@ public class AdapterNewRecipeIngredient extends RecyclerView.Adapter<AdapterNewR
 
     @Override
     public void onBindViewHolder(@NonNull AdapterNewRecipeIngredient.ViewHolder viewHolder, int position) {
-        viewHolder.name.setText(ingredients.get(position).getRaw());
+        viewHolder.name.setText(ingredients.get(position).getRawString());
     }
 
     @Override
