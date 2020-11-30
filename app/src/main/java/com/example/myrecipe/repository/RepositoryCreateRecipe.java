@@ -15,17 +15,16 @@ import com.example.myrecipe.dao.TagDAO;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-public class CreateRecipeRepository {
-    private static CreateRecipeRepository instance;
+public class RepositoryCreateRecipe {
+    private static RepositoryCreateRecipe instance;
     private RecipeDAO recipeDAO;
     private TagDAO tagDAO;
     private IngredientDAO ingredientDAO;
     private RecipeTagDAO recipeTagDAO;
 
-    private CreateRecipeRepository(Application application){
+    private RepositoryCreateRecipe(Application application){
         RecipeDatabase database = RecipeDatabase.getInstance(application);
         recipeDAO = database.recipeDAO();
         tagDAO = database.tagDAO();
@@ -33,9 +32,9 @@ public class CreateRecipeRepository {
         recipeTagDAO = database.recipeTagDAO();
     }
 
-    public static CreateRecipeRepository getInstance(Application application){
+    public static RepositoryCreateRecipe getInstance(Application application){
         if(instance == null){
-            instance = new CreateRecipeRepository(application);
+            instance = new RepositoryCreateRecipe(application);
         }
         return instance;
     }
@@ -65,7 +64,7 @@ public class CreateRecipeRepository {
         }
     }
 
-    public void insertRecipe(Recipe recipe, List<Tag> newTags, List<Long> asociatedTagsIds){
+    public void insertRecipe(Recipe recipe, List<Tag> newTags, List<Long> associatedTagsIds){
         try {
             long recipeId = new InsertRecipeAsync(recipeDAO).execute(recipe).get();
             for (Ingredient ingredient : recipe.getIngredients()) {
@@ -74,11 +73,11 @@ public class CreateRecipeRepository {
             }
             if(newTags.size() != 0){
                 for (Tag tag : newTags) {
-                    asociatedTagsIds.add(new InsertTagAsync(tagDAO).execute(tag).get());
+                    associatedTagsIds.add(new InsertTagAsync(tagDAO).execute(tag).get());
                 }
             }
-            if(asociatedTagsIds.size() != 0){
-                for (long tagId : asociatedTagsIds) {
+            if(associatedTagsIds.size() != 0){
+                for (long tagId : associatedTagsIds) {
                     RecipeTag relationship = new RecipeTag(recipeId, tagId);
                     new InsertRecipeTagAsync(recipeTagDAO).execute(relationship);
                 }

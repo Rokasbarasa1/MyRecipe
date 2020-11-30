@@ -4,49 +4,79 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myrecipe.R;
-import com.example.myrecipe.adapter.AdapterGroceryIngredient;
-import com.example.myrecipe.models.Ingredient;
+import com.example.myrecipe.adapter.AdapterGroceryRecipe;
+import com.example.myrecipe.adapter.AdapterRecipe;
+import com.example.myrecipe.models.Recipe;
+import com.example.myrecipe.viewModels.ViewModelGrocery;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.List;
 
-public class FragmentGrocery extends Fragment {
-    private RecyclerView ingredientList;
-    private AdapterGroceryIngredient adapterGroceryIngredient;
-    private List<Ingredient> ingredients;
-    private FragmentTransaction ft;
+public class FragmentGrocery extends Fragment implements AdapterRecipe.OnListRecipeClickListener {
+    private FragmentManager supportFragmentManager;
+    private TextView toolbarTitle;
+    private ActionBar upArrow;
+    private AdapterGroceryRecipe adapterGroceryRecipe;
+    private ViewModelGrocery viewModel;
+    private RecyclerView recipeList;
 
 
-    public FragmentGrocery() {
+    public FragmentGrocery(FragmentManager supportFragmentManager, TextView toolbarTitle, ActionBar supportActionBar) {
+        this.supportFragmentManager = supportFragmentManager;
+        this.toolbarTitle = toolbarTitle;
+        this.upArrow = supportActionBar;
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        toolbarTitle.setText("Grocery");
+        upArrow.setDisplayHomeAsUpEnabled(false);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_grocery, container, false);
 
-        //Ingredient shopping bag
-        ingredients = new ArrayList<>();
-        ingredients.add(new Ingredient("Coconut milk", 1f, "can"));
-        ingredients.add(new Ingredient("Basmati rice", 300f, "g"));
-        ingredients.add(new Ingredient("Chicken", 450f, "g"));
-        ingredients.add(new Ingredient("Curry paste", 3, "tablespoons"));
-        ingredients.add(new Ingredient("Salt", 1f, "teaspoon"));
-        ingredients.add(new Ingredient("Pepper", 0.5f, "teaspoon"));
-
-        ingredientList = rootView.findViewById(R.id.rv_grocery);
-        ingredientList.setLayoutManager(new LinearLayoutManager(rootView.getContext()));
-        adapterGroceryIngredient = new AdapterGroceryIngredient(ingredients);
-        ingredientList.setAdapter(adapterGroceryIngredient);
+        //Recipes that need groceries list
+        initGroceryRecyclerView(rootView);
 
         return rootView;
+    }
+
+    private void initGroceryRecyclerView(View rootView) {
+        viewModel = new ViewModelProvider(this).get(ViewModelGrocery.class);
+
+        viewModel.getRecipeGroceries().observe(getViewLifecycleOwner(), new Observer<List<Recipe>>() {
+            @Override
+            public void onChanged(List<Recipe> recipes) {
+                adapterGroceryRecipe.setData(recipes, viewModel.getGroceryTodos());
+            }
+        });
+        viewModel.getRecipesForList();
+
+        recipeList = rootView.findViewById(R.id.rv_grocery);
+        recipeList.setLayoutManager(new LinearLayoutManager(rootView.getContext()));
+        adapterGroceryRecipe = new AdapterGroceryRecipe(viewModel.getRecipeGroceries().getValue(), viewModel.getGroceryTodos() ,this);
+        recipeList.setAdapter(adapterGroceryRecipe);
+    }
+
+    @Override
+    public void onClick(int position, String name) {
+        Fragment fragment = null;
+        fragment = new FragmentGroceryExpanded(supportFragmentManager, toolbarTitle, upArrow, viewModel.getRecipeGroceries().getValue().get(position), viewModel.getGroceryTodos().get(position));
+        toolbarTitle.setText("View ingredients");
+        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
+        upArrow.setDisplayHomeAsUpEnabled(true);
     }
 }

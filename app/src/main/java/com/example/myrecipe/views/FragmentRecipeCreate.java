@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.List;
 
-public class FragmentCreateRecipe extends Fragment implements  AdapterNewRecipeIngredient.OnEditTextListener{
+public class FragmentRecipeCreate extends Fragment implements  AdapterNewRecipeIngredient.OnEditTextListener{
     private EditText name;
     private EditText prepTime;
     private EditText cookTime;
@@ -37,7 +37,7 @@ public class FragmentCreateRecipe extends Fragment implements  AdapterNewRecipeI
     private String currentTag;
     private View rootView;
 
-    public FragmentCreateRecipe(String tagUserWasIn) {
+    public FragmentRecipeCreate(String tagUserWasIn) {
         if(tagUserWasIn != null)
             currentTag = tagUserWasIn + ",";
     }

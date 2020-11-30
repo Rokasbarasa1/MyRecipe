@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,7 +19,6 @@ import com.example.myrecipe.R;
 import com.example.myrecipe.adapter.AdapterTag;
 import com.example.myrecipe.models.Tag;
 import com.example.myrecipe.viewModels.ViewModelTags;
-import com.example.myrecipe.viewModels.ViewModelTagsExpanded;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
@@ -29,7 +27,7 @@ public class FragmentTags extends Fragment implements AdapterTag.OnListTagClickL
     private FloatingActionButton add_btn;
     private RecyclerView tagList;
     private AdapterTag adapterTag;
-    private ViewModelTags viewModelTags;
+    private ViewModelTags viewModel;
     private FragmentManager supportFragmentManager;
     private TextView toolbarTitle;
     private ActionBar upArrow;
@@ -62,18 +60,20 @@ public class FragmentTags extends Fragment implements AdapterTag.OnListTagClickL
 
     @SuppressLint("FragmentLiveDataObserve")
     private void initTagsRecyclerView(View rootView){
-        viewModelTags = new ViewModelProvider(this).get(ViewModelTags.class);
+        viewModel = new ViewModelProvider(this).get(ViewModelTags.class);
 
-        viewModelTags.getTags().observe(this, new Observer<List<Tag>>() {
+        viewModel.getTags().observe(this, new Observer<List<Tag>>() {
             @Override
             public void onChanged(List<Tag> tags) {
-                adapterTag.notifyDataSetChanged();
+                adapterTag.setData(tags);
             }
         });
+        viewModel.getTagsFromDatabase();
+
         tagList = rootView.findViewById(R.id.rv_tags);
         tagList.hasFixedSize();
         tagList.setLayoutManager(new LinearLayoutManager(rootView.getContext()));
-        adapterTag = new AdapterTag(viewModelTags.getTags().getValue(), this);
+        adapterTag = new AdapterTag(viewModel.getTags().getValue(), this);
         tagList.setAdapter(adapterTag);
     }
 
@@ -83,7 +83,7 @@ public class FragmentTags extends Fragment implements AdapterTag.OnListTagClickL
             @Override
             public void onClick(View v) {
                 Fragment fragment = null;
-                fragment = new FragmentCreateRecipe(null);
+                fragment = new FragmentRecipeCreate(null);
                 toolbarTitle.setText("Create recipe");
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
                 upArrow.setDisplayHomeAsUpEnabled(true);
@@ -93,12 +93,10 @@ public class FragmentTags extends Fragment implements AdapterTag.OnListTagClickL
 
     @Override
     public void onClick(int position) {
-
         Fragment fragment = null;
-        fragment = new FragmentTagExpanded(supportFragmentManager, toolbarTitle, upArrow, viewModelTags.getTag(position));
-        toolbarTitle.setText(viewModelTags.getTag(position).getName());
+        fragment = new FragmentTagsExpanded(supportFragmentManager, toolbarTitle, upArrow, viewModel.getTag(position));
+        toolbarTitle.setText(viewModel.getTag(position).getName());
         supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
         upArrow.setDisplayHomeAsUpEnabled(true);
-
     }
 }

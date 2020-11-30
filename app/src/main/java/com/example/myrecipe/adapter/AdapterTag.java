@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myrecipe.R;
+import com.example.myrecipe.models.Recipe;
 import com.example.myrecipe.models.Tag;
 
 import java.util.List;
@@ -34,6 +35,11 @@ public class AdapterTag extends RecyclerView.Adapter<AdapterTag.ViewHolder> {
 
     public int getItemCount(){
         return tags.size();
+    }
+
+    public void setData(List<Tag> tags) {
+        this.tags = tags;
+        notifyDataSetChanged();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

@@ -4,21 +4,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.example.myrecipe.R;
 import com.example.myrecipe.models.Recipe;
-import com.example.myrecipe.viewModels.ViewModelCreateRecipe;
 import com.example.myrecipe.viewModels.ViewModelRandom;
-import com.example.myrecipe.viewModels.ViewModelSeeRecipe;
 
 
 public class FragmentRandom extends Fragment {
@@ -42,6 +38,7 @@ public class FragmentRandom extends Fragment {
     public void onResume() {
         super.onResume();
         toolbarTitle.setText("Random");
+        upArrow.setDisplayHomeAsUpEnabled(false);
     }
 
     @Override
@@ -59,23 +56,26 @@ public class FragmentRandom extends Fragment {
         cookTime.setText("");
         servingSize.setText("");
 
-        Button randomize = rootView.findViewById(R.id.random_do_random);
-        Button seeRecipe = rootView.findViewById(R.id.random_go_to_recipe);
-
-        randomize.setOnClickListener(new View.OnClickListener() {
+        viewModel.getRecipe().observe(getViewLifecycleOwner(), new Observer<Recipe>() {
+            @Override
+            public void onChanged(Recipe recipe) {
+                setRecipe(recipe);
+            }
+        });
+        rootView.findViewById(R.id.random_do_random).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setRecipe(viewModel.getRandomRecipe());
+                viewModel.getRandomRecipe();
                 upArrow.setDisplayHomeAsUpEnabled(false);
             }
         });
 
-        seeRecipe.setOnClickListener(new View.OnClickListener() {
+        rootView.findViewById(R.id.random_go_to_recipe).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(name.getText().toString() != ""){
                     Fragment fragment = null;
-                    fragment = new FragmentSeeRecipe(name.getText().toString());
+                    fragment = new FragmentRecipeSee(name.getText().toString());
                     toolbarTitle.setText("View recipe");
                     supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
                     upArrow.setDisplayHomeAsUpEnabled(true);
@@ -83,6 +83,12 @@ public class FragmentRandom extends Fragment {
             }
         });
 
+        rootView.findViewById(R.id.random_do_random_from_internet).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewModel.getRandomRecipeFromInternet();
+            }
+        });
         return rootView;
     }
 

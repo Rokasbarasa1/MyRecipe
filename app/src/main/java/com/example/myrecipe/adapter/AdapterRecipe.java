@@ -37,7 +37,15 @@ public class AdapterRecipe extends RecyclerView.Adapter<AdapterRecipe.ViewHolder
     }
 
     public int getItemCount(){
+        if(recipes == null){
+            return 0;
+        }
         return recipes.size();
+    }
+
+    public void setData(List<Recipe> newData) {
+        this.recipes = newData;
+        notifyDataSetChanged();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

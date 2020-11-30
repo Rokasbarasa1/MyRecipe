@@ -1,11 +1,18 @@
 package com.example.myrecipe.views;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
@@ -19,9 +26,10 @@ import com.example.myrecipe.models.Recipe;
 import com.example.myrecipe.viewModels.ViewModelRandom;
 import com.example.myrecipe.viewModels.ViewModelSeeRecipe;
 
+import java.util.Calendar;
 import java.util.List;
 
-public class FragmentSeeRecipe extends Fragment {
+public class FragmentRecipeSee extends Fragment implements DialogMakeRecipe.MakeRecipeDialogListener {
     private Recipe selectedRecipe;
     private TextView name;
     private TextView prepTime;
@@ -37,7 +45,7 @@ public class FragmentSeeRecipe extends Fragment {
     private String nameOfRecipe;
 
 
-    public FragmentSeeRecipe(String recipe) {
+    public FragmentRecipeSee(String recipe) {
         nameOfRecipe = recipe;
     }
 
@@ -76,17 +84,69 @@ public class FragmentSeeRecipe extends Fragment {
         ingredientAdapter = new AdapterSeeRecipeIngredient(ingredients);
         ingredientList.setAdapter(ingredientAdapter);
 
+        final Button makeRecipe = rootView.findViewById(R.id.see_recipe_make_recipe);
+        Button deleteRecipe = rootView.findViewById(R.id.see_recipe_delete_recipe);
+
+        makeRecipe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onMakeRecipe();
+            }
+        });
+        deleteRecipe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onDeleteRecipe();
+            }
+        });
         return rootView;
     }
 
-    public void addCalendar(View view) {
-
+    public void onMakeRecipe(){
+        DialogFragment makeRecipeDialog = new DialogMakeRecipe(this);
+        makeRecipeDialog.show(getChildFragmentManager(), "makeRecipeDialog");
     }
 
-    public void deleteRecipe(View view) {
+    public void onDeleteRecipe(){
+        AlertDialog.Builder deleteDialog = new AlertDialog.Builder(rootView.getContext());
+        deleteDialog.setTitle("Delete Recipe");
+        deleteDialog.setMessage("Delete " + nameOfRecipe + "?");
+        deleteDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                onDeleteRecipe();
+                Toast.makeText(rootView.getContext(),"Clicked yes", Toast.LENGTH_SHORT).show();
+            }
+        });
+        deleteDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(rootView.getContext(),"Clicked no", Toast.LENGTH_SHORT).show();
+            }
+        });
+        deleteDialog.show();
     }
 
-    public void addGrocery(View view) {
-
+    @Override
+    public void onDialogPositiveClickGrocery(int servings) {
+        System.out.println("Got servings: " + servings);
+        viewModel.newGroceryTodo(selectedRecipe.getId(), servings, selectedRecipe.getIngredients().size());
+        //Add selected recipe with modified servingsa mouunt
     }
+
+    @Override
+    public void onDialogPositiveClickCalendar(Calendar pointInTime) {
+        System.out.println("Got date: " + pointInTime.getTime().toString());
+        viewModel.newCalendarTodo(selectedRecipe.getId(), pointInTime);
+        //Add a date when to eat this recipe
+    }
+
+    @Override
+    public void onDialogPositiveClickBoth(int servings, Calendar pointInTime) {
+        System.out.println("Got servings: " + servings + " and date: " + pointInTime.toString());
+        viewModel.newGroceryAndCalendarTodo(selectedRecipe.getId(), servings, selectedRecipe.getIngredients().size(), pointInTime);
+        //Add slected recipe with modified servings and calendar date when to eat.
+    }
+
+
 }

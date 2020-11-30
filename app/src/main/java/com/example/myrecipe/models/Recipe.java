@@ -21,6 +21,11 @@ public class Recipe {
     @Ignore
     private List<Tag> tags;
 
+    @Ignore
+    public Recipe(String name){
+        this.name = name;
+    }
+
     public Recipe(String name, int prepTime, int cookTime, int servingSize, String description){
         this.name = name;
         this.prepTime = prepTime;

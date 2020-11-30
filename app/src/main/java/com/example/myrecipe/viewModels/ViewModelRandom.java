@@ -4,21 +4,28 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.LiveData;
 
 import com.example.myrecipe.models.Recipe;
-import com.example.myrecipe.repository.GetRecipesRepository;
-import com.example.myrecipe.repository.TagsRepository;
+import com.example.myrecipe.repository.RepositoryRandomRecipe;
 
 public class ViewModelRandom extends AndroidViewModel {
-    private GetRecipesRepository repo;
+    private RepositoryRandomRecipe repo;
 
     public ViewModelRandom(@NonNull Application application) {
         super(application);
-        repo = GetRecipesRepository.getInstance(application);
+        repo = RepositoryRandomRecipe.getInstance(application);
     }
 
-    public Recipe getRandomRecipe() {
-        return repo.getRandomRecipe();
+    public LiveData<Recipe> getRecipe(){
+        return repo.getRecipe();
+    }
+
+    public void getRandomRecipe() {
+        repo.getRandomRecipe();
+    }
+
+    public void getRandomRecipeFromInternet() {
+        repo.getRandomRecipeFromInternet();
     }
 }

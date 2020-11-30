@@ -4,19 +4,19 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.ViewModel;
 
 import com.example.myrecipe.models.Recipe;
-import com.example.myrecipe.repository.GetRecipesRepository;
-import com.example.myrecipe.repository.TagsRepository;
+import com.example.myrecipe.repository.RepositoryGetRecipes;
+
+import java.util.Calendar;
 
 public class ViewModelSeeRecipe extends AndroidViewModel {
     private Recipe selectedRecipe;
-    private GetRecipesRepository repo;
+    private RepositoryGetRecipes repo;
 
     public ViewModelSeeRecipe(@NonNull Application application) {
         super(application);
-        repo = GetRecipesRepository.getInstance(application);
+        repo = RepositoryGetRecipes.getInstance(application);
     }
 
     public void setSelectedRecipe(String recipeName){
@@ -25,5 +25,17 @@ public class ViewModelSeeRecipe extends AndroidViewModel {
 
     public Recipe getRecipe(){
         return selectedRecipe;
+    }
+
+    public void newGroceryTodo(long recipeId, int servings, int ingredientAmount) {
+        repo.newGroceryTodo(recipeId, servings, ingredientAmount);
+    }
+
+    public void newCalendarTodo(long recipeId, Calendar pointInTime) {
+        repo.newCalendarTodo(recipeId, pointInTime);
+    }
+
+    public void newGroceryAndCalendarTodo(long recipeId, int servings, int ingredientAmount, Calendar pointInTime) {
+        repo.newGroceryAndCalendarTodo(recipeId, servings, ingredientAmount, pointInTime);
     }
 }

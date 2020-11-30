@@ -1,29 +1,26 @@
 package com.example.myrecipe.viewModels;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.ViewModel;
 
 import com.example.myrecipe.models.Ingredient;
 import com.example.myrecipe.models.Recipe;
 import com.example.myrecipe.models.Tag;
-import com.example.myrecipe.repository.CreateRecipeRepository;
-import com.example.myrecipe.repository.TagsRepository;
+import com.example.myrecipe.repository.RepositoryCreateRecipe;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class ViewModelCreateRecipe extends AndroidViewModel {
-    private CreateRecipeRepository repo;
+    private RepositoryCreateRecipe repo;
     private List<Ingredient> ingredients;
 
     public ViewModelCreateRecipe(@NonNull Application application) {
         super(application);
-        repo = CreateRecipeRepository.getInstance(application);
+        repo = RepositoryCreateRecipe.getInstance(application);
         ingredients = new ArrayList<>();
     }
 

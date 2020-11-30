@@ -23,7 +23,6 @@ public class ActivityMain extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
     private TextView toolbarTitle;
     private Toolbar toolbar;
-    private FragmentTransaction ft;
     private FragmentManager fm;
 
     @Override
@@ -41,32 +40,16 @@ public class ActivityMain extends AppCompatActivity {
                 getSupportFragmentManager().popBackStackImmediate();
             }
         });
-        /*
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Fragment fragment = null;
-                toolbarTitle.setText("Recipes");
-                fragment = new FragmentTags(getSupportFragmentManager(), toolbarTitle, getSupportActionBar());
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-            }
-        });
 
-         */
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         toolbarTitle = findViewById(R.id.toolbar_title);
-
-
-
 
         //Bottom navigation button
         bottomNavigationView = findViewById(R.id.bottomView);
         bottomNavigationView.setOnNavigationItemSelectedListener(bottomNavMethod);
 
         //For backstack fragment management
-        ft = getSupportFragmentManager().beginTransaction();
         fm = getSupportFragmentManager();
 
         fm.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
@@ -89,7 +72,7 @@ public class ActivityMain extends AppCompatActivity {
                     switch (item.getItemId()){
                         case R.id.calendar:
                             toolbarTitle.setText("Calendar");
-                            fragment = new FragmentCalendar();
+                            fragment = new FragmentCalendar(getSupportFragmentManager(), toolbarTitle, getSupportActionBar());
                             break;
                         case R.id.recipes:
                             toolbarTitle.setText("Recipes");
@@ -97,7 +80,7 @@ public class ActivityMain extends AppCompatActivity {
                             break;
                         case R.id.grocery:
                             toolbarTitle.setText("Grocery");
-                            fragment = new FragmentGrocery();
+                            fragment = new FragmentGrocery(getSupportFragmentManager(), toolbarTitle, getSupportActionBar());
                             break;
                         case R.id.random:
                             toolbarTitle.setText("Random");

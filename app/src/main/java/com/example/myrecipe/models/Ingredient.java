@@ -6,6 +6,8 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+import java.text.DecimalFormat;
+
 @Entity(foreignKeys = @ForeignKey(entity = Recipe.class, parentColumns = "id", childColumns = "recipeId"),
         indices = {@Index(value = {"recipeId"})})
 public class Ingredient {
@@ -69,11 +71,16 @@ public class Ingredient {
         this.id = id;
     }
 
+    public void setQuantity(double quantity) {
+        this.quantity = quantity;
+    }
+
     public void setRawString(String rawString) {
         this.rawString = rawString;
     }
 
     public String getAsString(){
-        return name+" "+quantity+ " " +unitOfMeassure;
+        DecimalFormat dec = new DecimalFormat("#0");
+        return name+" "+dec.format(quantity)+ " " +unitOfMeassure;
     }
 }

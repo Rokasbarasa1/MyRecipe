@@ -2,6 +2,7 @@ package com.example.myrecipe.dao;
 
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import com.example.myrecipe.models.Recipe;
@@ -10,7 +11,7 @@ import com.example.myrecipe.models.Tag;
 @Entity(foreignKeys = {
         @ForeignKey(entity = Recipe.class, parentColumns = "id", childColumns = "recipeId"),
         @ForeignKey(entity = Tag.class, parentColumns = "id", childColumns = "tagId")
-})
+        }, indices = {@Index(value = {"recipeId"}), @Index(value = {"tagId"})})
 public class RecipeTag {
     @PrimaryKey(autoGenerate = true)
     private long id;

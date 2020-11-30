@@ -6,11 +6,13 @@ package com.example.myrecipe.dao;
         import androidx.room.Room;
         import androidx.room.RoomDatabase;
 
+        import com.example.myrecipe.models.CalendarTodo;
+        import com.example.myrecipe.models.GroceryTodo;
         import com.example.myrecipe.models.Ingredient;
         import com.example.myrecipe.models.Recipe;
         import com.example.myrecipe.models.Tag;
 
-@Database(entities = {Recipe.class, Ingredient.class, Tag.class, RecipeTag.class}, version = 1)
+@Database(entities = {Recipe.class, Ingredient.class, Tag.class, RecipeTag.class, GroceryTodo.class, CalendarTodo.class}, version = 4)
 public abstract class RecipeDatabase extends RoomDatabase {
     private static RecipeDatabase instance;
 
@@ -18,6 +20,8 @@ public abstract class RecipeDatabase extends RoomDatabase {
     public abstract IngredientDAO ingredientDAO();
     public abstract TagDAO tagDAO();
     public abstract RecipeTagDAO recipeTagDAO();
+    public abstract GroceryTodoDAO groceryTodoDAO();
+    public abstract CalendarTodoDAO calendarTodoDAO();
 
     public static synchronized RecipeDatabase getInstance(Context context){
         if(instance == null){
