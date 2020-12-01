@@ -14,9 +14,9 @@ import com.example.myrecipe.models.Recipe;
 import java.util.List;
 
 public class AdapterGroceryRecipe extends RecyclerView.Adapter<AdapterGroceryRecipe.ViewHolder>{
-    List<Recipe> recipes;
-    List<GroceryTodo> groceryTodos;
-    AdapterRecipe.OnListRecipeClickListener listener;
+    private List<Recipe> recipes;
+    private List<GroceryTodo> groceryTodos;
+    private AdapterRecipe.OnListRecipeClickListener listener;
 
     public AdapterGroceryRecipe(List<Recipe> recipes, List<GroceryTodo> groceryTodos, AdapterRecipe.OnListRecipeClickListener listener){
         this.recipes = recipes;

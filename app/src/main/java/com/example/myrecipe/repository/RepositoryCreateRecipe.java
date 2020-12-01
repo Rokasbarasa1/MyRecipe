@@ -4,14 +4,14 @@ import android.app.Application;
 import android.os.AsyncTask;
 
 import com.example.myrecipe.models.Ingredient;
-import com.example.myrecipe.dao.IngredientDAO;
+import com.example.myrecipe.models.dao.IngredientDAO;
 import com.example.myrecipe.models.Recipe;
-import com.example.myrecipe.dao.RecipeDAO;
-import com.example.myrecipe.dao.RecipeDatabase;
-import com.example.myrecipe.dao.RecipeTag;
-import com.example.myrecipe.dao.RecipeTagDAO;
+import com.example.myrecipe.models.dao.RecipeDAO;
+import com.example.myrecipe.models.dao.RecipeDatabase;
+import com.example.myrecipe.models.RecipeTag;
+import com.example.myrecipe.models.dao.RecipeTagDAO;
 import com.example.myrecipe.models.Tag;
-import com.example.myrecipe.dao.TagDAO;
+import com.example.myrecipe.models.dao.TagDAO;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.example.myrecipe.dao;
+package com.example.myrecipe.models.dao;
 
         import android.content.Context;
 
@@ -10,10 +10,12 @@ package com.example.myrecipe.dao;
         import com.example.myrecipe.models.GroceryTodo;
         import com.example.myrecipe.models.Ingredient;
         import com.example.myrecipe.models.Recipe;
+        import com.example.myrecipe.models.RecipeTag;
         import com.example.myrecipe.models.Tag;
 
-@Database(entities = {Recipe.class, Ingredient.class, Tag.class, RecipeTag.class, GroceryTodo.class, CalendarTodo.class}, version = 4)
+@Database(entities = {Recipe.class, Ingredient.class, Tag.class, RecipeTag.class, GroceryTodo.class, CalendarTodo.class}, version = 5)
 public abstract class RecipeDatabase extends RoomDatabase {
+
     private static RecipeDatabase instance;
 
     public abstract RecipeDAO recipeDAO();

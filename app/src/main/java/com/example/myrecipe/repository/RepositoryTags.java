@@ -6,9 +6,9 @@ import android.os.AsyncTask;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.myrecipe.dao.RecipeDatabase;
+import com.example.myrecipe.models.dao.RecipeDatabase;
 import com.example.myrecipe.models.Tag;
-import com.example.myrecipe.dao.TagDAO;
+import com.example.myrecipe.models.dao.TagDAO;
 
 import java.util.List;
 

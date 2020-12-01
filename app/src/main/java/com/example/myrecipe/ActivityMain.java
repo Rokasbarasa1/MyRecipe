@@ -11,9 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
-import com.example.myrecipe.views.FragmentCalendar;
+import com.example.myrecipe.views.FragmentSchedule;
 import com.example.myrecipe.views.FragmentGrocery;
 import com.example.myrecipe.views.FragmentRandom;
 import com.example.myrecipe.views.FragmentTags;
@@ -36,7 +35,6 @@ public class ActivityMain extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("trying to pop stack");
                 getSupportFragmentManager().popBackStackImmediate();
             }
         });
@@ -52,13 +50,6 @@ public class ActivityMain extends AppCompatActivity {
         //For backstack fragment management
         fm = getSupportFragmentManager();
 
-        fm.addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
-            @Override
-            public void onBackStackChanged() {
-                System.out.println("Kaka");
-            }
-        });
-
         //Set Default fragment
         toolbarTitle.setText("Recipes");
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentTags(getSupportFragmentManager(), toolbarTitle, getSupportActionBar())).commit();
@@ -70,9 +61,9 @@ public class ActivityMain extends AppCompatActivity {
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     Fragment fragment = null;
                     switch (item.getItemId()){
-                        case R.id.calendar:
-                            toolbarTitle.setText("Calendar");
-                            fragment = new FragmentCalendar(getSupportFragmentManager(), toolbarTitle, getSupportActionBar());
+                        case R.id.schedule:
+                            toolbarTitle.setText("Schedule");
+                            fragment = new FragmentSchedule(getSupportFragmentManager(), toolbarTitle, getSupportActionBar());
                             break;
                         case R.id.recipes:
                             toolbarTitle.setText("Recipes");

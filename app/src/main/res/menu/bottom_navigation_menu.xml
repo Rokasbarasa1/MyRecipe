@@ -6,8 +6,8 @@
         android:icon="@drawable/recipes"
         />
     <item
-        android:id="@+id/calendar"
-        android:title="Calendar"
+        android:id="@+id/schedule"
+        android:title="Schedule"
         android:icon="@drawable/calendar"
         />
     <item

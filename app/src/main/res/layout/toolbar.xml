@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.Toolbar
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="40dp"
-    android:background="@color/colorPrimary"
+    android:background="@color/colorPrimaryDark"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent">
@@ -14,10 +13,10 @@
         android:id="@+id/toolbar_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:text="Toolbar Title"
-        android:textSize="17dp"
-        android:textStyle="bold"
         android:textColor="@color/colorAccent"
-        android:layout_gravity="center" />
+        android:textSize="17dp"
+        android:textStyle="bold" />
 
 </androidx.appcompat.widget.Toolbar>

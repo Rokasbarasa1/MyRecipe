@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.myrecipe.R;
 import com.example.myrecipe.adapter.AdapterNewRecipeIngredient;
 import com.example.myrecipe.models.Ingredient;
+import com.example.myrecipe.models.Recipe;
 import com.example.myrecipe.viewModels.ViewModelCreateRecipe;
 
 import java.util.ArrayList;
@@ -34,11 +35,19 @@ public class FragmentRecipeCreate extends Fragment implements  AdapterNewRecipeI
     private AdapterNewRecipeIngredient ingredientAdapter;
     private List<Ingredient> ingredients;
     private ViewModelCreateRecipe viewModel;
+    private Recipe internetRecipeTemplate;
     private String currentTag;
     private View rootView;
 
+    //This constructor is for when the user gets a recipe form the internet and views it.
+    //This automaticaly fills the fields of the recipe creation in case the user wants to keep the recipe he got.
+
+    public FragmentRecipeCreate(Recipe internetRecipe) {
+        this.internetRecipeTemplate = internetRecipe;
+    }
+
     public FragmentRecipeCreate(String tagUserWasIn) {
-        if(tagUserWasIn != null)
+        if(tagUserWasIn != "")
             currentTag = tagUserWasIn + ",";
     }
 
@@ -47,42 +56,61 @@ public class FragmentRecipeCreate extends Fragment implements  AdapterNewRecipeI
         rootView = inflater.inflate(R.layout.fragment_create_recipe, container, false);
 
         viewModel = new ViewModelProvider(this).get(ViewModelCreateRecipe.class);
-        Button removeButton = rootView.findViewById(R.id.remove_ingredient_button);
-        Button addButton = rootView.findViewById(R.id.add_ingredient_button);
-        Button finishButton = rootView.findViewById(R.id.finish_ingredient_button);
-        removeButton.setOnClickListener(new View.OnClickListener() {
+
+        rootView.findViewById(R.id.remove_ingredient_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 removeLastLine();
-
             }
         });
-        addButton.setOnClickListener(new View.OnClickListener() {
+        rootView.findViewById(R.id.add_ingredient_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 createNewLineOfIngredient();
             }
         });
-
-        finishButton.setOnClickListener(new View.OnClickListener() {
+        rootView.findViewById(R.id.finish_ingredient_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finishRecipe();
             }
         });
 
+        name = rootView.findViewById(R.id.newRecipeName);
+        prepTime = rootView.findViewById(R.id.newRecipePrepTime);
+        cookTime = rootView.findViewById(R.id.newRecipeCookTime);
+        servingSize = rootView.findViewById(R.id.newRecipeServingSize);
+        description = rootView.findViewById(R.id.newRecipeDescription);
+
+        if(internetRecipeTemplate != null)
+            setInternetTemplate();
+
         //Recycler view
         ingredients = new ArrayList<>();
-        ingredients.add(new Ingredient());
+        if(internetRecipeTemplate != null){
+            for (int i = 0; i < internetRecipeTemplate.getIngredients().size(); i++) {
+                ingredients.add(internetRecipeTemplate.getIngredients().get(i));
+            }
+        }else
+            ingredients.add(new Ingredient());
         ingredientList = rootView.findViewById(R.id.rv_new_recipe_ingredients);
         ingredientList.hasFixedSize();
         ingredientList.setLayoutManager(new LinearLayoutManager(rootView.getContext()));
         ingredientAdapter = new AdapterNewRecipeIngredient(ingredients, this);
         ingredientList.setAdapter(ingredientAdapter);
 
+
         tags = rootView.findViewById(R.id.newRecipeTags);
         tags.setText(currentTag);
         return rootView;
+    }
+
+    private void setInternetTemplate() {
+        name.setText(internetRecipeTemplate.getName());
+        prepTime.setText(internetRecipeTemplate.getPrepTime() + "");
+        cookTime.setText(internetRecipeTemplate.getCookTime() + "");
+        servingSize.setText(internetRecipeTemplate.getServingSize() + "");
+        description.setText(internetRecipeTemplate.getDescription());
     }
 
     public void createNewLineOfIngredient(){
@@ -98,11 +126,7 @@ public class FragmentRecipeCreate extends Fragment implements  AdapterNewRecipeI
     }
 
     public void finishRecipe() {
-        name = rootView.findViewById(R.id.newRecipeName);
-        prepTime = rootView.findViewById(R.id.newRecipePrepTime);
-        cookTime = rootView.findViewById(R.id.newRecipeCookTime);
-        servingSize = rootView.findViewById(R.id.newRecipeServingSize);
-        description = rootView.findViewById(R.id.newRecipeDescription);
+
         System.out.println(tags.getText().toString());
         viewModel.addRecipe(name.getText().toString(), prepTime.getText().toString(), cookTime.getText().toString(), servingSize.getText().toString(), description.getText().toString(), tags.getText().toString());
 

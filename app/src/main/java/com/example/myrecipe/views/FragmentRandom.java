@@ -27,11 +27,13 @@ public class FragmentRandom extends Fragment {
     private TextView toolbarTitle;
     private ActionBar upArrow;
     private ViewModelRandom viewModel;
+    private boolean randomFromInternet;
 
     public FragmentRandom(FragmentManager supportFragmentManager, TextView toolbarTitle, ActionBar upArrow) {
         this.supportFragmentManager = supportFragmentManager;
         this.toolbarTitle = toolbarTitle;
         this.upArrow = upArrow;
+        randomFromInternet = false;
     }
 
     @Override
@@ -67,6 +69,7 @@ public class FragmentRandom extends Fragment {
             public void onClick(View v) {
                 viewModel.getRandomRecipe();
                 upArrow.setDisplayHomeAsUpEnabled(false);
+                randomFromInternet = false;
             }
         });
 
@@ -74,11 +77,19 @@ public class FragmentRandom extends Fragment {
             @Override
             public void onClick(View v) {
                 if(name.getText().toString() != ""){
-                    Fragment fragment = null;
-                    fragment = new FragmentRecipeSee(name.getText().toString());
-                    toolbarTitle.setText("View recipe");
-                    supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
-                    upArrow.setDisplayHomeAsUpEnabled(true);
+                    if(randomFromInternet){
+                        Fragment fragment = null;
+                        fragment = new FragmentRecipeCreate(viewModel.getRecipe().getValue());
+                        toolbarTitle.setText("Create recipe");
+                        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
+                        upArrow.setDisplayHomeAsUpEnabled(true);
+                    }else {
+                        Fragment fragment = null;
+                        fragment = new FragmentRecipeSee(name.getText().toString());
+                        toolbarTitle.setText("View recipe");
+                        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
+                        upArrow.setDisplayHomeAsUpEnabled(true);
+                    }
                 }
             }
         });
@@ -87,6 +98,7 @@ public class FragmentRandom extends Fragment {
             @Override
             public void onClick(View v) {
                 viewModel.getRandomRecipeFromInternet();
+                randomFromInternet = true;
             }
         });
         return rootView;

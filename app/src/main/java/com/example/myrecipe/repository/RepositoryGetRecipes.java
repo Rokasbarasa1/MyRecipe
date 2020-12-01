@@ -6,16 +6,16 @@ import android.os.AsyncTask;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.myrecipe.dao.CalendarTodoDAO;
-import com.example.myrecipe.dao.GroceryTodoDAO;
-import com.example.myrecipe.dao.IngredientDAO;
+import com.example.myrecipe.models.dao.CalendarTodoDAO;
+import com.example.myrecipe.models.dao.GroceryTodoDAO;
+import com.example.myrecipe.models.dao.IngredientDAO;
 import com.example.myrecipe.models.CalendarTodo;
 import com.example.myrecipe.models.GroceryTodo;
 import com.example.myrecipe.models.Recipe;
-import com.example.myrecipe.dao.RecipeDAO;
-import com.example.myrecipe.dao.RecipeDatabase;
+import com.example.myrecipe.models.dao.RecipeDAO;
+import com.example.myrecipe.models.dao.RecipeDatabase;
 import com.example.myrecipe.models.Tag;
-import com.example.myrecipe.dao.TagDAO;
+import com.example.myrecipe.models.dao.TagDAO;
 
 
 import java.util.Calendar;

@@ -99,6 +99,7 @@
                     android:layout_height="37dp"
                     android:layout_gravity="center"
                     android:drawableLeft="@drawable/add"
+                    android:background="@color/colorAccent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.158"
@@ -111,6 +112,7 @@
                     android:layout_height="37dp"
                     android:layout_gravity="center"
                     android:drawableLeft="@drawable/remove"
+                    android:background="@color/colorAccent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.842"
@@ -164,6 +166,7 @@
                     android:layout_width="151dp"
                     android:layout_height="47dp"
                     android:drawableTop="@drawable/confirm"
+                    android:background="@color/colorAccent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

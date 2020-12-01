@@ -16,9 +16,9 @@ import com.example.myrecipe.models.Recipe;
 import java.util.List;
 
 public class AdapterGroceryExpandedIngredient extends RecyclerView.Adapter<AdapterGroceryExpandedIngredient.ViewHolder>{
-    List<Ingredient> ingredients;
-    GroceryTodo todo;
-    AdapterGroceryExpandedIngredient.OnListRecipeClickListener listener;
+    private List<Ingredient> ingredients;
+    private GroceryTodo todo;
+    private AdapterGroceryExpandedIngredient.OnListRecipeClickListener listener;
 
     public AdapterGroceryExpandedIngredient(List<Ingredient> ingredients, GroceryTodo todo, Recipe recipe, AdapterGroceryExpandedIngredient.OnListRecipeClickListener listener){
         this.ingredients = ingredients;

@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:scaleType="center"
-        android:background="#FFFFBB33"
+        android:background="@color/colorPrimary"
         android:text="Make recipe"
         android:textSize="25dp"
         android:gravity="center"
@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="11dp"
-            android:text="Add to calendar" />
+            android:text="Add to schedule" />
 
         <RadioButton android:id="@+id/alert_radio_both"
             android:layout_width="wrap_content"
@@ -50,7 +50,7 @@
             android:id="@+id/alert_groceries_servings"
             android:layout_width="140dp"
             android:layout_height="31dp"
-            android:background="@color/colorSecondary"
+            android:background="@color/colorAccent"
             android:inputType="number"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -14,7 +14,7 @@ import com.example.myrecipe.models.Ingredient;
 import java.util.List;
 
 public class AdapterSeeRecipeIngredient extends RecyclerView.Adapter<AdapterSeeRecipeIngredient.ViewHolder>{
-    List<Ingredient> ingredients;
+    private List<Ingredient> ingredients;
 
     public AdapterSeeRecipeIngredient(List<Ingredient> ingredients){
         this.ingredients = ingredients;

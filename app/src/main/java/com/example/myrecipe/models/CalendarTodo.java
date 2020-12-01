@@ -19,6 +19,8 @@ public class CalendarTodo {
     private int day;
     private int hour;
     private int minute;
+    @Ignore
+    private Calendar calendarTime;
 
     public CalendarTodo(long recipeId, int year, int month, int day, int hour, int minute) {
         this.recipeId = recipeId;
@@ -27,6 +29,8 @@ public class CalendarTodo {
         this.day = day;
         this.hour = hour;
         this.minute = minute;
+        calendarTime = Calendar.getInstance();
+        calendarTime.set(this.year, this.month, this.day, this.hour, this.minute);
     }
 
     @Ignore
@@ -94,4 +98,9 @@ public class CalendarTodo {
     public void setMinute(int minute) {
         this.minute = minute;
     }
+
+    public Calendar getCalendarTime() {
+        return calendarTime;
+    }
+
 }

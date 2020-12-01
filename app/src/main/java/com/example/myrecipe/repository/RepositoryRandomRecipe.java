@@ -6,11 +6,10 @@ import android.os.AsyncTask;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.myrecipe.dao.IngredientDAO;
-import com.example.myrecipe.dao.RecipeDAO;
-import com.example.myrecipe.dao.RecipeDatabase;
-import com.example.myrecipe.dao.RecipeTagDAO;
-import com.example.myrecipe.dao.TagDAO;
+import com.example.myrecipe.models.dao.IngredientDAO;
+import com.example.myrecipe.models.dao.RecipeDAO;
+import com.example.myrecipe.models.dao.RecipeDatabase;
+import com.example.myrecipe.models.dao.TagDAO;
 import com.example.myrecipe.models.Recipe;
 import com.example.myrecipe.retrofit.RecipeApi;
 import com.example.myrecipe.retrofit.RecipeResponse;
@@ -65,19 +64,20 @@ public class RepositoryRandomRecipe {
         RecipeApi recipeApi = ServiceGenerator.getRecipeApi();
         Call<RecipeResponse> call = recipeApi.getRecipe();
         call.enqueue(new Callback<RecipeResponse>() {
-            @Override
-            public void onResponse(Call<RecipeResponse> call, Response<RecipeResponse> response) {
-                if (response.code() == 200) {
-                    currentRecipe.setValue(new Recipe(response.body().getTitle()));
-                    System.out.println("Got response 200");
-                }
-            }
+                         @Override
+                         public void onResponse(Call<RecipeResponse> call, Response<RecipeResponse> response) {
+                             if (response.code() == 200 ) {
+                                 currentRecipe.setValue(response.body().getRecipe().getRecipe());
+                             }
+                         }
 
-            @Override
-            public void onFailure(Call<RecipeResponse> call, Throwable t) {
-                System.out.println("Something went wrong when getting recipe from the internet");
-            }
-        });
+                         @Override
+                         public void onFailure(Call<RecipeResponse> call, Throwable t) {
+                                System.out.println("Something went wrong when getting recipe from the internet");
+                                System.out.println(t.getMessage());
+                         }
+                     }
+        );
     }
 
     public LiveData<Recipe> getRecipe() {

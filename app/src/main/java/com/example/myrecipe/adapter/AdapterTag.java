@@ -14,13 +14,13 @@ import com.example.myrecipe.models.Tag;
 import java.util.List;
 
 public class AdapterTag extends RecyclerView.Adapter<AdapterTag.ViewHolder> {
-    List<Tag> tags;
-    OnListTagClickListener listener;
+    private List<Tag> tags;
+    private OnListTagClickListener listener;
+
     public AdapterTag(List<Tag> tags, OnListTagClickListener listener){
         this.tags = tags;
         this.listener = listener;
     }
-
 
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());

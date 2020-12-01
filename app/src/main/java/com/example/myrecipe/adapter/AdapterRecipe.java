@@ -13,8 +13,8 @@ import com.example.myrecipe.models.Recipe;
 import java.util.List;
 
 public class AdapterRecipe extends RecyclerView.Adapter<AdapterRecipe.ViewHolder> {
-    List<Recipe> recipes;
-    OnListRecipeClickListener listener;
+    private List<Recipe> recipes;
+    private OnListRecipeClickListener listener;
 
     public AdapterRecipe(List<Recipe> recipes, OnListRecipeClickListener listener){
         this.recipes = recipes;

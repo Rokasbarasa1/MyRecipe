@@ -48,8 +48,10 @@ public class FragmentTags extends Fragment implements AdapterTag.OnListTagClickL
 
         //Expandable button
         setUpExpandableFloatingButton(rootView);
+
         return rootView;
     }
+
 
     @Override
     public void onResume() {
@@ -71,7 +73,6 @@ public class FragmentTags extends Fragment implements AdapterTag.OnListTagClickL
         viewModel.getTagsFromDatabase();
 
         tagList = rootView.findViewById(R.id.rv_tags);
-        tagList.hasFixedSize();
         tagList.setLayoutManager(new LinearLayoutManager(rootView.getContext()));
         adapterTag = new AdapterTag(viewModel.getTags().getValue(), this);
         tagList.setAdapter(adapterTag);
@@ -83,7 +84,7 @@ public class FragmentTags extends Fragment implements AdapterTag.OnListTagClickL
             @Override
             public void onClick(View v) {
                 Fragment fragment = null;
-                fragment = new FragmentRecipeCreate(null);
+                fragment = new FragmentRecipeCreate("");
                 toolbarTitle.setText("Create recipe");
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
                 upArrow.setDisplayHomeAsUpEnabled(true);

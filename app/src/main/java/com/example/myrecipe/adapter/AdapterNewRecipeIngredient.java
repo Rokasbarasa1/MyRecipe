@@ -16,8 +16,8 @@ import com.example.myrecipe.models.TextChangedListener;
 import java.util.List;
 
 public class AdapterNewRecipeIngredient extends RecyclerView.Adapter<AdapterNewRecipeIngredient.ViewHolder>{
-    List<Ingredient> ingredients;
-    OnEditTextListener listener;
+    private List<Ingredient> ingredients;
+    private OnEditTextListener listener;
 
     public AdapterNewRecipeIngredient(List<Ingredient> ingredients, OnEditTextListener listener){
         this.ingredients = ingredients;

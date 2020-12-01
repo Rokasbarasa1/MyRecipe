@@ -1,4 +1,4 @@
-package com.example.myrecipe.dao;
+package com.example.myrecipe.models.dao;
 
 import androidx.room.Dao;
 import androidx.room.Delete;

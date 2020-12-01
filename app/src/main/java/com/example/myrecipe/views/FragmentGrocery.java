@@ -26,7 +26,7 @@ public class FragmentGrocery extends Fragment implements AdapterRecipe.OnListRec
     private FragmentManager supportFragmentManager;
     private TextView toolbarTitle;
     private ActionBar upArrow;
-    private AdapterGroceryRecipe adapterGroceryRecipe;
+    private AdapterGroceryRecipe adapter;
     private ViewModelGrocery viewModel;
     private RecyclerView recipeList;
 
@@ -60,15 +60,15 @@ public class FragmentGrocery extends Fragment implements AdapterRecipe.OnListRec
         viewModel.getRecipeGroceries().observe(getViewLifecycleOwner(), new Observer<List<Recipe>>() {
             @Override
             public void onChanged(List<Recipe> recipes) {
-                adapterGroceryRecipe.setData(recipes, viewModel.getGroceryTodos());
+                adapter.setData(recipes, viewModel.getGroceryTodos());
             }
         });
         viewModel.getRecipesForList();
 
         recipeList = rootView.findViewById(R.id.rv_grocery);
         recipeList.setLayoutManager(new LinearLayoutManager(rootView.getContext()));
-        adapterGroceryRecipe = new AdapterGroceryRecipe(viewModel.getRecipeGroceries().getValue(), viewModel.getGroceryTodos() ,this);
-        recipeList.setAdapter(adapterGroceryRecipe);
+        adapter = new AdapterGroceryRecipe(viewModel.getRecipeGroceries().getValue(), viewModel.getGroceryTodos() ,this);
+        recipeList.setAdapter(adapter);
     }
 
     @Override
