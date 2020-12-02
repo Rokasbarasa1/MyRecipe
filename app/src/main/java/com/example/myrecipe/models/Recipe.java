@@ -9,11 +9,13 @@ import java.util.List;
 
 @Entity
 public class Recipe {
+
+    //Is the main aspect of the system and the main thing this app manages. Holds info on recipe
+
     @PrimaryKey (autoGenerate = true)
     private long id;
     private String name;
     private int prepTime;
-    private int cookTime;
     private int servingSize;
     @Ignore
     private List<Ingredient> ingredients;
@@ -26,20 +28,18 @@ public class Recipe {
         this.name = name;
     }
 
-    public Recipe(String name, int prepTime, int cookTime, int servingSize, String description){
+    public Recipe(String name, int prepTime, int servingSize, String description){
         this.name = name;
         this.prepTime = prepTime;
-        this.cookTime = cookTime;
         this.servingSize = servingSize;
         this.description = description;
     }
     @Ignore
-    public Recipe(String name, int prepTime, int cookTime, int servingSize, List<Ingredient> ingredients, String description, List<Tag> tags) {
-        if(name.equals("") || prepTime < 1 || cookTime < 1 || servingSize < 1|| ingredients.size() == 0 || tags.size() == 0)
+    public Recipe(String name, int prepTime, int servingSize, List<Ingredient> ingredients, String description, List<Tag> tags) {
+        if(name.equals("") || prepTime < 1 || servingSize < 1|| ingredients.size() == 0 || tags.size() == 0)
             throw new IllegalArgumentException();
         this.name = name;
         this.prepTime = prepTime;
-        this.cookTime = cookTime;
         this.servingSize = servingSize;
         this.ingredients = ingredients;
         this.description = description;
@@ -66,10 +66,6 @@ public class Recipe {
         return prepTime;
     }
 
-    public int getCookTime() {
-        return cookTime;
-    }
-
     public int getServingSize() {
         return servingSize;
     }
@@ -88,10 +84,6 @@ public class Recipe {
 
     public void setPrepTime(int prepTime) {
         this.prepTime = prepTime;
-    }
-
-    public void setCookTime(int cookTime) {
-        this.cookTime = cookTime;
     }
 
     public void setServingSize(int servingSize) {

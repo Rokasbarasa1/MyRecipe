@@ -24,7 +24,9 @@ public class ViewModelCreateRecipe extends AndroidViewModel {
         ingredients = new ArrayList<>();
     }
 
-    public void addRecipe(String name, String prepTime, String cookTime, String servingSize, String description, String tags){
+    //Finds the tags user entered. Looks at what the system already has. If a tag matches it uses the system tag instead.
+    //Assigns these tags to the new recipe along with ingredients that it collected earlier.
+    public void addRecipe(String name, String prepTime, String servingSize, String description, String tags){
         List<Tag> splitTags = new ArrayList<>();
         List<Tag> tagsInSystem = repo.getTags();
         String[] tagsIndividual = tags.split(",");
@@ -41,25 +43,28 @@ public class ViewModelCreateRecipe extends AndroidViewModel {
             if(!added)
                 splitTags.add(new Tag(tagsIndividual[i]));
         }
-        Recipe newRecipe = new Recipe(name, Integer.parseInt(prepTime), Integer.parseInt(cookTime), Integer.parseInt(servingSize), ingredients, description, splitTags);
+        Recipe newRecipe = new Recipe(name, Integer.parseInt(prepTime), Integer.parseInt(servingSize), ingredients, description, splitTags);
         repo.addRecipe(newRecipe);
     }
 
-    public void ingredientUpdated(int index, String text) {
-        if(!text.equals("")){
-            String[] ingredient = text.split(" ");
-            int amount = 0;
+    //Runs every time a use makes a change. Pretty beefy, but was the only way i could save the state of what
+    //the user entered before removing a ingredient.
+    //Divides
+    public void ingredientUpdated(int index, String textName, String textUnits) {
+        if(!textName.equals("")){
+            String[] ingredient = textName.split(" ");
+            double amount = 0;
             int number = 0;
             boolean exists = false;
             for (int i = 0; i < ingredient.length; i++) {
                 try{
-                    amount = Integer.parseInt(ingredient[i]);
+                    amount = Double.parseDouble(ingredient[i]);
                     number = i;
                 }catch(NumberFormatException e){
                 }
             }
-            text = text.substring(0, text.length() - ingredient[number].length());
-            Ingredient newIngredient = new Ingredient(text, amount, "Gram");
+            textName = textName.substring(0, textName.length() - ingredient[number].length());
+            Ingredient newIngredient = new Ingredient(textName, amount, textUnits);
             try{
                 ingredients.get(index);
                 exists = true;

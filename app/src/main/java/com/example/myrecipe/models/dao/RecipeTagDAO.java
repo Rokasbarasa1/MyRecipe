@@ -14,6 +14,4 @@ public interface RecipeTagDAO {
 
     @Delete
     void delete(RecipeTag recipe);
-
-
 }

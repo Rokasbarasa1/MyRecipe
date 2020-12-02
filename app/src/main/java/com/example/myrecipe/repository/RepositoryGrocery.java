@@ -77,6 +77,10 @@ public class RepositoryGrocery {
         new SaveChangesToStatusAsync(groceryTodoDAO).execute(groceryTodo);
     }
 
+    public void finishGroceryList(GroceryTodo groceryTodo) {
+        new DeleteGroceryTodoAsync(groceryTodoDAO).execute(groceryTodo);
+    }
+
     private class GetGroceryRecipesAsync extends AsyncTask<CalendarTodo, Void, List<Recipe>> {
         private GroceryTodoDAO groceryTodoDAO;
         private IngredientDAO ingredientDAO;
@@ -119,6 +123,20 @@ public class RepositoryGrocery {
         @Override
         protected Void doInBackground(GroceryTodo... groceryTodos) {
             groceryTodoDAO.update(groceryTodos[0]);
+            return null;
+        }
+    }
+
+    private class DeleteGroceryTodoAsync extends AsyncTask<GroceryTodo, Void, Void> {
+        private GroceryTodoDAO groceryTodoDAO;
+
+        private DeleteGroceryTodoAsync(GroceryTodoDAO groceryTodoDAO){
+            this.groceryTodoDAO = groceryTodoDAO;
+        }
+
+        @Override
+        protected Void doInBackground(GroceryTodo... groceryTodos) {
+            groceryTodoDAO.delete(groceryTodos[0]);
             return null;
         }
     }

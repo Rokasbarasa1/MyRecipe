@@ -20,7 +20,8 @@ public interface GroceryTodoDAO {
     @Delete
     void delete(GroceryTodo groceryTodo);
 
-    @Query("select Recipe.id, Recipe.name, Recipe.prepTime, Recipe.cookTime, Recipe.servingSize, Recipe.description " +
+    //Gets all recipes that have a grocerytodo assigned
+    @Query("select Recipe.id, Recipe.name, Recipe.prepTime, Recipe.servingSize, Recipe.description " +
             "from Recipe " +
             "join GroceryTodo on GroceryTodo.recipeId = Recipe.id ")
     List<Recipe> getRecipesWithGroceryTodo();

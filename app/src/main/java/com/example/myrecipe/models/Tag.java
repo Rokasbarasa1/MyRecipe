@@ -5,6 +5,11 @@ import androidx.room.PrimaryKey;
 
 @Entity
 public class Tag {
+
+    //Holds tags, pretty simple. Is a way of navigating recipes. Recipes are supposed to belong under
+    //multiple tags. Like a recipe can be in asian and in rice section and many more for example.
+    //Its still the same recipe just has multiple angles to it.
+
     @PrimaryKey (autoGenerate = true)
     private long id;
     private String name;

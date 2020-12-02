@@ -14,6 +14,11 @@ import com.example.myrecipe.models.Ingredient;
 import java.util.List;
 
 public class AdapterSeeRecipeIngredient extends RecyclerView.Adapter<AdapterSeeRecipeIngredient.ViewHolder>{
+
+    //Handles showing the ingredients when a recipe that is made is shown.
+    //It is completely different as im dealing with text boxes here as opposed to edit text's.
+    //Need to make sure the user cant edit anything.
+
     private List<Ingredient> ingredients;
 
     public AdapterSeeRecipeIngredient(List<Ingredient> ingredients){
@@ -30,7 +35,7 @@ public class AdapterSeeRecipeIngredient extends RecyclerView.Adapter<AdapterSeeR
 
     @Override
     public void onBindViewHolder(@NonNull AdapterSeeRecipeIngredient.ViewHolder viewHolder, int position) {
-        viewHolder.name.setText(ingredients.get(position).getRawString());
+        viewHolder.name.setText(ingredients.get(position).getAsString());
     }
 
     @Override

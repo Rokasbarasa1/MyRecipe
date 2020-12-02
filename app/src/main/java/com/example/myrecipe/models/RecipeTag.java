@@ -13,7 +13,9 @@ import com.example.myrecipe.models.Tag;
         @ForeignKey(entity = Tag.class, parentColumns = "id", childColumns = "tagId")
         }, indices = {@Index(value = {"recipeId"}), @Index(value = {"tagId"})})
 public class RecipeTag {
+
     //This class is a relationship class between recipe and tag
+
     @PrimaryKey(autoGenerate = true)
     private long id;
     private long recipeId;

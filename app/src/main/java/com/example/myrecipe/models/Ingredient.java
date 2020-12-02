@@ -11,6 +11,11 @@ import java.text.DecimalFormat;
 @Entity(foreignKeys = @ForeignKey(entity = Recipe.class, parentColumns = "id", childColumns = "recipeId"),
         indices = {@Index(value = {"recipeId"})})
 public class Ingredient {
+
+    //Holds info for ingredients in the system that are associated to a recipe. I made these redundant in the database
+    //meaning that there could be the same ingredients for multiple recipes but they are
+    //separate entities in the database.
+
     @PrimaryKey (autoGenerate = true)
     private long id;
     private long recipeId;
@@ -79,8 +84,12 @@ public class Ingredient {
         this.rawString = rawString;
     }
 
+    public void setUnitOfMeassure(String unitOfMeassure) {
+        this.unitOfMeassure = unitOfMeassure;
+    }
+
     public String getAsString(){
-        DecimalFormat dec = new DecimalFormat("#0");
+        DecimalFormat dec = new DecimalFormat("#0.0");
         return name+" "+dec.format(quantity)+ " " +unitOfMeassure;
     }
 }

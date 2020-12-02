@@ -18,6 +18,7 @@ public interface CalendarTodoDAO {
     @Delete
     void delete(CalendarTodo recipe);
 
+    //Gets all schedules and sorts them by ascending order using time parameters.
     @Query( "Select * " +
             "from CalendarTodo " +
             "order by year, month, day, hour, minute")

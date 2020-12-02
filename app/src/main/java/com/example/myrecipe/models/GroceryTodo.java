@@ -8,6 +8,10 @@ import androidx.room.PrimaryKey;
 @Entity(foreignKeys = @ForeignKey(entity = Recipe.class, parentColumns = "id", childColumns = "recipeId"),
         indices = {@Index(value = {"recipeId"})})
 public class GroceryTodo {
+
+    //Holds information for a grocery event for a specific recipe.
+    // Keeps track of ingredient statuses in the grocery list. Check mark or no check mark using the "bit map"
+
     @PrimaryKey (autoGenerate = true)
     private long id;
     private long recipeId;

@@ -13,6 +13,9 @@ import com.example.myrecipe.models.Recipe;
 import java.util.List;
 
 public class AdapterRecipe extends RecyclerView.Adapter<AdapterRecipe.ViewHolder> {
+
+    //Just shows recipes once the tag is expanded in the recipe section
+
     private List<Recipe> recipes;
     private OnListRecipeClickListener listener;
 
@@ -31,7 +34,6 @@ public class AdapterRecipe extends RecyclerView.Adapter<AdapterRecipe.ViewHolder
 
     public void onBindViewHolder(AdapterRecipe.ViewHolder viewHolder, int position){
         viewHolder.name.setText(recipes.get(position).getName());
-        viewHolder.cookTime.setText("Cook time: " + recipes.get(position).getCookTime());
         viewHolder.prepTime.setText("Prep time: " + recipes.get(position).getPrepTime());
         viewHolder.servings.setText("Serving size: " + recipes.get(position).getServingSize());
     }
@@ -50,7 +52,6 @@ public class AdapterRecipe extends RecyclerView.Adapter<AdapterRecipe.ViewHolder
 
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView name;
-        TextView cookTime;
         TextView prepTime;
         TextView servings;
         ViewHolder(View itemView){
@@ -62,7 +63,6 @@ public class AdapterRecipe extends RecyclerView.Adapter<AdapterRecipe.ViewHolder
                 }
             });
             name = itemView.findViewById(R.id.piece_recipe_name);
-            cookTime = itemView.findViewById(R.id.piece_recipe_cooktime);
             prepTime = itemView.findViewById(R.id.piece_recipe_prepTime);
             servings = itemView.findViewById(R.id.piece_recipe_serving);
         }

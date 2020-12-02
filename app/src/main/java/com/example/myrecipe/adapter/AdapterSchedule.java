@@ -18,6 +18,9 @@ import java.util.Calendar;
 import java.util.List;
 
 public class AdapterSchedule extends RecyclerView.Adapter<AdapterSchedule.ViewHolder>{
+
+    //Handles showing the schedule items and handles the messy logic of showing the month and year or not in specific spots.
+
     private List<CalendarTodo> schedules;
     private AdapterSchedule.OnClickTextListener listener;
     private String monthName;

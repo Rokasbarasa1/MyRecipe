@@ -18,11 +18,13 @@ public interface RecipeDAO {
     @Delete
     void delete(Recipe recipe);
 
-    @Query("select Recipe.id, Recipe.name, Recipe.prepTime, Recipe.cookTime, Recipe.servingSize, Recipe.description " +
+    //Gets all recipes that have a relationship with a specific tag
+    @Query("select Recipe.id, Recipe.name, Recipe.prepTime, Recipe.servingSize, Recipe.description " +
             "from Recipe " +
             "join RecipeTag on RecipeTag.recipeId = Recipe.id " +
             "Where RecipeTag.tagId = :id;")
     List<Recipe> getRecipesByTagId(long id);
+
 
     @Query("Select * from recipe where name = :name;")
     Recipe getRecipeByName(String name);
@@ -30,7 +32,8 @@ public interface RecipeDAO {
     @Query("Select * from recipe;")
     List<Recipe> getAllRecipes();
 
-    @Query("select Recipe.id, Recipe.name, Recipe.prepTime, Recipe.cookTime, Recipe.servingSize, Recipe.description " +
+    //Gets all recipes that have a relationship with any calendartodo
+    @Query("select Recipe.id, Recipe.name, Recipe.prepTime, Recipe.servingSize, Recipe.description " +
             "from Recipe " +
             "join CalendarTodo on CalendarTodo.recipeId = Recipe.id ")
     List<Recipe> getMatchToSchedule();

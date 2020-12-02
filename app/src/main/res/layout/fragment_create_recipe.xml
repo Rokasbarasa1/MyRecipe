@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -13,59 +14,92 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <LinearLayout
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <EditText
                     android:id="@+id/newRecipeName"
-                    android:textCursorDrawable = "@null"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="10dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
                     android:background="@color/colorAccent"
                     android:ems="10"
                     android:hint="Recipe name"
                     android:inputType="textPersonName"
-                    android:padding="10dp" />
+                    android:padding="10dp"
+                    android:textCursorDrawable="@null"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
                     android:id="@+id/newRecipePrepTime"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="10dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="120dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
                     android:background="@color/colorAccent"
                     android:ems="10"
                     android:hint="Prep time in minutes"
                     android:inputType="number"
                     android:padding="10dp"
-                    android:textCursorDrawable="@null" />
-
-                <EditText
-                    android:id="@+id/newRecipeCookTime"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="10dp"
-                    android:background="@color/colorAccent"
-                    android:ems="10"
-                    android:hint="Cook time in minutes"
-                    android:inputType="number"
-                    android:padding="10dp"
-                    android:textCursorDrawable="@null" />
+                    android:textCursorDrawable="@null"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/textView4"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/newRecipeName" />
 
                 <EditText
                     android:id="@+id/newRecipeServingSize"
-                    android:textCursorDrawable = "@null"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_marginStart="120dp"
+                    android:layout_marginTop="11dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
                     android:background="@color/colorAccent"
                     android:ems="10"
                     android:hint="Serving size"
                     android:inputType="number"
-                    android:padding="10dp" />
-            </LinearLayout>
+                    android:padding="10dp"
+                    android:textCursorDrawable="@null"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/textView5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/newRecipePrepTime" />
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="Prep time"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toStartOf="@+id/newRecipePrepTime"
+                    app:layout_constraintHorizontal_bias="0.604"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/newRecipeName" />
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="28dp"
+                    android:text="Servings"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toStartOf="@+id/newRecipeServingSize"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView4" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
                 android:layout_width="match_parent"
@@ -81,9 +115,9 @@
                 android:orientation="vertical">
 
                 <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_new_recipe_ingredients"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/rv_new_recipe_ingredients"/>
+                    android:layout_height="match_parent" />
 
 
             </LinearLayout>
@@ -99,7 +133,6 @@
                     android:layout_height="37dp"
                     android:layout_gravity="center"
                     android:drawableLeft="@drawable/add"
-                    android:background="@color/colorAccent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.158"
@@ -112,7 +145,6 @@
                     android:layout_height="37dp"
                     android:layout_gravity="center"
                     android:drawableLeft="@drawable/remove"
-                    android:background="@color/colorAccent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.842"
@@ -159,6 +191,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
                 android:layout_height="wrap_content">
 
                 <Button
@@ -166,7 +199,6 @@
                     android:layout_width="151dp"
                     android:layout_height="47dp"
                     android:drawableTop="@drawable/confirm"
-                    android:background="@color/colorAccent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

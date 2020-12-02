@@ -23,6 +23,7 @@ public interface TagDAO {
     @Query("Select * from Tag")
     List<Tag> getAllTags();
 
+    //Gets all tags that have a relationship with a specific recipe
     @Query("Select Tag.id, Tag.name " +
             "from Tag " +
             "inner join RecipeTag on Tag.id = RecipeTag.tagId " +

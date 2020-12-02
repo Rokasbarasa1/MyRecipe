@@ -14,6 +14,9 @@ import com.example.myrecipe.models.Tag;
 import java.util.List;
 
 public class AdapterTag extends RecyclerView.Adapter<AdapterTag.ViewHolder> {
+
+    //Handles showing all the tags in the system when the recipe section is opened.
+
     private List<Tag> tags;
     private OnListTagClickListener listener;
 

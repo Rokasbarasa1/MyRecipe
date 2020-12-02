@@ -27,7 +27,6 @@ import java.util.List;
 public class FragmentRecipeCreate extends Fragment implements  AdapterNewRecipeIngredient.OnEditTextListener{
     private EditText name;
     private EditText prepTime;
-    private EditText cookTime;
     private EditText servingSize;
     private MultiAutoCompleteTextView description;
     private MultiAutoCompleteTextView tags;
@@ -78,7 +77,6 @@ public class FragmentRecipeCreate extends Fragment implements  AdapterNewRecipeI
 
         name = rootView.findViewById(R.id.newRecipeName);
         prepTime = rootView.findViewById(R.id.newRecipePrepTime);
-        cookTime = rootView.findViewById(R.id.newRecipeCookTime);
         servingSize = rootView.findViewById(R.id.newRecipeServingSize);
         description = rootView.findViewById(R.id.newRecipeDescription);
 
@@ -108,7 +106,6 @@ public class FragmentRecipeCreate extends Fragment implements  AdapterNewRecipeI
     private void setInternetTemplate() {
         name.setText(internetRecipeTemplate.getName());
         prepTime.setText(internetRecipeTemplate.getPrepTime() + "");
-        cookTime.setText(internetRecipeTemplate.getCookTime() + "");
         servingSize.setText(internetRecipeTemplate.getServingSize() + "");
         description.setText(internetRecipeTemplate.getDescription());
     }
@@ -126,18 +123,17 @@ public class FragmentRecipeCreate extends Fragment implements  AdapterNewRecipeI
     }
 
     public void finishRecipe() {
-
         System.out.println(tags.getText().toString());
-        viewModel.addRecipe(name.getText().toString(), prepTime.getText().toString(), cookTime.getText().toString(), servingSize.getText().toString(), description.getText().toString(), tags.getText().toString());
+        viewModel.addRecipe(name.getText().toString(), prepTime.getText().toString(), servingSize.getText().toString(), description.getText().toString(), tags.getText().toString());
 
         getActivity().getSupportFragmentManager().popBackStackImmediate();
     }
 
     @Override
-    public void onEdit(int position, String text) {
-        System.out.println(position+ text);
-        viewModel.ingredientUpdated(position, text);
+    public void onEdit(int position, String textName, String textUnits) {
+        System.out.println(position + textName);
+        viewModel.ingredientUpdated(position, textName, textUnits);
         Ingredient selected = ingredients.get(position);
-        selected.setRaw(text);
+        selected.setUnitOfMeassure(textUnits);
     }
 }

@@ -18,6 +18,7 @@ public interface IngredientDAO {
     @Delete
     void delete(Ingredient recipe);
 
+    //Gets all ingredients for a specific recipe
     @Query("Select * from ingredient Where recipeId = :idOfRecipe")
     List<Ingredient> getIngredientsByRecipeId(long idOfRecipe);
 }

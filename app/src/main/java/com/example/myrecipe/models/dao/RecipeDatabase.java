@@ -13,7 +13,7 @@ package com.example.myrecipe.models.dao;
         import com.example.myrecipe.models.RecipeTag;
         import com.example.myrecipe.models.Tag;
 
-@Database(entities = {Recipe.class, Ingredient.class, Tag.class, RecipeTag.class, GroceryTodo.class, CalendarTodo.class}, version = 5)
+@Database(entities = {Recipe.class, Ingredient.class, Tag.class, RecipeTag.class, GroceryTodo.class, CalendarTodo.class}, version = 6)
 public abstract class RecipeDatabase extends RoomDatabase {
 
     private static RecipeDatabase instance;

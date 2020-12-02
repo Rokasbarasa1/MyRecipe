@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RecipeResponse {
+
+    //Api returns a "list" with a single item in it...
     private List<RecipeResponse2> recipes;
 
     public class RecipeResponse2 {
@@ -17,11 +19,11 @@ public class RecipeResponse {
         private String instructions;
 
         public Recipe getRecipe(){
-            Recipe recipe = new Recipe(title, readyInMinutes, readyInMinutes, servings, instructions);
+            Recipe recipe = new Recipe(title, readyInMinutes, servings, instructions);
 
             List<Ingredient> ingredients = new ArrayList<>();
             for (int i = 0; i < extendedIngredients.size(); i++) {
-                ingredients.add(new Ingredient(extendedIngredients.get(i).name, extendedIngredients.get(i).amount, extendedIngredients.get(i).unit));
+                ingredients.add(new Ingredient(extendedIngredients.get(i).getName(), extendedIngredients.get(i).getAmount(), extendedIngredients.get(i).getUnit()));
             }
             recipe.setIngredients(ingredients);
             return recipe;

@@ -1,5 +1,7 @@
 package com.example.myrecipe.views;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.appcompat.app.ActionBar;
@@ -13,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.myrecipe.R;
 import com.example.myrecipe.adapter.AdapterGroceryExpandedIngredient;
@@ -22,6 +25,8 @@ import com.example.myrecipe.models.Recipe;
 import com.example.myrecipe.viewModels.ViewModelGrocery;
 import com.example.myrecipe.viewModels.ViewModelGroceryExpanded;
 import com.example.myrecipe.viewModels.ViewModelTagsExpanded;
+
+import org.w3c.dom.Text;
 
 public class FragmentGroceryExpanded extends Fragment implements AdapterGroceryExpandedIngredient.OnListRecipeClickListener {
     private FragmentManager supportFragmentManager;
@@ -55,10 +60,21 @@ public class FragmentGroceryExpanded extends Fragment implements AdapterGroceryE
         //Ingredient list
         initIngredientsRecyclerView(rootView);
 
+        //Sets the title below the toolbar to recipe name
+        TextView title = rootView.findViewById(R.id.rv_grocery_expanded_title);
+        title.setText(selectedRecipe.getName());
+
         rootView.findViewById(R.id.rv_grocery_expanded_save).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 saveChanges();
+            }
+        });
+
+        rootView.findViewById(R.id.rv_grocery_expanded_finish).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finishGroceryList(rootView);
             }
         });
         return rootView;
@@ -84,6 +100,26 @@ public class FragmentGroceryExpanded extends Fragment implements AdapterGroceryE
             string.setCharAt(position, '0');
             groceryTodo.setStatusBitMap(string.toString());
         }
+    }
+
+    public void finishGroceryList(View rootView){
+        AlertDialog.Builder deleteDialog = new AlertDialog.Builder(rootView.getContext());
+        deleteDialog.setTitle("Finish grocery list");
+        deleteDialog.setMessage("Are you sure you want to finish this grocery list?");
+        deleteDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                viewModel.finishGroceryList(groceryTodo);
+                getActivity().getSupportFragmentManager().popBackStackImmediate();
+
+            }
+        });
+        deleteDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        deleteDialog.show();
     }
 
     public void saveChanges(){

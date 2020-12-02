@@ -21,7 +21,6 @@ public class FragmentRandom extends Fragment {
     private View rootView;
     private TextView name;
     private TextView prepTime;
-    private TextView cookTime;
     private TextView servingSize;
     private FragmentManager supportFragmentManager;
     private TextView toolbarTitle;
@@ -51,11 +50,9 @@ public class FragmentRandom extends Fragment {
 
         name = rootView.findViewById(R.id.random_recipe_name);
         prepTime = rootView.findViewById(R.id.random_recipe_prepTime);
-        cookTime = rootView.findViewById(R.id.random_recipe_cooktime);
         servingSize = rootView.findViewById(R.id.random_recipe_serving);
         name.setText("");
         prepTime.setText("");
-        cookTime.setText("");
         servingSize.setText("");
 
         viewModel.getRecipe().observe(getViewLifecycleOwner(), new Observer<Recipe>() {
@@ -107,9 +104,8 @@ public class FragmentRandom extends Fragment {
     private void setRecipe(Recipe randomRecipe) {
         if(randomRecipe != null){
             name.setText(randomRecipe.getName());
-            cookTime.setText("Cook time: " + randomRecipe.getCookTime());
-            prepTime.setText("Prep time: " + randomRecipe.getPrepTime());
-            servingSize.setText("Serving size: " + randomRecipe.getServingSize());
+            prepTime.setText("Prep time: " + randomRecipe.getPrepTime() + " min");
+            servingSize.setText("Serving size: " + randomRecipe.getServingSize() + " servings");
         }
     }
 }

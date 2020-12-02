@@ -33,7 +33,6 @@ public class FragmentRecipeSee extends Fragment implements DialogMakeRecipe.Make
     private Recipe selectedRecipe;
     private TextView name;
     private TextView prepTime;
-    private TextView cookTime;
     private TextView servingSize;
     private TextView description;
     private TextView tags;
@@ -59,15 +58,13 @@ public class FragmentRecipeSee extends Fragment implements DialogMakeRecipe.Make
 
         name = rootView.findViewById(R.id.recipeName);
         prepTime = rootView.findViewById(R.id.recipePrepTime);
-        cookTime = rootView.findViewById(R.id.recipeCookTime);
         servingSize = rootView.findViewById(R.id.recipeServingSize);
         description = rootView.findViewById(R.id.recipeDescription);
         tags = rootView.findViewById(R.id.recipeTags);
 
         name.setText(selectedRecipe.getName());
-        prepTime.setText(selectedRecipe.getPrepTime() + " min");
-        cookTime.setText(selectedRecipe.getCookTime() + " min");
-        servingSize.setText(selectedRecipe.getServingSize() + " servings");
+        prepTime.setText("Preparation time: " + selectedRecipe.getPrepTime() + " min");
+        servingSize.setText("Servings size: " + selectedRecipe.getServingSize() + " servings");
         description.setText(selectedRecipe.getDescription() + "");
         String recipeTags = "";
         for (int i = 0; i < selectedRecipe.getTags().size(); i++) {
@@ -147,6 +144,4 @@ public class FragmentRecipeSee extends Fragment implements DialogMakeRecipe.Make
         viewModel.newGroceryAndCalendarTodo(selectedRecipe.getId(), servings, selectedRecipe.getIngredients().size(), pointInTime);
         //Add slected recipe with modified servings and calendar date when to eat.
     }
-
-
 }

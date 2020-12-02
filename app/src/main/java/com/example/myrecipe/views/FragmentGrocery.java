@@ -74,6 +74,7 @@ public class FragmentGrocery extends Fragment implements AdapterRecipe.OnListRec
     @Override
     public void onClick(int position, String name) {
         Fragment fragment = null;
+
         fragment = new FragmentGroceryExpanded(supportFragmentManager, toolbarTitle, upArrow, viewModel.getRecipeGroceries().getValue().get(position), viewModel.getGroceryTodos().get(position));
         toolbarTitle.setText("View ingredients");
         supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();

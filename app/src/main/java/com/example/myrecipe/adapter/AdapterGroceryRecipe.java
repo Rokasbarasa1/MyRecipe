@@ -14,6 +14,9 @@ import com.example.myrecipe.models.Recipe;
 import java.util.List;
 
 public class AdapterGroceryRecipe extends RecyclerView.Adapter<AdapterGroceryRecipe.ViewHolder>{
+
+    //Handles showing recipes in the grocery tab. Only those who have a entry of Grocery todo
+
     private List<Recipe> recipes;
     private List<GroceryTodo> groceryTodos;
     private AdapterRecipe.OnListRecipeClickListener listener;
@@ -23,7 +26,6 @@ public class AdapterGroceryRecipe extends RecyclerView.Adapter<AdapterGroceryRec
         this.listener = listener;
         this.groceryTodos = groceryTodos;
     }
-
 
     public AdapterGroceryRecipe.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());

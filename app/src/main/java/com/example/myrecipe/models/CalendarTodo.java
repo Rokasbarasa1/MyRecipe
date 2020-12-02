@@ -11,6 +11,9 @@ import java.util.Calendar;
 @Entity(foreignKeys = @ForeignKey(entity = Recipe.class, parentColumns = "id", childColumns = "recipeId"),
         indices = {@Index(value = {"recipeId"})})
 public class CalendarTodo {
+
+    //Holds information about a calendar/schedule event tied to a recipe.
+
     @PrimaryKey(autoGenerate = true)
     private long id;
     private long recipeId;

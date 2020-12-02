@@ -25,4 +25,8 @@ public class ViewModelGroceryExpanded extends AndroidViewModel {
     public void saveChangesToStatus(GroceryTodo groceryTodo) {
         repo.saveChangesToStatus(groceryTodo);
     }
+
+    public void finishGroceryList(GroceryTodo groceryTodo) {
+        repo.finishGroceryList(groceryTodo);
+    }
 }
