@@ -25,6 +25,8 @@ public interface RecipeDAO {
             "Where RecipeTag.tagId = :id;")
     List<Recipe> getRecipesByTagId(long id);
 
+    @Query("Select * from recipe where id = :recipeId;")
+    Recipe getRecipeById(Long recipeId);
 
     @Query("Select * from recipe where name = :name;")
     Recipe getRecipeByName(String name);

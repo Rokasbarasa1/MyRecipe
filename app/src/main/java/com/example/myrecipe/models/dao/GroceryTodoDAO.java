@@ -31,4 +31,7 @@ public interface GroceryTodoDAO {
 
     @Update
     void update(GroceryTodo groceryTodo);
+
+    @Query("delete from GroceryTodo where recipeId = :recipeId")
+    void deleteAllGroceryTodoWithRecipeId(Long recipeId);
 }

@@ -76,6 +76,9 @@ public class FragmentTags extends Fragment implements AdapterTag.OnListTagClickL
         tagList.setLayoutManager(new LinearLayoutManager(rootView.getContext()));
         adapterTag = new AdapterTag(viewModel.getTags().getValue(), this);
         tagList.setAdapter(adapterTag);
+
+        if(viewModel.getTags().getValue().size() != 0)
+            rootView.findViewById(R.id.tags_empty_notify).setVisibility(View.GONE);
     }
 
     private void setUpExpandableFloatingButton(final View rootView){

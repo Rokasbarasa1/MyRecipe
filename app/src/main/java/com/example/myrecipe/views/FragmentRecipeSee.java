@@ -111,8 +111,8 @@ public class FragmentRecipeSee extends Fragment implements DialogMakeRecipe.Make
         deleteDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                onDeleteRecipe();
-                Toast.makeText(rootView.getContext(),"Clicked yes", Toast.LENGTH_SHORT).show();
+                viewModel.onDeleteRecipe(selectedRecipe.getId());
+                getActivity().getSupportFragmentManager().popBackStackImmediate();
             }
         });
         deleteDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {

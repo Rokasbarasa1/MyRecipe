@@ -51,7 +51,7 @@ public class ViewModelCreateRecipe extends AndroidViewModel {
     //the user entered before removing a ingredient.
     //Divides
     public void ingredientUpdated(int index, String textName, String textUnits) {
-        if(!textName.equals("")){
+        if(!textName.matches("") && !textUnits.matches("")){
             String[] ingredient = textName.split(" ");
             double amount = 0;
             int number = 0;
@@ -76,5 +76,9 @@ public class ViewModelCreateRecipe extends AndroidViewModel {
                 ingredients.add(newIngredient);
             }
         }
+    }
+
+    public List<Ingredient> getIngredientsUpdated() {
+        return ingredients;
     }
 }

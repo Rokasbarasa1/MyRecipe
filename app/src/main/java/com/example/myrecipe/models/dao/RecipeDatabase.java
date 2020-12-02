@@ -29,7 +29,8 @@ public abstract class RecipeDatabase extends RoomDatabase {
         if(instance == null){
             instance = Room.databaseBuilder(context.getApplicationContext(),
                     RecipeDatabase.class, "recipe_database")
-                    .fallbackToDestructiveMigration().build();
+                    .fallbackToDestructiveMigration()
+                    .build();
         }
         return instance;
     }

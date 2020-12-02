@@ -76,6 +76,10 @@ public class FragmentTagsExpanded extends Fragment implements AdapterRecipe.OnLi
         recipeList.setLayoutManager(new LinearLayoutManager(rootView.getContext()));
         adapterRecipe = new AdapterRecipe(viewModel.getRecipes().getValue(), this);
         recipeList.setAdapter(adapterRecipe);
+
+        if(viewModel.getRecipes().getValue().size() == 0)
+            getActivity().getSupportFragmentManager().popBackStack();
+
     }
 
     public void setTag(Tag currentTag){

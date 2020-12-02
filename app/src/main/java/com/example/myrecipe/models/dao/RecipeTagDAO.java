@@ -3,6 +3,7 @@ package com.example.myrecipe.models.dao;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.Query;
 
 import com.example.myrecipe.models.RecipeTag;
 
@@ -14,4 +15,7 @@ public interface RecipeTagDAO {
 
     @Delete
     void delete(RecipeTag recipe);
+
+    @Query("Delete from RecipeTag Where  recipeId = :recipeId")
+    void deleteAllRecipeTagDaoWithRecipeId(Long recipeId);
 }

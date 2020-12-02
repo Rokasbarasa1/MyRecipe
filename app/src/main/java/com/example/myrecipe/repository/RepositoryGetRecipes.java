@@ -2,10 +2,13 @@ package com.example.myrecipe.repository;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.myrecipe.models.Ingredient;
+import com.example.myrecipe.models.RecipeTag;
 import com.example.myrecipe.models.dao.CalendarTodoDAO;
 import com.example.myrecipe.models.dao.GroceryTodoDAO;
 import com.example.myrecipe.models.dao.IngredientDAO;
@@ -15,6 +18,7 @@ import com.example.myrecipe.models.Recipe;
 import com.example.myrecipe.models.dao.RecipeDAO;
 import com.example.myrecipe.models.dao.RecipeDatabase;
 import com.example.myrecipe.models.Tag;
+import com.example.myrecipe.models.dao.RecipeTagDAO;
 import com.example.myrecipe.models.dao.TagDAO;
 
 
@@ -31,6 +35,7 @@ public class RepositoryGetRecipes {
     private IngredientDAO ingredientDAO;
     private GroceryTodoDAO groceryTodoDAO;
     private CalendarTodoDAO calendarTodoDAO;
+    private RecipeTagDAO recipeTagDAO;
     private MutableLiveData<List<Recipe>> currentRecipes;
 
     private RepositoryGetRecipes(Application application){
@@ -39,6 +44,7 @@ public class RepositoryGetRecipes {
         tagDAO = database.tagDAO();
         ingredientDAO = database.ingredientDAO();
         groceryTodoDAO = database.groceryTodoDAO();
+        recipeTagDAO = database.recipeTagDAO();
         calendarTodoDAO = database.calendarTodoDAO();
         currentRecipes = new MutableLiveData<>();
     }
@@ -107,6 +113,10 @@ public class RepositoryGetRecipes {
         new InsertCalendarTodoAsync(calendarTodoDAO).execute(todoCalendar);
     }
 
+    public void deleteRecipe(long id) {
+        new DeleteRecipeAsync(recipeDAO, calendarTodoDAO, groceryTodoDAO, recipeTagDAO, ingredientDAO).execute(id);
+    }
+
     private class GetRecipesByTagAsync extends AsyncTask<Tag, Void, List<Recipe>> {
         private RecipeDAO recipeDAO;
         private IngredientDAO ingredientDAO;
@@ -173,6 +183,35 @@ public class RepositoryGetRecipes {
         @Override
         protected Long doInBackground(CalendarTodo... calendarTodos) {
             return calendarTodoDAO.insert(calendarTodos[0]);
+        }
+    }
+
+    private class DeleteRecipeAsync extends AsyncTask<Long, Void, Void> {
+        private RecipeDAO recipeDAO;
+        private CalendarTodoDAO calendarTodoDAO;
+        private GroceryTodoDAO groceryTodoDAO;
+        private RecipeTagDAO recipeTagDAO;
+        private IngredientDAO ingredientDAO;
+
+        private DeleteRecipeAsync(RecipeDAO recipeDAO, CalendarTodoDAO calendarTodoDAO, GroceryTodoDAO groceryTodoDAO, RecipeTagDAO recipeTagDAO, IngredientDAO ingredientDAO){
+            this.recipeDAO = recipeDAO;
+            this.calendarTodoDAO = calendarTodoDAO;
+            this.groceryTodoDAO = groceryTodoDAO;
+            this.recipeTagDAO = recipeTagDAO;
+            this.ingredientDAO = ingredientDAO;
+        }
+
+        @Override
+        protected Void doInBackground(Long... longs) {
+            Recipe recipe = recipeDAO.getRecipeById(longs[0]);
+            ingredientDAO.deleteAllIngredientsWithRecipeId(longs[0]);
+            recipeTagDAO.deleteAllRecipeTagDaoWithRecipeId(longs[0]);
+            tagDAO.deleteTagsThatDontHaveRelationships();
+            groceryTodoDAO.deleteAllGroceryTodoWithRecipeId(longs[0]);
+            calendarTodoDAO.deleteAllCalendarTodoWithRecipeId(longs[0]);
+            recipeDAO.delete(recipe);
+
+            return null;
         }
     }
 }

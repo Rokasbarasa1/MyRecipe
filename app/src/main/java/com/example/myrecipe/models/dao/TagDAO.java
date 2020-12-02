@@ -29,4 +29,13 @@ public interface TagDAO {
             "inner join RecipeTag on Tag.id = RecipeTag.tagId " +
             "where RecipeTag.recipeId = :id;")
     List<Tag> getTagsByRecipeId(long id);
+
+
+    @Query("delete from Tag where id in (select Tag.id " +
+            "from Tag " +
+            "EXCEPT " +
+            "select Tag.id " +
+            "from Tag " +
+            "inner join RecipeTag on Tag.id == RecipeTag.tagId)")
+    void deleteTagsThatDontHaveRelationships();
 }

@@ -36,7 +36,7 @@ public class Recipe {
     }
     @Ignore
     public Recipe(String name, int prepTime, int servingSize, List<Ingredient> ingredients, String description, List<Tag> tags) {
-        if(name.equals("") || prepTime < 1 || servingSize < 1|| ingredients.size() == 0 || tags.size() == 0)
+        if(name.matches("") || prepTime < 1 || servingSize < 1|| ingredients.size() == 0 || tags.size() == 0)
             throw new IllegalArgumentException();
         this.name = name;
         this.prepTime = prepTime;

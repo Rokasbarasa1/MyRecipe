@@ -23,4 +23,7 @@ public interface CalendarTodoDAO {
             "from CalendarTodo " +
             "order by year, month, day, hour, minute")
     List<CalendarTodo> getAllSchedules();
+
+    @Query("delete from CalendarTodo where recipeId = :recipeId")
+    void deleteAllCalendarTodoWithRecipeId(Long recipeId);
 }

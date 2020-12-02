@@ -15,7 +15,6 @@ import java.util.List;
 public class ViewModelGroceryExpanded extends AndroidViewModel {
     private RepositoryGrocery repo;
 
-
     public ViewModelGroceryExpanded(@NonNull Application application) {
         super(application);
         repo = RepositoryGrocery.getInstance(application);

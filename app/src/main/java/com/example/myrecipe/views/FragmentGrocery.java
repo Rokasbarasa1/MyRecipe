@@ -69,6 +69,9 @@ public class FragmentGrocery extends Fragment implements AdapterRecipe.OnListRec
         recipeList.setLayoutManager(new LinearLayoutManager(rootView.getContext()));
         adapter = new AdapterGroceryRecipe(viewModel.getRecipeGroceries().getValue(), viewModel.getGroceryTodos() ,this);
         recipeList.setAdapter(adapter);
+
+        if(viewModel.getGroceryTodos().size() != 0)
+            rootView.findViewById(R.id.grocery_empty_notify).setVisibility(View.GONE);
     }
 
     @Override

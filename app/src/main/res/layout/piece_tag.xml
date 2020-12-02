@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="15dp"
     android:layout_marginVertical="5dp"
-    android:background="@drawable/rounded_corners_color_primary"
+    android:background="@drawable/rounded_corners_piece_schedule"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <TextView
@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginVertical="10dp"
+        android:textColor="@color/colorAccent"
         android:text="Here goes a tab name"
         android:translationZ="90dp"
         android:textSize="24sp" />

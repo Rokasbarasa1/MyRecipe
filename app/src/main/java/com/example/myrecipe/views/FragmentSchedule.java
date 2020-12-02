@@ -84,6 +84,9 @@ public class FragmentSchedule extends Fragment implements AdapterSchedule.OnClic
                 break;
             }
         }
+
+        if(viewModel.getSchedules().getValue().size() != 0)
+            rootView.findViewById(R.id.schedule_empty_notify).setVisibility(View.GONE);
     }
 
     @Override

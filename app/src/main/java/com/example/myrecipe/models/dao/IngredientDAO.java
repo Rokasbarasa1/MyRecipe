@@ -21,4 +21,7 @@ public interface IngredientDAO {
     //Gets all ingredients for a specific recipe
     @Query("Select * from ingredient Where recipeId = :idOfRecipe")
     List<Ingredient> getIngredientsByRecipeId(long idOfRecipe);
+
+    @Query("delete from Ingredient where recipeId = :recipeId")
+    void deleteAllIngredientsWithRecipeId(Long recipeId);
 }

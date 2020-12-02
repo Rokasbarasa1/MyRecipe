@@ -1,5 +1,7 @@
 package com.example.myrecipe.views;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -123,15 +125,30 @@ public class FragmentRecipeCreate extends Fragment implements  AdapterNewRecipeI
     }
 
     public void finishRecipe() {
-        System.out.println(tags.getText().toString());
-        viewModel.addRecipe(name.getText().toString(), prepTime.getText().toString(), servingSize.getText().toString(), description.getText().toString(), tags.getText().toString());
-
-        getActivity().getSupportFragmentManager().popBackStackImmediate();
+        if(name.getText().toString().matches("")
+                || prepTime.getText().toString().matches("")
+                || servingSize.getText().toString().matches("")
+                || tags.getText().toString().matches("")
+                || viewModel.getIngredientsUpdated().size() == 0
+        ){
+            AlertDialog.Builder deleteDialog = new AlertDialog.Builder(rootView.getContext());
+            deleteDialog.setTitle("Finish grocery list");
+            deleteDialog.setMessage("Are you sure you want to finish this grocery list?");
+            deleteDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    System.out.println("Quit error message");
+                }
+            });
+            deleteDialog.show();
+        }else {
+            viewModel.addRecipe(name.getText().toString(), prepTime.getText().toString(), servingSize.getText().toString(), description.getText().toString(), tags.getText().toString());
+            getActivity().getSupportFragmentManager().popBackStackImmediate();
+        }
     }
 
     @Override
     public void onEdit(int position, String textName, String textUnits) {
-        System.out.println(position + textName);
         viewModel.ingredientUpdated(position, textName, textUnits);
         Ingredient selected = ingredients.get(position);
         selected.setUnitOfMeassure(textUnits);

@@ -38,4 +38,8 @@ public class ViewModelSeeRecipe extends AndroidViewModel {
     public void newGroceryAndCalendarTodo(long recipeId, int servings, int ingredientAmount, Calendar pointInTime) {
         repo.newGroceryAndCalendarTodo(recipeId, servings, ingredientAmount, pointInTime);
     }
+
+    public void onDeleteRecipe(long id) {
+        repo.deleteRecipe(id);
+    }
 }
