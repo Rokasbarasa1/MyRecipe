@@ -51,7 +51,7 @@ public class FragmentRandom extends Fragment {
         name = rootView.findViewById(R.id.random_recipe_name);
         prepTime = rootView.findViewById(R.id.random_recipe_prepTime);
         servingSize = rootView.findViewById(R.id.random_recipe_serving);
-        name.setText("Press one of the buttons");
+        name.setText("");
         prepTime.setText("");
         servingSize.setText("");
 

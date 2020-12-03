@@ -51,6 +51,7 @@ public class FragmentGrocery extends Fragment implements AdapterRecipe.OnListRec
         //Recipes that need groceries list
         initGroceryRecyclerView(rootView);
 
+        //TODO Look into showing the serving size when showing the recipe in groceries
         return rootView;
     }
 

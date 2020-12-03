@@ -76,7 +76,20 @@ public class AdapterSchedule extends RecyclerView.Adapter<AdapterSchedule.ViewHo
         }
         viewHolder.dayOfWeek.setText(getDayOfWeek(schedules.get(position).getCalendarTime()) + "");
         viewHolder.numberOfDay.setText(schedules.get(position).getDay() + "");
-        viewHolder.time.setText(schedules.get(position).getHour() + " : " + schedules.get(position).getMinute());
+
+        //Some layz if statments to fix the one digit time
+        if(schedules.get(position).getHour() < 10){
+            if(schedules.get(position).getMinute() < 10)
+                viewHolder.time.setText("0" + schedules.get(position).getHour() + " : " + "0" + schedules.get(position).getMinute());
+            else
+                viewHolder.time.setText("0" + schedules.get(position).getHour() + " : " + schedules.get(position).getMinute());
+
+        }else {
+            if(schedules.get(position).getMinute() < 10)
+                viewHolder.time.setText(schedules.get(position).getHour() + " : " + "0" + schedules.get(position).getMinute());
+            else
+                viewHolder.time.setText(schedules.get(position).getHour() + " : " + schedules.get(position).getMinute());
+        }
     }
 
     //Figures out the month name

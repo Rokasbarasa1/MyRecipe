@@ -1,4 +1,4 @@
-package com.example.myrecipe.retrofit;
+package com.example.myrecipe.networking;
 
 import com.example.myrecipe.models.Ingredient;
 import com.example.myrecipe.models.Recipe;

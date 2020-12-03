@@ -42,6 +42,7 @@ public class AdapterGroceryRecipe extends RecyclerView.Adapter<AdapterGroceryRec
                 count++;
         }
         viewHolder.IngredientsLeft.setText("Left to collect: " + count);
+        viewHolder.servings.setText("Servings: " + groceryTodos.get(position).getServingSize());
     }
 
     public int getItemCount(){
@@ -61,6 +62,7 @@ public class AdapterGroceryRecipe extends RecyclerView.Adapter<AdapterGroceryRec
         TextView name;
         TextView IngredientCount;
         TextView IngredientsLeft;
+        TextView servings;
         ViewHolder(View itemView){
             super(itemView);
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -72,6 +74,7 @@ public class AdapterGroceryRecipe extends RecyclerView.Adapter<AdapterGroceryRec
             name = itemView.findViewById(R.id.piece_grocery_recipe_name);
             IngredientCount = itemView.findViewById(R.id.piece_grocery_recipe_ingredient_count);
             IngredientsLeft = itemView.findViewById(R.id.piece_grocery_recipe_ingredient_count_finished);
+            servings = itemView.findViewById(R.id.piece_grocery_recipe_servings);
         }
     }
 

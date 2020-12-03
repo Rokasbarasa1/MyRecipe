@@ -128,20 +128,17 @@ public class FragmentRecipeSee extends Fragment implements DialogMakeRecipe.Make
     public void onDialogPositiveClickGrocery(int servings) {
         System.out.println("Got servings: " + servings);
         viewModel.newGroceryTodo(selectedRecipe.getId(), servings, selectedRecipe.getIngredients().size());
-        //Add selected recipe with modified servingsa mouunt
     }
 
     @Override
     public void onDialogPositiveClickCalendar(Calendar pointInTime) {
         System.out.println("Got date: " + pointInTime.getTime().toString());
         viewModel.newCalendarTodo(selectedRecipe.getId(), pointInTime);
-        //Add a date when to eat this recipe
     }
 
     @Override
     public void onDialogPositiveClickBoth(int servings, Calendar pointInTime) {
         System.out.println("Got servings: " + servings + " and date: " + pointInTime.toString());
         viewModel.newGroceryAndCalendarTodo(selectedRecipe.getId(), servings, selectedRecipe.getIngredients().size(), pointInTime);
-        //Add slected recipe with modified servings and calendar date when to eat.
     }
 }

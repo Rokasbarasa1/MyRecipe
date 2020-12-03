@@ -17,13 +17,25 @@
         android:background="@drawable/rounded_corners_color_secondary">
 
         <TextView
+            android:id="@+id/piece_grocery_recipe_servings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Servings: 0"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/piece_grocery_recipe_ingredient_count_finished"
+            app:layout_constraintTop_toBottomOf="@+id/piece_grocery_recipe_name" />
+
+        <TextView
             android:id="@+id/piece_grocery_recipe_ingredient_count_finished"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="13dp"
+            android:layout_marginTop="16dp"
             android:text="Left to collect: 0"
             android:textAlignment="center"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/piece_grocery_recipe_servings"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/piece_grocery_recipe_ingredient_count"
             app:layout_constraintTop_toBottomOf="@+id/piece_grocery_recipe_name" />
@@ -32,7 +44,7 @@
             android:id="@+id/piece_grocery_recipe_ingredient_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="13dp"
+            android:layout_marginTop="16dp"
             android:text="Ingredients: 0"
             android:textAlignment="center"
             app:layout_constraintEnd_toStartOf="@+id/piece_grocery_recipe_ingredient_count_finished"

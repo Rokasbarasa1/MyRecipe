@@ -11,9 +11,9 @@ import com.example.myrecipe.models.dao.RecipeDAO;
 import com.example.myrecipe.models.dao.RecipeDatabase;
 import com.example.myrecipe.models.dao.TagDAO;
 import com.example.myrecipe.models.Recipe;
-import com.example.myrecipe.retrofit.RecipeApi;
-import com.example.myrecipe.retrofit.RecipeResponse;
-import com.example.myrecipe.retrofit.ServiceGenerator;
+import com.example.myrecipe.networking.RecipeApi;
+import com.example.myrecipe.networking.RecipeResponse;
+import com.example.myrecipe.networking.ServiceGenerator;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;

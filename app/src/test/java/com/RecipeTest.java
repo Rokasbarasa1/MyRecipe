@@ -14,6 +14,7 @@ public class RecipeTest {
 
     private Recipe recipe;
 
+    /*
     @Test
     public void TestCreateFull(){
         Ingredient ingredient1 = new Ingredient("1", 1, "g");
@@ -97,5 +98,7 @@ public class RecipeTest {
         assertEquals("Chicken", recipe.getTags().get(1).getName());
         assertEquals("Lamb", recipe.getTags().get(2).getName());
     }
+
+     */
 
 }

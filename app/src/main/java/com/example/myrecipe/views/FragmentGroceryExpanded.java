@@ -77,6 +77,8 @@ public class FragmentGroceryExpanded extends Fragment implements AdapterGroceryE
                 finishGroceryList(rootView);
             }
         });
+
+        //TODO Check the ingredient calculation. it seems to be opposite of what it needs to be
         return rootView;
     }
 
