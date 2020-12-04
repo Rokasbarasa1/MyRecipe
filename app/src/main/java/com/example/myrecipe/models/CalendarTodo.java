@@ -42,8 +42,9 @@ public class CalendarTodo {
         this.year = pointInTime.get(Calendar.YEAR);
         this.month = pointInTime.get(Calendar.MONTH);
         this.day = pointInTime.get(Calendar.DAY_OF_MONTH);
-        this.hour = pointInTime.get(Calendar.HOUR_OF_DAY);
+        this.hour = pointInTime.get(Calendar.HOUR);
         this.minute = pointInTime.get(Calendar.MINUTE);
+        calendarTime = pointInTime;
     }
 
     public long getId() {

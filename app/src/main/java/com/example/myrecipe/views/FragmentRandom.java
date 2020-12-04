@@ -77,7 +77,7 @@ public class FragmentRandom extends Fragment {
         rootView.findViewById(R.id.random_go_to_recipe).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(name.getText().toString() != ""){
+                if(name.getText().toString() != "" && prepTime.getText().toString() != "" && servingSize.getText().toString() != ""){
                     if(randomFromInternet){
                         Fragment fragment = null;
                         fragment = new FragmentRecipeCreate(viewModel.getRecipe().getValue());

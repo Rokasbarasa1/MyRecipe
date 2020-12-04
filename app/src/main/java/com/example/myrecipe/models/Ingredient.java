@@ -19,22 +19,18 @@ public class Ingredient {
     @PrimaryKey (autoGenerate = true)
     long id;
     long recipeId;
-    @Ignore
-    String rawString;
     String name;
     double quantity;
     String unitOfMeassure;
 
     @Ignore
     public Ingredient() {
-        rawString = "";
         name = "";
         quantity = 0;
         unitOfMeassure = "";
     }
 
     public Ingredient(String name, double quantity, String unitOfMeassure) {
-        this.rawString = name + " " + quantity;
         this.name = name;
         this.quantity = quantity;
         this.unitOfMeassure = unitOfMeassure;
@@ -50,14 +46,6 @@ public class Ingredient {
 
     public long getRecipeId() {
         return recipeId;
-    }
-
-    public String getRawString() {
-        return rawString;
-    }
-
-    public void setRaw(String raw) {
-        this.rawString = raw;
     }
 
     public String getName() {
@@ -80,8 +68,15 @@ public class Ingredient {
         this.quantity = quantity;
     }
 
-    public void setRawString(String rawString) {
-        this.rawString = rawString;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAsNameQuantityCombo(){
+        if(quantity == 0){
+            return name;
+        }
+        return name + " " + quantity;
     }
 
     public void setUnitOfMeassure(String unitOfMeassure) {

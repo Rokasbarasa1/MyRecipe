@@ -104,15 +104,20 @@ public class FragmentRecipeCreate extends Fragment implements  AdapterNewRecipeI
             }
         }else
             ingredients.add(new Ingredient());
-        ingredientList = rootView.findViewById(R.id.rv_new_recipe_ingredients);
-        ingredientList.setLayoutManager(new LinearLayoutManager(rootView.getContext()));
-        ingredientAdapter = new AdapterNewRecipeIngredient(ingredients, this);
-        ingredientList.setAdapter(ingredientAdapter);
+
+        initRecyclerView();
 
         //Sets a tag if it was obtained from a expanded tag
         tags = rootView.findViewById(R.id.newRecipeTags);
         tags.setText(currentTag);
         return rootView;
+    }
+
+    private void initRecyclerView() {
+        ingredientList = rootView.findViewById(R.id.rv_new_recipe_ingredients);
+        ingredientList.setLayoutManager(new LinearLayoutManager(rootView.getContext()));
+        ingredientAdapter = new AdapterNewRecipeIngredient(ingredients, this);
+        ingredientList.setAdapter(ingredientAdapter);
     }
 
     //Sets the content it obtained from the internet
@@ -126,11 +131,14 @@ public class FragmentRecipeCreate extends Fragment implements  AdapterNewRecipeI
     public void createNewLineOfIngredient(){
         ingredients.add(new Ingredient());
         ingredientAdapter.notifyItemInserted(ingredients.size() - 1);
+        ingredientAdapter.setIngredients(ingredients);
     }
 
     public void removeLastLineOfIngredient() {
         if(ingredients.size() != 0){
-            ingredients.remove(ingredients.size()-1);
+            int index = ingredients.size()-1;
+            ingredients.remove(index);
+            viewModel.removeLastLine(index);
             ingredientAdapter.notifyDataSetChanged();
         }
     }
@@ -171,5 +179,6 @@ public class FragmentRecipeCreate extends Fragment implements  AdapterNewRecipeI
         viewModel.ingredientUpdated(position, textName, textUnits);
         Ingredient selected = ingredients.get(position);
         selected.setUnitOfMeassure(textUnits);
+        selected.setName(textName);
     }
 }

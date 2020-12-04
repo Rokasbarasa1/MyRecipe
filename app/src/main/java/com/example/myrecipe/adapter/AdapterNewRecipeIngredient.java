@@ -38,13 +38,17 @@ public class AdapterNewRecipeIngredient extends RecyclerView.Adapter<AdapterNewR
 
     @Override
     public void onBindViewHolder(@NonNull AdapterNewRecipeIngredient.ViewHolder viewHolder, int position) {
+        viewHolder.name.setText(ingredients.get(position).getAsNameQuantityCombo());
         viewHolder.units.setText(ingredients.get(position).getUnitOfMeassure());
-        viewHolder.name.setText(ingredients.get(position).getRawString());
     }
 
     @Override
     public int getItemCount() {
         return ingredients.size();
+    }
+
+    public void setIngredients(List<Ingredient> ingredients) {
+        this.ingredients = ingredients;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -60,7 +64,7 @@ public class AdapterNewRecipeIngredient extends RecyclerView.Adapter<AdapterNewR
                     listener.onEdit(getAdapterPosition(), name.getText().toString(), units.getText().toString());
                 }
             });
-            name.addTextChangedListener(new TextChangedListener<EditText>(name) {
+            units.addTextChangedListener(new TextChangedListener<EditText>(name) {
                 @Override
                 public void onTextChanged(EditText target, Editable s) {
                     listener.onEdit(getAdapterPosition(), name.getText().toString(), units.getText().toString());

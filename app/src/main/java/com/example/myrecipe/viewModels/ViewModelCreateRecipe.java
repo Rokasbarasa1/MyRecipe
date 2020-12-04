@@ -66,6 +66,7 @@ public class ViewModelCreateRecipe extends AndroidViewModel {
             }
             text = text.substring(0, text.length() - ingredient[number].length());
             Ingredient newIngredient = new Ingredient(text, amount, textUnits);
+            System.out.println("recipe created");
             try{
                 ingredients.get(index);
                 ingredients.set(index, newIngredient);
@@ -79,5 +80,13 @@ public class ViewModelCreateRecipe extends AndroidViewModel {
 
     public List<Ingredient> getIngredientsUpdated() {
         return ingredients;
+    }
+
+    public void removeLastLine(int i) {
+        try{
+            ingredients.remove(i);
+        } catch (Exception e){
+
+        }
     }
 }
