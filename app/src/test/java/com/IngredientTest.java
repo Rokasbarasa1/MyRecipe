@@ -1,4 +1,4 @@
-package com.example.myrecipe.models;
+package com;
 
 import com.example.myrecipe.models.Ingredient;
 
@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 
 public class IngredientTest {
 
-    Ingredient ingredient;
+     Ingredient ingredient;
 
     @Test
     public void createEmpty(){
@@ -48,7 +48,7 @@ public class IngredientTest {
     @Test
     public void fullGetRawString(){
         ingredient = new Ingredient("Name", 0.1, "g");
-        assertEquals("Name 0.1", ingredient.getRawString());
+        assertEquals("Name 0.1g", ingredient.getRawString());
     }
 
     @Test

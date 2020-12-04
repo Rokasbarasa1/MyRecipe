@@ -1,4 +1,4 @@
-package com.example.myrecipe.models;
+package com;
 
 import com.example.myrecipe.models.Tag;
 
