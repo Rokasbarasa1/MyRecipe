@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 
 public class IngredientTest {
 
-    private Ingredient ingredient;
+     Ingredient ingredient;
 
     @Test
     public void createEmpty(){

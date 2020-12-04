@@ -15,9 +15,10 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class RepositoryTags {
-    private static RepositoryTags instance;
-    private TagDAO tagDAO;
-    private MutableLiveData<List<Tag>> currentTags;
+
+    static RepositoryTags instance;
+    TagDAO tagDAO;
+    MutableLiveData<List<Tag>> currentTags;
 
     private RepositoryTags(Application application){
         RecipeDatabase database = RecipeDatabase.getInstance(application);
@@ -39,9 +40,7 @@ public class RepositoryTags {
     public void getTagsFromDatabase(){
         try {
             currentTags.setValue(new GetAllTagsAsync(tagDAO).execute().get());
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
     }
@@ -51,7 +50,7 @@ public class RepositoryTags {
     }
 
     private class GetAllTagsAsync extends AsyncTask<Void, Void, List<Tag>> {
-        private TagDAO tagDAO;
+        TagDAO tagDAO;
 
         private GetAllTagsAsync(TagDAO tagDAO){
             this.tagDAO = tagDAO;

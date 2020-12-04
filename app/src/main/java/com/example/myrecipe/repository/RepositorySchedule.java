@@ -17,10 +17,10 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class RepositorySchedule {
-    private static RepositorySchedule instance;
-    private RecipeDAO recipeDAO;
-    private CalendarTodoDAO calendarTodoDAO;
-    private MutableLiveData<List<CalendarTodo>> schedules;
+    static RepositorySchedule instance;
+    RecipeDAO recipeDAO;
+    CalendarTodoDAO calendarTodoDAO;
+    MutableLiveData<List<CalendarTodo>> schedules;
 
     private RepositorySchedule(Application application){
         RecipeDatabase database = RecipeDatabase.getInstance(application);
@@ -40,30 +40,28 @@ public class RepositorySchedule {
         return schedules;
     }
 
+    //Assingns things to the schedules live data
     public void getSchedulesFromDatabase() {
         try {
             schedules.setValue(new GetAllSchedulesAsync(calendarTodoDAO).execute().get());
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
     }
+
 
     public List<Recipe> getMatchingRecipes() {
         List<Recipe> recipes = new ArrayList<>();
         try {
             recipes = new GetMatchRecipeToScheduleAsync(recipeDAO).execute().get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
         return recipes;
     }
 
     private class GetAllSchedulesAsync extends AsyncTask<Void, Void, List<CalendarTodo>> {
-        private CalendarTodoDAO calendarTodoDAO;
+        CalendarTodoDAO calendarTodoDAO;
 
         private GetAllSchedulesAsync(CalendarTodoDAO calendarTodoDAO){
             this.calendarTodoDAO = calendarTodoDAO;
@@ -76,7 +74,7 @@ public class RepositorySchedule {
     }
 
     private class GetMatchRecipeToScheduleAsync extends AsyncTask<Void, Void, List<Recipe>> {
-        private RecipeDAO recipeDAO;
+        RecipeDAO recipeDAO;
 
         private GetMatchRecipeToScheduleAsync(RecipeDAO recipeDAO){
             this.recipeDAO = recipeDAO;

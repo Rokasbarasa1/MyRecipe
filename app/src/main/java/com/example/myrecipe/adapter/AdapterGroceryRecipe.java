@@ -15,13 +15,13 @@ import java.util.List;
 
 public class AdapterGroceryRecipe extends RecyclerView.Adapter<AdapterGroceryRecipe.ViewHolder>{
 
-    //Handles showing recipes in the grocery tab. Only those who have a entry of Grocery todo
+    //Handles showing recipes in the grocery tab. Only those who have a entry of GroceryTodo
 
-    private List<Recipe> recipes;
-    private List<GroceryTodo> groceryTodos;
-    private AdapterRecipe.OnListRecipeClickListener listener;
+    List<Recipe> recipes;
+    List<GroceryTodo> groceryTodos;
+    AdapterGroceryRecipe.OnGroceryRecipeClickListener listener;
 
-    public AdapterGroceryRecipe(List<Recipe> recipes, List<GroceryTodo> groceryTodos, AdapterRecipe.OnListRecipeClickListener listener){
+    public AdapterGroceryRecipe(List<Recipe> recipes, List<GroceryTodo> groceryTodos, AdapterGroceryRecipe.OnGroceryRecipeClickListener listener){
         this.recipes = recipes;
         this.listener = listener;
         this.groceryTodos = groceryTodos;
@@ -78,7 +78,7 @@ public class AdapterGroceryRecipe extends RecyclerView.Adapter<AdapterGroceryRec
         }
     }
 
-    public interface OnListRecipeClickListener{
+    public interface OnGroceryRecipeClickListener{
         void onClick(int position, String name);
     }
 }

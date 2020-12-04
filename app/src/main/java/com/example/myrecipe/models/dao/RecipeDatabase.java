@@ -16,7 +16,7 @@ package com.example.myrecipe.models.dao;
 @Database(entities = {Recipe.class, Ingredient.class, Tag.class, RecipeTag.class, GroceryTodo.class, CalendarTodo.class}, version = 6)
 public abstract class RecipeDatabase extends RoomDatabase {
 
-    private static RecipeDatabase instance;
+     static RecipeDatabase instance;
 
     public abstract RecipeDAO recipeDAO();
     public abstract IngredientDAO ingredientDAO();

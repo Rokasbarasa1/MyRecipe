@@ -15,15 +15,15 @@ public class CalendarTodo {
     //Holds information about a calendar/schedule event tied to a recipe.
 
     @PrimaryKey(autoGenerate = true)
-    private long id;
-    private long recipeId;
-    private int year;
-    private int month;
-    private int day;
-    private int hour;
-    private int minute;
+    long id;
+    long recipeId;
+    int year;
+    int month;
+    int day;
+    int hour;
+    int minute;
     @Ignore
-    private Calendar calendarTime;
+    Calendar calendarTime;
 
     public CalendarTodo(long recipeId, int year, int month, int day, int hour, int minute) {
         this.recipeId = recipeId;

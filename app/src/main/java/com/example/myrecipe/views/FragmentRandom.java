@@ -18,15 +18,17 @@ import com.example.myrecipe.viewModels.ViewModelRandom;
 
 
 public class FragmentRandom extends Fragment {
-    private View rootView;
-    private TextView name;
-    private TextView prepTime;
-    private TextView servingSize;
-    private FragmentManager supportFragmentManager;
-    private TextView toolbarTitle;
-    private ActionBar upArrow;
-    private ViewModelRandom viewModel;
-    private boolean randomFromInternet;
+
+    View rootView;
+    TextView name;
+    TextView prepTime;
+    TextView servingSize;
+    FragmentManager supportFragmentManager;
+    TextView toolbarTitle;
+    ActionBar upArrow;
+    ViewModelRandom viewModel;
+    Long recipeId;
+    boolean randomFromInternet;
 
     public FragmentRandom(FragmentManager supportFragmentManager, TextView toolbarTitle, ActionBar upArrow) {
         this.supportFragmentManager = supportFragmentManager;
@@ -51,7 +53,7 @@ public class FragmentRandom extends Fragment {
         name = rootView.findViewById(R.id.random_recipe_name);
         prepTime = rootView.findViewById(R.id.random_recipe_prepTime);
         servingSize = rootView.findViewById(R.id.random_recipe_serving);
-        name.setText("");
+        name.setText("Get a random recipe by clicking a button bellow");
         prepTime.setText("");
         servingSize.setText("");
 
@@ -70,6 +72,8 @@ public class FragmentRandom extends Fragment {
             }
         });
 
+        //Listens to make recipe button. Checks what button was pressed before to determine wheather to show
+        // a recipe from the system or the internet.
         rootView.findViewById(R.id.random_go_to_recipe).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,7 +86,7 @@ public class FragmentRandom extends Fragment {
                         upArrow.setDisplayHomeAsUpEnabled(true);
                     }else {
                         Fragment fragment = null;
-                        fragment = new FragmentRecipeSee(name.getText().toString());
+                        fragment = new FragmentRecipeSee(recipeId);
                         toolbarTitle.setText("View recipe");
                         supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
                         upArrow.setDisplayHomeAsUpEnabled(true);
@@ -101,8 +105,10 @@ public class FragmentRandom extends Fragment {
         return rootView;
     }
 
+    //Sets recipe in the empty spot.
     private void setRecipe(Recipe randomRecipe) {
         if(randomRecipe != null){
+            recipeId = randomRecipe.getId();
             name.setText(randomRecipe.getName());
             prepTime.setText("Prep time: " + randomRecipe.getPrepTime() + " min");
             servingSize.setText("Serving size: " + randomRecipe.getServingSize() + " servings");

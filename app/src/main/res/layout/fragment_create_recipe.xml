@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -24,15 +23,16 @@
                     android:id="@+id/newRecipeName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginStart="5dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="10dp"
-                    android:background="@color/colorAccent"
+                    android:background="@color/colorAccentLight"
                     android:ems="10"
                     android:hint="Recipe name"
                     android:inputType="textPersonName"
                     android:padding="10dp"
                     android:textCursorDrawable="@null"
+                    android:textColor="@color/colorTextOnA"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -41,12 +41,13 @@
                     android:id="@+id/newRecipePrepTime"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="120dp"
+                    android:layout_marginStart="100dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="10dp"
-                    android:background="@color/colorAccent"
+                    android:background="@color/colorAccentLight"
                     android:ems="10"
                     android:hint="Prep time in minutes"
+                    android:textColor="@color/colorTextOnA"
                     android:inputType="number"
                     android:padding="10dp"
                     android:textCursorDrawable="@null"
@@ -60,13 +61,14 @@
                     android:id="@+id/newRecipeServingSize"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="120dp"
+                    android:layout_marginStart="100dp"
                     android:layout_marginTop="11dp"
                     android:layout_marginEnd="10dp"
                     android:layout_marginBottom="10dp"
-                    android:background="@color/colorAccent"
+                    android:background="@color/colorAccentLight"
                     android:ems="10"
                     android:hint="Serving size"
+                    android:textColor="@color/colorTextOnA"
                     android:inputType="number"
                     android:padding="10dp"
                     android:textCursorDrawable="@null"
@@ -81,11 +83,13 @@
                     android:id="@+id/textView4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
                     android:layout_marginTop="20dp"
-                    android:text="Prep time"
+                    android:text="Prep time:"
                     android:textSize="18sp"
+                    android:textColor="@color/colorTextOnA"
                     app:layout_constraintEnd_toStartOf="@+id/newRecipePrepTime"
-                    app:layout_constraintHorizontal_bias="0.604"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/newRecipeName" />
 
@@ -93,10 +97,13 @@
                     android:id="@+id/textView5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
                     android:layout_marginTop="28dp"
-                    android:text="Servings"
+                    android:text="Servings:"
                     android:textSize="18sp"
+                    android:textColor="@color/colorTextOnA"
                     app:layout_constraintEnd_toStartOf="@+id/newRecipeServingSize"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView4" />
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -105,6 +112,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Ingredients"
+                android:textColor="@color/colorTextOnA"
                 android:textAlignment="center"
                 android:textSize="24sp" />
 
@@ -122,41 +130,37 @@
 
             </LinearLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="37dp"
-                android:layout_marginVertical="5dp">
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
 
-                <Button
+                <ImageButton
                     android:id="@+id/add_ingredient_button"
-                    android:layout_width="46dp"
+                    android:layout_width="match_parent"
                     android:layout_height="37dp"
-                    android:layout_gravity="center"
-                    android:drawableLeft="@drawable/add"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.158"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/add"
+                    android:background="@color/colorPrimary" />
 
-                <Button
+                <ImageButton
                     android:id="@+id/remove_ingredient_button"
-                    android:layout_width="46dp"
+                    android:layout_width="match_parent"
                     android:layout_height="37dp"
-                    android:layout_gravity="center"
-                    android:drawableLeft="@drawable/remove"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.842"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/remove"
+                    android:background="@color/colorPrimary" />
+            </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Description/Steps"
+                android:textColor="@color/colorTextOnA"
                 android:textAlignment="center"
                 android:textSize="24sp" />
 
@@ -166,8 +170,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
                 android:layout_marginTop="10dp"
-                android:background="@color/colorAccent"
+                android:background="@color/colorAccentLight"
                 android:hint="Steps and or description"
+                android:textColor="@color/colorTextOnA"
                 android:padding="10dp"
                 android:textCursorDrawable="@null" />
 
@@ -175,6 +180,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Tags"
+                android:textColor="@color/colorTextOnA"
                 android:textAlignment="center"
                 android:textSize="24sp" />
 
@@ -184,8 +190,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="5dp"
                 android:layout_marginTop="10dp"
-                android:background="@color/colorAccent"
+                android:background="@color/colorAccentLight"
                 android:hint="Tags that help find the recipe. Tea,Cabbage,Onion..."
+                android:textColor="@color/colorTextOnA"
                 android:padding="10dp"
                 android:textCursorDrawable="@null" />
 
@@ -194,11 +201,14 @@
                 android:layout_marginTop="10dp"
                 android:layout_height="wrap_content">
 
-                <Button
+                <ImageButton
                     android:id="@+id/finish_ingredient_button"
-                    android:layout_width="151dp"
-                    android:layout_height="47dp"
-                    android:drawableTop="@drawable/confirm"
+                    android:layout_width="match_parent"
+                    android:padding="5dp"
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_check_filed"
+                    android:background="@color/colorPrimary"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

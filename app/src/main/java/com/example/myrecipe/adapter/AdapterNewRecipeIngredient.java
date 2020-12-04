@@ -20,8 +20,8 @@ public class AdapterNewRecipeIngredient extends RecyclerView.Adapter<AdapterNewR
     //Handles showing of ingredients in the create recipe fragment. Mostly blank ones if the ingredients are not removed.
     //Otherwise it tries to keep track of what was entered as well
 
-    private List<Ingredient> ingredients;
-    private OnEditTextListener listener;
+    List<Ingredient> ingredients;
+    OnEditTextListener listener;
 
     public AdapterNewRecipeIngredient(List<Ingredient> ingredients, OnEditTextListener listener){
         this.ingredients = ingredients;

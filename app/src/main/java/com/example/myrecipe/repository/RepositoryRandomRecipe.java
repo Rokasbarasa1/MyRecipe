@@ -24,11 +24,11 @@ import retrofit2.Response;
 
 public class RepositoryRandomRecipe {
 
-    private static RepositoryRandomRecipe instance;
-    private RecipeDAO recipeDAO;
-    private TagDAO tagDAO;
-    private IngredientDAO ingredientDAO;
-    private MutableLiveData<Recipe> currentRecipe;
+    static RepositoryRandomRecipe instance;
+    RecipeDAO recipeDAO;
+    TagDAO tagDAO;
+    IngredientDAO ingredientDAO;
+    MutableLiveData<Recipe> currentRecipe;
 
     private RepositoryRandomRecipe(Application application){
         RecipeDatabase database = RecipeDatabase.getInstance(application);
@@ -45,17 +45,20 @@ public class RepositoryRandomRecipe {
         return instance;
     }
 
+    public LiveData<Recipe> getRecipe() {
+        return currentRecipe;
+    }
+
+    //Gets random recipe from the database
     public void getRandomRecipe() {
         List<Recipe> recipes = null;
         try {
             recipes = new GetAllRecipesAsync(recipeDAO).execute().get();
             if(recipes.size() != 0){
-                int randomNumber = 0 + (int)(Math.random() * recipes.size());
+                int randomNumber = (int) (Math.random() * recipes.size());
                 currentRecipe.setValue(recipes.get(randomNumber));
             }
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
     }
@@ -80,12 +83,10 @@ public class RepositoryRandomRecipe {
         );
     }
 
-    public LiveData<Recipe> getRecipe() {
-        return currentRecipe;
-    }
+
 
     private class GetAllRecipesAsync extends AsyncTask<Void, Void, List<Recipe>> {
-        private RecipeDAO recipeDAO;
+        RecipeDAO recipeDAO;
 
         private GetAllRecipesAsync(RecipeDAO recipeDAO){
             this.recipeDAO = recipeDAO;

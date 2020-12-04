@@ -10,7 +10,7 @@ import com.example.myrecipe.models.Recipe;
 import com.example.myrecipe.repository.RepositoryRandomRecipe;
 
 public class ViewModelRandom extends AndroidViewModel {
-    private RepositoryRandomRecipe repo;
+    RepositoryRandomRecipe repo;
 
     public ViewModelRandom(@NonNull Application application) {
         super(application);

@@ -22,13 +22,14 @@ import com.example.myrecipe.viewModels.ViewModelGrocery;
 
 import java.util.List;
 
-public class FragmentGrocery extends Fragment implements AdapterRecipe.OnListRecipeClickListener {
-    private FragmentManager supportFragmentManager;
-    private TextView toolbarTitle;
-    private ActionBar upArrow;
-    private AdapterGroceryRecipe adapter;
-    private ViewModelGrocery viewModel;
-    private RecyclerView recipeList;
+public class FragmentGrocery extends Fragment implements AdapterGroceryRecipe.OnGroceryRecipeClickListener {
+
+    FragmentManager supportFragmentManager;
+    TextView toolbarTitle;
+    ActionBar upArrow;
+    AdapterGroceryRecipe adapter;
+    ViewModelGrocery viewModel;
+    RecyclerView recipeList;
 
 
     public FragmentGrocery(FragmentManager supportFragmentManager, TextView toolbarTitle, ActionBar supportActionBar) {
@@ -51,7 +52,6 @@ public class FragmentGrocery extends Fragment implements AdapterRecipe.OnListRec
         //Recipes that need groceries list
         initGroceryRecyclerView(rootView);
 
-        //TODO Look into showing the serving size when showing the recipe in groceries
         return rootView;
     }
 
@@ -71,16 +71,17 @@ public class FragmentGrocery extends Fragment implements AdapterRecipe.OnListRec
         adapter = new AdapterGroceryRecipe(viewModel.getRecipeGroceries().getValue(), viewModel.getGroceryTodos() ,this);
         recipeList.setAdapter(adapter);
 
+        //Displays a text encouraging the user to add things to the system if there is nothing to show
         if(viewModel.getGroceryTodos().size() != 0)
             rootView.findViewById(R.id.grocery_empty_notify).setVisibility(View.GONE);
     }
 
+    //When user clicks on one grocery tab
     @Override
     public void onClick(int position, String name) {
         Fragment fragment = null;
-
-        fragment = new FragmentGroceryExpanded(supportFragmentManager, toolbarTitle, upArrow, viewModel.getRecipeGroceries().getValue().get(position), viewModel.getGroceryTodos().get(position));
-        toolbarTitle.setText("View ingredients");
+        fragment = new FragmentGroceryExpanded(viewModel.getRecipeGroceries().getValue().get(position), viewModel.getGroceryTodos().get(position));
+        toolbarTitle.setText(name);
         supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
         upArrow.setDisplayHomeAsUpEnabled(true);
     }

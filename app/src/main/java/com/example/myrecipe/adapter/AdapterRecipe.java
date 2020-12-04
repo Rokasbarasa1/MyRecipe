@@ -16,8 +16,8 @@ public class AdapterRecipe extends RecyclerView.Adapter<AdapterRecipe.ViewHolder
 
     //Just shows recipes once the tag is expanded in the recipe section
 
-    private List<Recipe> recipes;
-    private OnListRecipeClickListener listener;
+    List<Recipe> recipes;
+    OnListRecipeClickListener listener;
 
     public AdapterRecipe(List<Recipe> recipes, OnListRecipeClickListener listener){
         this.recipes = recipes;
@@ -59,7 +59,7 @@ public class AdapterRecipe extends RecyclerView.Adapter<AdapterRecipe.ViewHolder
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.onClick(getAdapterPosition(), name.getText().toString());
+                    listener.onClick(getAdapterPosition(), recipes.get(getAdapterPosition()).getId());
                 }
             });
             name = itemView.findViewById(R.id.piece_recipe_name);
@@ -69,6 +69,6 @@ public class AdapterRecipe extends RecyclerView.Adapter<AdapterRecipe.ViewHolder
     }
 
     public interface OnListRecipeClickListener{
-        void onClick(int position, String name);
+        void onClick(int position, long recipeId);
     }
 }

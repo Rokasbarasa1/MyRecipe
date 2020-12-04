@@ -13,10 +13,10 @@ public class GroceryTodo {
     // Keeps track of ingredient statuses in the grocery list. Check mark or no check mark using the "bit map"
 
     @PrimaryKey (autoGenerate = true)
-    private long id;
-    private long recipeId;
-    private int servingSize;
-    private String statusBitMap;
+    long id;
+    long recipeId;
+    int servingSize;
+    String statusBitMap;
 
     public GroceryTodo(long recipeId, int servingSize, String statusBitMap) {
         this.recipeId = recipeId;

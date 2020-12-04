@@ -2,20 +2,15 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory app:title="General settings">
+    <PreferenceCategory app:title="Schedule settings">
         <SwitchPreferenceCompat
             app:key="google calendar"
-            app:title="Google calendar for schedules"
+            app:title="Google calendar events"
             android:summary="Enable creation of google calendar events when creating schedules"
             android:defaultValue="false"/>
 
-        <SwitchPreferenceCompat
-            app:key="data backup"
-            app:title="Backup recipes to cloud"
-            android:summary="Recipes you create will be saved to google cloud"
-            android:defaultValue="false"/>
-    </PreferenceCategory>
 
+    </PreferenceCategory>
     <PreferenceCategory app:title="User settings">
         <Preference
             app:title="Sign out"

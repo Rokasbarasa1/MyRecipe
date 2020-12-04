@@ -19,18 +19,18 @@ public class AdapterGroceryExpandedIngredient extends RecyclerView.Adapter<Adapt
 
     //Handles showing of ingredients once the recipe is clicked in the grocery tab as well as the logic of checkboxes
 
-    private List<Ingredient> ingredients;
-    private GroceryTodo todo;
-    private AdapterGroceryExpandedIngredient.OnListRecipeClickListener listener;
+    List<Ingredient> ingredients;
+    GroceryTodo todo;
+    AdapterGroceryExpandedIngredient.OnExpandedGroceryRecipeClickListener listener;
 
-    public AdapterGroceryExpandedIngredient(List<Ingredient> ingredients, GroceryTodo todo, Recipe recipe, AdapterGroceryExpandedIngredient.OnListRecipeClickListener listener){
+    public AdapterGroceryExpandedIngredient(List<Ingredient> ingredients, GroceryTodo todo, Recipe recipe, AdapterGroceryExpandedIngredient.OnExpandedGroceryRecipeClickListener listener){
         this.ingredients = ingredients;
         this.todo = todo;
         this.listener = listener;
 
         //Determines the ratio of requested servings to recipe servings
         //Changes all the ingredients of the recipe to reflect the new ratio
-        //Doesnt affect the ingredient quantities in the database
+        //Doesn't affect the ingredient quantities in the database
         double todoServing = todo.getServingSize();
         double recipeServing = recipe.getServingSize();
         double ratio = todoServing/recipeServing;
@@ -78,7 +78,7 @@ public class AdapterGroceryExpandedIngredient extends RecyclerView.Adapter<Adapt
         }
     }
 
-    public interface OnListRecipeClickListener{
+    public interface OnExpandedGroceryRecipeClickListener{
         void onClick(int position, boolean status);
     }
 }

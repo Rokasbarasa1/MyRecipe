@@ -21,11 +21,14 @@ public class AdapterSchedule extends RecyclerView.Adapter<AdapterSchedule.ViewHo
 
     //Handles showing the schedule items and handles the messy logic of showing the month and year or not in specific spots.
 
-    private List<CalendarTodo> schedules;
-    private AdapterSchedule.OnClickTextListener listener;
-    private String monthName;
-    private int yearNumber;
-    private List<Recipe> matchingRecipes;
+    List<CalendarTodo> schedules;
+    AdapterSchedule.OnClickTextListener listener;
+    String monthName;
+    int yearNumber;
+    List<Recipe> matchingRecipes;
+    SimpleDateFormat hoursMinutes= new SimpleDateFormat("HH : mm");
+    SimpleDateFormat dateMonthFormat = new SimpleDateFormat("MMMM");
+    SimpleDateFormat dateDayOfWeekFormat = new SimpleDateFormat("EEE");
 
     public AdapterSchedule(List<CalendarTodo> schedules, List<Recipe> matchingRecipes, OnClickTextListener listener){
         this.schedules = schedules;
@@ -67,41 +70,35 @@ public class AdapterSchedule extends RecyclerView.Adapter<AdapterSchedule.ViewHo
         }
         else
             viewHolder.layoutToggle.setVisibility(View.GONE);
-
+        Recipe currentRecipe = null;
         for (int i = 0; i < schedules.size(); i++) {
             if(schedules.get(position).getRecipeId() == matchingRecipes.get(i).getId()) {
                 viewHolder.name.setText(matchingRecipes.get(i).getName());
+                currentRecipe = matchingRecipes.get(i);
                 break;
             }
         }
         viewHolder.dayOfWeek.setText(getDayOfWeek(schedules.get(position).getCalendarTime()) + "");
         viewHolder.numberOfDay.setText(schedules.get(position).getDay() + "");
 
-        //Some layz if statments to fix the one digit time
-        if(schedules.get(position).getHour() < 10){
-            if(schedules.get(position).getMinute() < 10)
-                viewHolder.time.setText("0" + schedules.get(position).getHour() + " : " + "0" + schedules.get(position).getMinute());
-            else
-                viewHolder.time.setText("0" + schedules.get(position).getHour() + " : " + schedules.get(position).getMinute());
 
-        }else {
-            if(schedules.get(position).getMinute() < 10)
-                viewHolder.time.setText(schedules.get(position).getHour() + " : " + "0" + schedules.get(position).getMinute());
-            else
-                viewHolder.time.setText(schedules.get(position).getHour() + " : " + schedules.get(position).getMinute());
-        }
+        viewHolder.startTime.setText(hoursMinutes.format(schedules.get(position).getCalendarTime().getTime()) + "");
+
+        Calendar endDate = schedules.get(position).getCalendarTime();
+        endDate.add(Calendar.MINUTE, currentRecipe.getPrepTime());
+
+        viewHolder.endTime.setText(hoursMinutes.format(endDate.getTime()) + "");
+
     }
 
     //Figures out the month name
-    private String getMonth(Calendar calendar) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM");
-        return dateFormat.format(calendar.getTime());
+     String getMonth(Calendar calendar) {
+        return dateMonthFormat.format(calendar.getTime());
     }
 
     //Figures out the week day in short format
-    private String getDayOfWeek(Calendar calendar) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE");
-        return dateFormat.format(calendar.getTime());
+     String getDayOfWeek(Calendar calendar) {
+        return dateDayOfWeekFormat.format(calendar.getTime());
     }
 
     @Override
@@ -121,14 +118,22 @@ public class AdapterSchedule extends RecyclerView.Adapter<AdapterSchedule.ViewHo
         TextView dayOfWeek;
         TextView numberOfDay;
         TextView monthYear;
-        TextView time;
+        TextView startTime;
+        TextView endTime;
         FrameLayout layoutToggle;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             itemView.findViewById(R.id.piece_schedule_more_information).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.onClick(name.getText().toString());
+                    Recipe currentRecipe = null;
+                    for (int i = 0; i < schedules.size(); i++) {
+                        if(schedules.get(getAdapterPosition()).getRecipeId() == matchingRecipes.get(i).getId()) {
+                            currentRecipe = matchingRecipes.get(i);
+                            break;
+                        }
+                    }
+                    listener.onClick(currentRecipe.getId());
                 }
             });
             layoutToggle = itemView.findViewById(R.id.piece_schedule_sneaky_view_group);
@@ -136,11 +141,12 @@ public class AdapterSchedule extends RecyclerView.Adapter<AdapterSchedule.ViewHo
             dayOfWeek = itemView.findViewById(R.id.piece_schedule_week_day);
             numberOfDay = itemView.findViewById(R.id.piece_schedule_number_day);
             monthYear = itemView.findViewById(R.id.piece_schedule_sneaky_month_year);
-            time = itemView.findViewById(R.id.piece_schedule_event_time);
+            startTime = itemView.findViewById(R.id.piece_schedule_event_start_time);
+            endTime = itemView.findViewById(R.id.piece_schedule_event_end_time);
         }
     }
 
     public interface OnClickTextListener{
-        void onClick(String name);
+        void onClick(Long recipeId);
     }
 }

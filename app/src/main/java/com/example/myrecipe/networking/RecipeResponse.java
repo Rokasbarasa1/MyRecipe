@@ -9,14 +9,14 @@ import java.util.List;
 public class RecipeResponse {
 
     //Api returns a "list" with a single item in it...
-    private List<RecipeResponse2> recipes;
+    List<RecipeResponse2> recipes;
 
     public class RecipeResponse2 {
-        private List<IngredientResponse> extendedIngredients;
-        private String title;
-        private int readyInMinutes;
-        private int servings;
-        private String instructions;
+         List<IngredientResponse> extendedIngredients;
+         String title;
+         int readyInMinutes;
+         int servings;
+         String instructions;
 
         public Recipe getRecipe(){
             Recipe recipe = new Recipe(title, readyInMinutes, servings, instructions);
@@ -30,9 +30,9 @@ public class RecipeResponse {
         }
 
         public class IngredientResponse{
-            private String name;
-            private Double amount;
-            private String unit;
+             String name;
+             Double amount;
+             String unit;
 
             public String getName() {
                 return name;

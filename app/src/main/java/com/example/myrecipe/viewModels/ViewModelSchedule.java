@@ -13,7 +13,7 @@ import com.example.myrecipe.repository.RepositorySchedule;
 import java.util.List;
 
 public class ViewModelSchedule extends AndroidViewModel {
-    private RepositorySchedule repo;
+    RepositorySchedule repo;
 
     public ViewModelSchedule(@NonNull Application application) {
         super(application);

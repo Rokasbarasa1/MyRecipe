@@ -8,7 +8,6 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myrecipe.R;
-import com.example.myrecipe.models.Recipe;
 import com.example.myrecipe.models.Tag;
 
 import java.util.List;
@@ -17,8 +16,8 @@ public class AdapterTag extends RecyclerView.Adapter<AdapterTag.ViewHolder> {
 
     //Handles showing all the tags in the system when the recipe section is opened.
 
-    private List<Tag> tags;
-    private OnListTagClickListener listener;
+    List<Tag> tags;
+    OnListTagClickListener listener;
 
     public AdapterTag(List<Tag> tags, OnListTagClickListener listener){
         this.tags = tags;

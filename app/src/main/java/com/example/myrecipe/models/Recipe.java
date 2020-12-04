@@ -5,7 +5,6 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.util.List;
-import java.util.List;
 
 @Entity
 public class Recipe {
@@ -13,15 +12,15 @@ public class Recipe {
     //Is the main aspect of the system and the main thing this app manages. Holds info on recipe
 
     @PrimaryKey (autoGenerate = true)
-    private long id;
-    private String name;
-    private int prepTime;
-    private int servingSize;
+    long id;
+    String name;
+    int prepTime;
+    int servingSize;
     @Ignore
-    private List<Ingredient> ingredients;
-    private String description;
+    List<Ingredient> ingredients;
+    String description;
     @Ignore
-    private List<Tag> tags;
+    List<Tag> tags;
 
     @Ignore
     public Recipe(String name){

@@ -24,14 +24,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.List;
 
 public class FragmentTags extends Fragment implements AdapterTag.OnListTagClickListener {
-    private FloatingActionButton add_btn;
-    private RecyclerView tagList;
-    private AdapterTag adapterTag;
-    private ViewModelTags viewModel;
-    private FragmentManager supportFragmentManager;
-    private TextView toolbarTitle;
-    private ActionBar upArrow;
 
+    RecyclerView tagList;
+    AdapterTag adapterTag;
+    ViewModelTags viewModel;
+    FragmentManager supportFragmentManager;
+    TextView toolbarTitle;
+    ActionBar upArrow;
 
     public FragmentTags(FragmentManager supportFragmentManager, TextView toolbarTitle, ActionBar upArrow) {
         this.supportFragmentManager = supportFragmentManager;
@@ -56,7 +55,7 @@ public class FragmentTags extends Fragment implements AdapterTag.OnListTagClickL
     @Override
     public void onResume() {
         super.onResume();
-        toolbarTitle.setText("Recipes");
+        toolbarTitle.setText("Cook Book");
         upArrow.setDisplayHomeAsUpEnabled(false);
     }
 
@@ -77,12 +76,13 @@ public class FragmentTags extends Fragment implements AdapterTag.OnListTagClickL
         adapterTag = new AdapterTag(viewModel.getTags().getValue(), this);
         tagList.setAdapter(adapterTag);
 
+        //Displays a text encouraging the user to add things to the system if there is nothing to show
         if(viewModel.getTags().getValue().size() != 0)
             rootView.findViewById(R.id.tags_empty_notify).setVisibility(View.GONE);
     }
 
     private void setUpExpandableFloatingButton(final View rootView){
-        add_btn = rootView.findViewById(R.id.add_btn);
+        FloatingActionButton add_btn = rootView.findViewById(R.id.add_btn);
         add_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

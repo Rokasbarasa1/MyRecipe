@@ -11,8 +11,8 @@ public class Tag {
     //Its still the same recipe just has multiple angles to it.
 
     @PrimaryKey (autoGenerate = true)
-    private long id;
-    private String name;
+    long id;
+    String name;
 
     public Tag(String name){
         if(name.equals(""))

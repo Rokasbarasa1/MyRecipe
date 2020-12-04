@@ -12,17 +12,19 @@ import com.example.myrecipe.models.RecipeTag;
 import com.example.myrecipe.models.dao.RecipeTagDAO;
 import com.example.myrecipe.models.Tag;
 import com.example.myrecipe.models.dao.TagDAO;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class RepositoryCreateRecipe {
-    private static RepositoryCreateRecipe instance;
-    private RecipeDAO recipeDAO;
-    private TagDAO tagDAO;
-    private IngredientDAO ingredientDAO;
-    private RecipeTagDAO recipeTagDAO;
+    static RepositoryCreateRecipe instance;
+    RecipeDAO recipeDAO;
+    TagDAO tagDAO;
+    IngredientDAO ingredientDAO;
+    RecipeTagDAO recipeTagDAO;
 
     private RepositoryCreateRecipe(Application application){
         RecipeDatabase database = RecipeDatabase.getInstance(application);
@@ -39,6 +41,7 @@ public class RepositoryCreateRecipe {
         return instance;
     }
 
+    //Figures out what tags to add to repository as new tags and which to reuse from the database
     public void addRecipe(Recipe newRecipe) {
         try {
             List<String> currentTagStrings = new GetTagNamesAsync(tagDAO).execute().get();
@@ -57,13 +60,12 @@ public class RepositoryCreateRecipe {
                 }
             }
             insertRecipe(newRecipe, newTags, asociatedTagsIds);
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
     }
 
+    //Goes through the proccess of inserting the recipe, its tags and its ingredients into the database
     public void insertRecipe(Recipe recipe, List<Tag> newTags, List<Long> associatedTagsIds){
         try {
             long recipeId = new InsertRecipeAsync(recipeDAO).execute(recipe).get();
@@ -82,9 +84,8 @@ public class RepositoryCreateRecipe {
                     new InsertRecipeTagAsync(recipeTagDAO).execute(relationship);
                 }
             }
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+
+        } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
     }
@@ -101,7 +102,7 @@ public class RepositoryCreateRecipe {
     }
 
     private class GetTagNamesAsync extends AsyncTask<Void, Void, List<String>>{
-        private TagDAO tagDAO;
+        TagDAO tagDAO;
 
         private GetTagNamesAsync(TagDAO tagDAO){
             this.tagDAO = tagDAO;
@@ -114,7 +115,7 @@ public class RepositoryCreateRecipe {
     }
 
     private class GetTagsAsync extends AsyncTask<Void, Void, List<Tag>>{
-        private TagDAO tagDAO;
+        TagDAO tagDAO;
 
         private GetTagsAsync(TagDAO tagDAO){
             this.tagDAO = tagDAO;
@@ -127,7 +128,7 @@ public class RepositoryCreateRecipe {
     }
 
     private class InsertRecipeAsync extends AsyncTask<Recipe, Void, Long> {
-        private RecipeDAO recipeDAO;
+        RecipeDAO recipeDAO;
 
         private InsertRecipeAsync(RecipeDAO recipeDAO){
             this.recipeDAO = recipeDAO;
@@ -140,7 +141,7 @@ public class RepositoryCreateRecipe {
     }
 
     private class InsertIngredientAsync extends AsyncTask<Ingredient, Void, Void>{
-        private IngredientDAO ingredientDAO;
+        IngredientDAO ingredientDAO;
 
         private InsertIngredientAsync(IngredientDAO ingredientDAO){
             this.ingredientDAO = ingredientDAO;
@@ -154,7 +155,7 @@ public class RepositoryCreateRecipe {
     }
 
     private class InsertTagAsync extends AsyncTask<Tag, Void, Long>{
-        private TagDAO tagDAO;
+        TagDAO tagDAO;
 
         private InsertTagAsync(TagDAO tagDAO){
             this.tagDAO = tagDAO;
@@ -167,7 +168,7 @@ public class RepositoryCreateRecipe {
     }
 
     private class InsertRecipeTagAsync extends AsyncTask<RecipeTag, Void, Void>{
-        private RecipeTagDAO recipeTagDAO;
+        RecipeTagDAO recipeTagDAO;
 
         private InsertRecipeTagAsync(RecipeTagDAO recipeTagDAO){
             this.recipeTagDAO = recipeTagDAO;

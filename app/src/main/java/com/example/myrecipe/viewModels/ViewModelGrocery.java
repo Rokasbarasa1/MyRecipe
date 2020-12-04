@@ -13,7 +13,7 @@ import com.example.myrecipe.repository.RepositoryGrocery;
 import java.util.List;
 
 public class ViewModelGrocery extends AndroidViewModel {
-    private RepositoryGrocery repo;
+    RepositoryGrocery repo;
 
     public ViewModelGrocery(@NonNull Application application) {
         super(application);

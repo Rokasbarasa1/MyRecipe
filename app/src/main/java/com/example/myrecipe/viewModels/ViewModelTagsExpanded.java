@@ -13,7 +13,7 @@ import com.example.myrecipe.repository.RepositoryGetRecipes;
 import java.util.List;
 
 public class ViewModelTagsExpanded extends AndroidViewModel {
-    private RepositoryGetRecipes repo;
+    RepositoryGetRecipes repo;
 
     public ViewModelTagsExpanded(@NonNull Application application) {
         super(application);

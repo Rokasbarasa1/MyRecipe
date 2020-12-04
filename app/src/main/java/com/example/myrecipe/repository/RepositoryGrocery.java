@@ -21,13 +21,13 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class RepositoryGrocery {
-    private static RepositoryGrocery instance;
-    private RecipeDAO recipeDAO;
-    private TagDAO tagDAO;
-    private IngredientDAO ingredientDAO;
-    private GroceryTodoDAO groceryTodoDAO;
-    private CalendarTodoDAO calendarTodoDAO;
-    private MutableLiveData<List<Recipe>> groceryRecipes;
+    static RepositoryGrocery instance;
+    RecipeDAO recipeDAO;
+    TagDAO tagDAO;
+    IngredientDAO ingredientDAO;
+    GroceryTodoDAO groceryTodoDAO;
+    CalendarTodoDAO calendarTodoDAO;
+    MutableLiveData<List<Recipe>> groceryRecipes;
 
     private RepositoryGrocery(Application application){
         RecipeDatabase database = RecipeDatabase.getInstance(application);
@@ -54,9 +54,7 @@ public class RepositoryGrocery {
         try {
             List<Recipe> recipes = new GetGroceryRecipesAsync(groceryTodoDAO, ingredientDAO).execute().get();
             groceryRecipes.setValue(recipes);
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
     }
@@ -65,25 +63,25 @@ public class RepositoryGrocery {
         List<GroceryTodo> todos = new ArrayList<>();
         try{
             todos = new GetGroceryTodosAsync(groceryTodoDAO).execute().get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
         return todos;
     }
 
+    //Saves changes of the checkboxes the user made.
     public void saveChangesToStatus(GroceryTodo groceryTodo) {
         new SaveChangesToStatusAsync(groceryTodoDAO).execute(groceryTodo);
     }
 
+    //Finishes or rather deletes the groceryTodo
     public void finishGroceryList(GroceryTodo groceryTodo) {
         new DeleteGroceryTodoAsync(groceryTodoDAO).execute(groceryTodo);
     }
 
     private class GetGroceryRecipesAsync extends AsyncTask<CalendarTodo, Void, List<Recipe>> {
-        private GroceryTodoDAO groceryTodoDAO;
-        private IngredientDAO ingredientDAO;
+        GroceryTodoDAO groceryTodoDAO;
+        IngredientDAO ingredientDAO;
 
         private GetGroceryRecipesAsync(GroceryTodoDAO groceryTodoDAO, IngredientDAO ingredientDAO){
             this.groceryTodoDAO = groceryTodoDAO;
@@ -101,7 +99,7 @@ public class RepositoryGrocery {
     }
 
     private class GetGroceryTodosAsync extends AsyncTask<CalendarTodo, Void, List<GroceryTodo>> {
-        private GroceryTodoDAO groceryTodoDAO;
+        GroceryTodoDAO groceryTodoDAO;
 
         private GetGroceryTodosAsync(GroceryTodoDAO groceryTodoDAO){
             this.groceryTodoDAO = groceryTodoDAO;
@@ -114,7 +112,7 @@ public class RepositoryGrocery {
     }
 
     private class SaveChangesToStatusAsync extends AsyncTask<GroceryTodo, Void, Void> {
-        private GroceryTodoDAO groceryTodoDAO;
+        GroceryTodoDAO groceryTodoDAO;
 
         private SaveChangesToStatusAsync(GroceryTodoDAO groceryTodoDAO){
             this.groceryTodoDAO = groceryTodoDAO;
@@ -128,7 +126,7 @@ public class RepositoryGrocery {
     }
 
     private class DeleteGroceryTodoAsync extends AsyncTask<GroceryTodo, Void, Void> {
-        private GroceryTodoDAO groceryTodoDAO;
+        GroceryTodoDAO groceryTodoDAO;
 
         private DeleteGroceryTodoAsync(GroceryTodoDAO groceryTodoDAO){
             this.groceryTodoDAO = groceryTodoDAO;

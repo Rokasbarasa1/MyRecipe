@@ -12,7 +12,7 @@ public abstract class TextChangedListener<T> implements TextWatcher {
     //Singnal to my fragment or whatever. I needed this to prevent the destruction of all ingredients
     //When removing one ingredient with the minus button in the recipe creation fragment
 
-    private T target;
+    T target;
 
     public TextChangedListener(T target) {
         this.target = target;

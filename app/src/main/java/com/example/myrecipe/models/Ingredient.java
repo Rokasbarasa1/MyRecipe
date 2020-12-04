@@ -17,13 +17,13 @@ public class Ingredient {
     //separate entities in the database.
 
     @PrimaryKey (autoGenerate = true)
-    private long id;
-    private long recipeId;
+    long id;
+    long recipeId;
     @Ignore
-    private String rawString;
-    private String name;
-    private double quantity;
-    private String unitOfMeassure;
+    String rawString;
+    String name;
+    double quantity;
+    String unitOfMeassure;
 
     @Ignore
     public Ingredient() {

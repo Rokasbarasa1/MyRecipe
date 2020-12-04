@@ -1,18 +1,10 @@
 package com;
 
-import com.example.myrecipe.models.Ingredient;
 import com.example.myrecipe.models.Recipe;
-import com.example.myrecipe.models.Tag;
-
-import org.junit.Before;
-import org.junit.Test;
-import static org.junit.Assert.*;
-
-import java.util.List;
 
 public class RecipeTest {
 
-    private Recipe recipe;
+     Recipe recipe;
 
     /*
     @Test

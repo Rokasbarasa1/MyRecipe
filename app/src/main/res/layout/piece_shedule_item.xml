@@ -22,8 +22,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textSize="20sp"
-            android:textColor="@color/colorPrimary"
             android:text="DECEMBER 2020"
+            android:textColor="@color/colorTextOnA"
             tools:layout_editor_absoluteX="155dp"
             tools:layout_editor_absoluteY="35dp" />
     </FrameLayout>
@@ -41,6 +41,7 @@
             android:gravity="center"
             android:text="TUE"
             android:textSize="14dp"
+            android:textColor="@color/colorTextOnA"
             android:translationZ="90dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -55,6 +56,7 @@
             android:layout_gravity="center"
             android:text="2"
             android:textSize="18dp"
+            android:textColor="@color/colorTextOnA"
             android:translationZ="90dp"
             app:layout_constraintEnd_toEndOf="@+id/piece_schedule_week_day"
             app:layout_constraintStart_toStartOf="@+id/piece_schedule_week_day"
@@ -81,24 +83,46 @@
                 android:layout_marginStart="9dp"
                 android:layout_marginTop="4dp"
                 android:text="Here goes a food name"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/colorTextOnA"
                 android:textSize="18sp"
                 android:translationZ="90dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/piece_schedule_event_time"
+                android:id="@+id/piece_schedule_event_start_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="9dp"
                 android:layout_marginTop="3dp"
                 android:layout_marginBottom="4dp"
                 android:text="16 : 50"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/colorTextOnA"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/piece_schedule_event_name" />
+
+            <TextView
+                android:id="@+id/spaceBetweenNumbers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="  -  "
+                android:textColor="@color/colorTextOnA"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/piece_schedule_event_start_time"
+                app:layout_constraintTop_toBottomOf="@+id/piece_schedule_event_name" />
+
+            <TextView
+                android:id="@+id/piece_schedule_event_end_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="17 : 20"
+                android:textColor="@color/colorTextOnA"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/spaceBetweenNumbers"
                 app:layout_constraintTop_toBottomOf="@+id/piece_schedule_event_name" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 

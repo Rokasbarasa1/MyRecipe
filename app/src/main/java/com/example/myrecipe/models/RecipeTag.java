@@ -17,9 +17,9 @@ public class RecipeTag {
     //This class is a relationship class between recipe and tag
 
     @PrimaryKey(autoGenerate = true)
-    private long id;
-    private long recipeId;
-    private long tagId;
+    long id;
+    long recipeId;
+    long tagId;
 
     public RecipeTag(long recipeId, long tagId){
         this.recipeId = recipeId;

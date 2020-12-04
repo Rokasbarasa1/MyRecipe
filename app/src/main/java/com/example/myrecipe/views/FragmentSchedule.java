@@ -1,7 +1,6 @@
 package com.example.myrecipe.views;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,14 +24,14 @@ import java.util.Calendar;
 import java.util.List;
 
 public class FragmentSchedule extends Fragment implements AdapterSchedule.OnClickTextListener{
-    private FragmentManager supportFragmentManager;
-    private TextView toolbarTitle;
-    private ActionBar upArrow;
-    private AdapterSchedule adapter;
-    private ViewModelSchedule viewModel;
-    private RecyclerView scheduleList;
-    private List<Recipe> matchingRecipes;
-    private int position;
+
+    FragmentManager supportFragmentManager;
+     TextView toolbarTitle;
+     ActionBar upArrow;
+     AdapterSchedule adapter;
+     ViewModelSchedule viewModel;
+     RecyclerView scheduleList;
+     List<Recipe> matchingRecipes;
 
     public FragmentSchedule(FragmentManager supportFragmentManager, TextView toolbarTitle, ActionBar supportActionBar) {
         this.supportFragmentManager = supportFragmentManager;
@@ -85,14 +84,16 @@ public class FragmentSchedule extends Fragment implements AdapterSchedule.OnClic
             }
         }
 
+        //Displays a text encouraging the user to add things to the system if there is nothing to show
         if(viewModel.getSchedules().getValue().size() != 0)
             rootView.findViewById(R.id.schedule_empty_notify).setVisibility(View.GONE);
     }
 
+    //Clicks on schedule
     @Override
-    public void onClick(String name) {
+    public void onClick(Long recipeId) {
         Fragment fragment = null;
-        fragment = new FragmentRecipeSee(name);
+        fragment = new FragmentRecipeSee(recipeId);
         toolbarTitle.setText("View recipe");
         supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
         upArrow.setDisplayHomeAsUpEnabled(true);

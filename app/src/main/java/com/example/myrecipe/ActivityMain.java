@@ -1,6 +1,7 @@
 package com.example.myrecipe;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.myrecipe.views.FragmentGrocery;
 import com.example.myrecipe.views.FragmentRandom;
@@ -18,7 +20,6 @@ import com.example.myrecipe.views.FragmentSchedule;
 import com.example.myrecipe.views.FragmentSettings;
 import com.example.myrecipe.views.FragmentTags;
 import com.firebase.ui.auth.AuthUI;
-import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -29,18 +30,21 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ActivityMain extends AppCompatActivity {
-    private BottomNavigationView bottomNavigationView;
-    private TextView toolbarTitle;
-    private Toolbar toolbar;
-    private MenuItem settingsIcon;
-    private FirebaseAuth mAuth;
-    private static int RC_SIGN_IN;
 
+    BottomNavigationView bottomNavigationView;
+     TextView toolbarTitle;
+     Toolbar toolbar;
+     MenuItem settingsIcon;
+     FirebaseAuth mAuth;
+     SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Preferences
+        preferences = getSharedPreferences("prefs", MODE_PRIVATE);
 
         //Firebase authentication
         mAuth = FirebaseAuth.getInstance();
@@ -64,6 +68,7 @@ public class ActivityMain extends AppCompatActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(bottomNavMethod);
     }
 
+    //Makes sure the gear icon is still visible after going back stack
     @Override
     protected void onResume() {
         super.onResume();
@@ -86,7 +91,7 @@ public class ActivityMain extends AppCompatActivity {
                     .setAvailableProviders(providers)
                     .setLogo(R.drawable.recipes_big)
                     .build();
-            startActivityForResult(signInIntent, RC_SIGN_IN);
+            startActivity(signInIntent);
         } else {
             toolbarTitle.setText("Recipes");
             getSupportFragmentManager().beginTransaction()
@@ -95,26 +100,22 @@ public class ActivityMain extends AppCompatActivity {
         }
     }
 
+    //Points to the settings icon in the toolbar
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.settings:
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, new FragmentSettings())
-                        .addToBackStack(null)
-                        .commit();
-                toolbarTitle.setText("Settings");
-                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                settingsIcon.setEnabled(false);
-                break;
-            default:
-                break;
-        }
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, new FragmentSettings())
+                .addToBackStack(null)
+                .commit();
+        toolbarTitle.setText("Settings");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        settingsIcon.setEnabled(false);
         return super.onOptionsItemSelected(item);
     }
 
-    private BottomNavigationView.OnNavigationItemSelectedListener bottomNavMethod = new
+    //Bottom navigation bar headings
+     BottomNavigationView.OnNavigationItemSelectedListener bottomNavMethod = new
             BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -125,7 +126,7 @@ public class ActivityMain extends AppCompatActivity {
                             fragment = new FragmentSchedule(getSupportFragmentManager(), toolbarTitle, getSupportActionBar());
                             break;
                         case R.id.recipes:
-                            toolbarTitle.setText("Recipes");
+                            toolbarTitle.setText("Cook Book");
                             fragment = new FragmentTags(getSupportFragmentManager(), toolbarTitle, getSupportActionBar());
                             break;
                         case R.id.grocery:
@@ -137,7 +138,6 @@ public class ActivityMain extends AppCompatActivity {
                             fragment = new FragmentRandom(getSupportFragmentManager(), toolbarTitle, getSupportActionBar());
                             break;
                     }
-
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
                     getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                     return true;
@@ -151,6 +151,7 @@ public class ActivityMain extends AppCompatActivity {
         return true;
     }
 
+    //When user clicks sign out button in settings
     public void signOut(){
         AuthUI.getInstance()
                 .signOut(this)
@@ -160,5 +161,12 @@ public class ActivityMain extends AppCompatActivity {
                         onStart();
                     }
                 });
+    }
+
+    //When user changes the calendar switch
+    public void changeCalendarFunctionality(Object newValue) {
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("Google calendar", newValue + "");
+        editor.apply();
     }
 }

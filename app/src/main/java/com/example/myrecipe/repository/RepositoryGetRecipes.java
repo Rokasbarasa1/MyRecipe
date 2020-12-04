@@ -2,13 +2,10 @@ package com.example.myrecipe.repository;
 
 import android.app.Application;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.myrecipe.models.Ingredient;
-import com.example.myrecipe.models.RecipeTag;
 import com.example.myrecipe.models.dao.CalendarTodoDAO;
 import com.example.myrecipe.models.dao.GroceryTodoDAO;
 import com.example.myrecipe.models.dao.IngredientDAO;
@@ -29,14 +26,14 @@ import java.util.concurrent.ExecutionException;
 
 
 public class RepositoryGetRecipes {
-    private static RepositoryGetRecipes instance;
-    private RecipeDAO recipeDAO;
-    private TagDAO tagDAO;
-    private IngredientDAO ingredientDAO;
-    private GroceryTodoDAO groceryTodoDAO;
-    private CalendarTodoDAO calendarTodoDAO;
-    private RecipeTagDAO recipeTagDAO;
-    private MutableLiveData<List<Recipe>> currentRecipes;
+    static RepositoryGetRecipes instance;
+    RecipeDAO recipeDAO;
+    TagDAO tagDAO;
+    IngredientDAO ingredientDAO;
+    GroceryTodoDAO groceryTodoDAO;
+    CalendarTodoDAO calendarTodoDAO;
+    RecipeTagDAO recipeTagDAO;
+    MutableLiveData<List<Recipe>> currentRecipes;
 
     private RepositoryGetRecipes(Application application){
         RecipeDatabase database = RecipeDatabase.getInstance(application);
@@ -61,53 +58,52 @@ public class RepositoryGetRecipes {
     }
 
     public void getRecipesByTag(Tag tag) {
-        List<Recipe> selectedRecipes = null;
+        List<Recipe> selectedRecipes;
         try {
             selectedRecipes = new GetRecipesByTagAsync(recipeDAO, ingredientDAO, tagDAO).execute(tag).get();
             currentRecipes.setValue(selectedRecipes);
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
     }
 
-    public Recipe getRecipeByName(String recipeName) {
+    public Recipe getRecipeByName(long recipeId) {
         Recipe selectedRecipe = null;
         try {
-            selectedRecipe = new GetRecipeByNameAsync(recipeDAO, ingredientDAO, tagDAO).execute(recipeName).get();
+            selectedRecipe = new GetRecipeByNameAsync(recipeDAO, ingredientDAO, tagDAO).execute(recipeId).get();
             return selectedRecipe;
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
         return null;
     }
 
+    //Scenario 1: user decides to put in a groceryTodo
     public void newGroceryTodo(long recipeId, int servings, int ingredientAmount){
         //This is to know how much of every recipe is completed. How many ingredients checked that you got em.
         //For example there are 8 ingredients. The bit map will be 8 zeros long. When the user updates his
         //checked ingredients it updates the specific spots in the bit map using the index of checked ingredients.
-        String bitMap = "";
+        StringBuilder bitMap = new StringBuilder();
         for (int i = 0; i < ingredientAmount; i++) {
-            bitMap += "0";
+            bitMap.append("0");
         }
-        GroceryTodo todo = new GroceryTodo(recipeId, servings, bitMap);
+        GroceryTodo todo = new GroceryTodo(recipeId, servings, bitMap.toString());
         new InsertGroceryTodoAsync(groceryTodoDAO).execute(todo);
     }
 
+    //Scenario 2: user decides to put in a calendarTodo
     public void newCalendarTodo(long recipeId, Calendar pointInTime) {
         CalendarTodo todo = new CalendarTodo(recipeId, pointInTime);
         new InsertCalendarTodoAsync(calendarTodoDAO).execute(todo);
     }
 
+    //Scenario 3: user decides to put both a calendarTodo and a groceryTodo
     public void newGroceryAndCalendarTodo(long recipeId, int servings, int ingredientAmount, Calendar pointInTime) {
-        String bitMap = "";
+        StringBuilder bitMap = new StringBuilder();
         for (int i = 0; i < ingredientAmount; i++) {
-            bitMap += "0";
+            bitMap.append("0");
         }
-        GroceryTodo todoGrocery = new GroceryTodo(recipeId, servings, bitMap);
+        GroceryTodo todoGrocery = new GroceryTodo(recipeId, servings, bitMap.toString());
         CalendarTodo todoCalendar = new CalendarTodo(recipeId, pointInTime);
         new InsertGroceryTodoAsync(groceryTodoDAO).execute(todoGrocery);
         new InsertCalendarTodoAsync(calendarTodoDAO).execute(todoCalendar);
@@ -118,9 +114,9 @@ public class RepositoryGetRecipes {
     }
 
     private class GetRecipesByTagAsync extends AsyncTask<Tag, Void, List<Recipe>> {
-        private RecipeDAO recipeDAO;
-        private IngredientDAO ingredientDAO;
-        private TagDAO tagDAO;
+        RecipeDAO recipeDAO;
+        IngredientDAO ingredientDAO;
+        TagDAO tagDAO;
 
         private GetRecipesByTagAsync(RecipeDAO recipeDAO, IngredientDAO ingredientDAO, TagDAO tagDAO){
             this.recipeDAO = recipeDAO;
@@ -139,10 +135,10 @@ public class RepositoryGetRecipes {
         }
     }
 
-    private class GetRecipeByNameAsync extends AsyncTask<String, Void, Recipe> {
-        private RecipeDAO recipeDAO;
-        private IngredientDAO ingredientDAO;
-        private TagDAO tagDAO;
+    private class GetRecipeByNameAsync extends AsyncTask<Long, Void, Recipe> {
+        RecipeDAO recipeDAO;
+        IngredientDAO ingredientDAO;
+        TagDAO tagDAO;
 
 
         private GetRecipeByNameAsync(RecipeDAO recipeDAO, IngredientDAO ingredientDAO, TagDAO tagDAO){
@@ -152,8 +148,8 @@ public class RepositoryGetRecipes {
         }
 
         @Override
-        protected Recipe doInBackground(String... strings) {
-            Recipe recipe = recipeDAO.getRecipeByName(strings[0]);
+        protected Recipe doInBackground(Long... longs) {
+            Recipe recipe = recipeDAO.getRecipeById(longs[0]);
             recipe.setTags(tagDAO.getTagsByRecipeId(recipe.getId()));
             recipe.setIngredients(ingredientDAO.getIngredientsByRecipeId(recipe.getId()));
             return recipe;
@@ -161,7 +157,7 @@ public class RepositoryGetRecipes {
     }
 
     private class InsertGroceryTodoAsync extends AsyncTask<GroceryTodo, Void, Long> {
-        private GroceryTodoDAO groceryTodoDAO;
+        GroceryTodoDAO groceryTodoDAO;
 
         private InsertGroceryTodoAsync(GroceryTodoDAO groceryTodoDAO){
             this.groceryTodoDAO = groceryTodoDAO;
@@ -174,7 +170,7 @@ public class RepositoryGetRecipes {
     }
 
     private class InsertCalendarTodoAsync extends AsyncTask<CalendarTodo, Void, Long> {
-        private CalendarTodoDAO calendarTodoDAO;
+        CalendarTodoDAO calendarTodoDAO;
 
         private InsertCalendarTodoAsync(CalendarTodoDAO calendarTodoDAO){
             this.calendarTodoDAO = calendarTodoDAO;
@@ -187,11 +183,11 @@ public class RepositoryGetRecipes {
     }
 
     private class DeleteRecipeAsync extends AsyncTask<Long, Void, Void> {
-        private RecipeDAO recipeDAO;
-        private CalendarTodoDAO calendarTodoDAO;
-        private GroceryTodoDAO groceryTodoDAO;
-        private RecipeTagDAO recipeTagDAO;
-        private IngredientDAO ingredientDAO;
+        RecipeDAO recipeDAO;
+        CalendarTodoDAO calendarTodoDAO;
+        GroceryTodoDAO groceryTodoDAO;
+        RecipeTagDAO recipeTagDAO;
+        IngredientDAO ingredientDAO;
 
         private DeleteRecipeAsync(RecipeDAO recipeDAO, CalendarTodoDAO calendarTodoDAO, GroceryTodoDAO groceryTodoDAO, RecipeTagDAO recipeTagDAO, IngredientDAO ingredientDAO){
             this.recipeDAO = recipeDAO;

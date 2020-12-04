@@ -11,16 +11,16 @@ import com.example.myrecipe.repository.RepositoryGetRecipes;
 import java.util.Calendar;
 
 public class ViewModelSeeRecipe extends AndroidViewModel {
-    private Recipe selectedRecipe;
-    private RepositoryGetRecipes repo;
+    Recipe selectedRecipe;
+    RepositoryGetRecipes repo;
 
     public ViewModelSeeRecipe(@NonNull Application application) {
         super(application);
         repo = RepositoryGetRecipes.getInstance(application);
     }
 
-    public void setSelectedRecipe(String recipeName){
-        selectedRecipe = repo.getRecipeByName(recipeName);
+    public void setSelectedRecipe(long recipeId){
+        selectedRecipe = repo.getRecipeByName(recipeId);
     }
 
     public Recipe getRecipe(){

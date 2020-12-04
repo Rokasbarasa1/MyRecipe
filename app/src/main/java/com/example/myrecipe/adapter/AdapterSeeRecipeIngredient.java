@@ -19,7 +19,7 @@ public class AdapterSeeRecipeIngredient extends RecyclerView.Adapter<AdapterSeeR
     //It is completely different as im dealing with text boxes here as opposed to edit text's.
     //Need to make sure the user cant edit anything.
 
-    private List<Ingredient> ingredients;
+    List<Ingredient> ingredients;
 
     public AdapterSeeRecipeIngredient(List<Ingredient> ingredients){
         this.ingredients = ingredients;

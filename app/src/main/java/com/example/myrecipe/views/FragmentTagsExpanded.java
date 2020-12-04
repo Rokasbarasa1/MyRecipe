@@ -25,15 +25,14 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.List;
 
 public class FragmentTagsExpanded extends Fragment implements AdapterRecipe.OnListRecipeClickListener {
-    private FloatingActionButton add_btn;
-    private RecyclerView recipeList;
-    private AdapterRecipe adapterRecipe;
-    private ViewModelTagsExpanded viewModel;
-    private Tag currentTag;
-    private FragmentManager supportFragmentManager;
-    private TextView toolbarTitle;
-    private ActionBar upArrow;
-    private View rootView;
+
+    RecyclerView recipeList;
+    AdapterRecipe adapterRecipe;
+    ViewModelTagsExpanded viewModel;
+    Tag currentTag;
+    FragmentManager supportFragmentManager;
+    TextView toolbarTitle;
+    ActionBar upArrow;
 
     public FragmentTagsExpanded(FragmentManager supportFragmentManager, TextView toolbarTitle, ActionBar upArrow, Tag currentTag) {
         this.currentTag = currentTag;
@@ -50,7 +49,7 @@ public class FragmentTagsExpanded extends Fragment implements AdapterRecipe.OnLi
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_tag_expanded, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_tag_expanded, container, false);
         viewModel = new ViewModelProvider(this).get(ViewModelTagsExpanded.class);
 
         //Tag List
@@ -72,7 +71,6 @@ public class FragmentTagsExpanded extends Fragment implements AdapterRecipe.OnLi
         viewModel.getRecipesByTag(currentTag);
 
         recipeList = rootView.findViewById(R.id.rv_expanded);
-        //recipeList.hasFixedSize();
         recipeList.setLayoutManager(new LinearLayoutManager(rootView.getContext()));
         adapterRecipe = new AdapterRecipe(viewModel.getRecipes().getValue(), this);
         recipeList.setAdapter(adapterRecipe);
@@ -87,7 +85,7 @@ public class FragmentTagsExpanded extends Fragment implements AdapterRecipe.OnLi
     }
 
     private void setUpExpandableFloatingButton(final View rootView){
-        add_btn = rootView.findViewById(R.id.add_btn);
+        FloatingActionButton add_btn = rootView.findViewById(R.id.add_btn);
         add_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,9 +99,9 @@ public class FragmentTagsExpanded extends Fragment implements AdapterRecipe.OnLi
     }
 
     @Override
-    public void onClick(int position, String name) {
+    public void onClick(int position, long recipeId) {
         Fragment fragment = null;
-        fragment = new FragmentRecipeSee(name);
+        fragment = new FragmentRecipeSee(recipeId);
         toolbarTitle.setText("View recipe");
         supportFragmentManager.beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
         upArrow.setDisplayHomeAsUpEnabled(true);
