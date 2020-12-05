@@ -26,7 +26,7 @@ public class AdapterSchedule extends RecyclerView.Adapter<AdapterSchedule.ViewHo
     String monthName;
     int yearNumber;
     List<Recipe> matchingRecipes;
-    SimpleDateFormat hoursMinutes= new SimpleDateFormat("HH : mm");
+    SimpleDateFormat hoursMinutes= new SimpleDateFormat("HH:mm");
     SimpleDateFormat dateMonthFormat = new SimpleDateFormat("MMMM");
     SimpleDateFormat dateDayOfWeekFormat = new SimpleDateFormat("EEE");
 
@@ -81,13 +81,14 @@ public class AdapterSchedule extends RecyclerView.Adapter<AdapterSchedule.ViewHo
         viewHolder.dayOfWeek.setText(getDayOfWeek(schedules.get(position).getCalendarTime()) + "");
         viewHolder.numberOfDay.setText(schedules.get(position).getDay() + "");
 
-
-        viewHolder.startTime.setText(hoursMinutes.format(schedules.get(position).getCalendarTime().getTime()) + "");
+        String startDate = hoursMinutes.format(schedules.get(position).getCalendarTime().getTime()) + "";
+        viewHolder.startTime.setText(startDate);
 
         Calendar endDate = schedules.get(position).getCalendarTime();
         endDate.add(Calendar.MINUTE, currentRecipe.getPrepTime());
 
-        viewHolder.endTime.setText(hoursMinutes.format(endDate.getTime()) + "");
+        String endTime = hoursMinutes.format(endDate.getTime()) + "";
+        viewHolder.endTime.setText(endTime);
 
     }
 

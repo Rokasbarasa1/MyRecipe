@@ -20,11 +20,6 @@ public class IngredientTest {
     }
 
     //Empty constructor
-    @Test
-    public void emptyGetRawString(){
-        ingredient = new Ingredient();
-        assertEquals("", ingredient.getRawString());
-    }
 
     @Test
     public void emptyGetName(){
@@ -44,13 +39,6 @@ public class IngredientTest {
         assertEquals("", ingredient.getUnitOfMeassure());
     }
 
-    //Full constructor
-    @Test
-    public void fullGetRawString(){
-        ingredient = new Ingredient("Name", 0.1, "g");
-        assertEquals("Name 0.1", ingredient.getRawString());
-    }
-
     @Test
     public void fullGetName(){
         ingredient = new Ingredient("Name", 0.1, "g");
@@ -67,13 +55,5 @@ public class IngredientTest {
     public void fullGetUnitOfMeasure(){
         ingredient = new Ingredient("Name", 0.1, "g");
         assertEquals("g", ingredient.getUnitOfMeassure());
-    }
-
-    //Non constructor
-    @Test
-    public void setRaw(){
-        ingredient = new Ingredient("Name", 0.1, "g");
-        ingredient.setRaw("Raw");
-        assertEquals("Raw", ingredient.getRawString());
     }
 }

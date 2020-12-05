@@ -20,8 +20,9 @@ public class AdapterNewRecipeIngredient extends RecyclerView.Adapter<AdapterNewR
     //Handles showing of ingredients in the create recipe fragment. Mostly blank ones if the ingredients are not removed.
     //Otherwise it tries to keep track of what was entered as well
 
-    List<Ingredient> ingredients;
-    OnEditTextListener listener;
+    private List<Ingredient> ingredients;
+    private OnEditTextListener listener;
+    private boolean pauseListener = false;
 
     public AdapterNewRecipeIngredient(List<Ingredient> ingredients, OnEditTextListener listener){
         this.ingredients = ingredients;
@@ -38,8 +39,11 @@ public class AdapterNewRecipeIngredient extends RecyclerView.Adapter<AdapterNewR
 
     @Override
     public void onBindViewHolder(@NonNull AdapterNewRecipeIngredient.ViewHolder viewHolder, int position) {
+        System.out.println(position);
+        pauseListener = true;
         viewHolder.name.setText(ingredients.get(position).getAsNameQuantityCombo());
         viewHolder.units.setText(ingredients.get(position).getUnitOfMeassure());
+        pauseListener = false;
     }
 
     @Override
@@ -61,13 +65,15 @@ public class AdapterNewRecipeIngredient extends RecyclerView.Adapter<AdapterNewR
             name.addTextChangedListener(new TextChangedListener<EditText>(name) {
                 @Override
                 public void onTextChanged(EditText target, Editable s) {
-                    listener.onEdit(getAdapterPosition(), name.getText().toString(), units.getText().toString());
+                    if(!pauseListener)
+                        listener.onEditNameAndQuantity(getAdapterPosition(), name.getText().toString());
                 }
             });
-            units.addTextChangedListener(new TextChangedListener<EditText>(name) {
+            units.addTextChangedListener(new TextChangedListener<EditText>(units) {
                 @Override
                 public void onTextChanged(EditText target, Editable s) {
-                    listener.onEdit(getAdapterPosition(), name.getText().toString(), units.getText().toString());
+                    if(!pauseListener)
+                        listener.onEditUnits(getAdapterPosition(), units.getText().toString());
                 }
             });
 
@@ -75,6 +81,7 @@ public class AdapterNewRecipeIngredient extends RecyclerView.Adapter<AdapterNewR
     }
 
     public interface OnEditTextListener{
-        void onEdit(int position, String textName, String textUnits);
+        void onEditNameAndQuantity(int position, String textName);
+        void onEditUnits(int position, String textUnits);
     }
 }

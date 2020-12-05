@@ -127,9 +127,11 @@ public class FragmentRecipeSee extends Fragment implements DialogMakeRecipe.Make
 
     @Override
     public void onDialogPositiveClickCalendar(Calendar pointInTime) {
-        Calendar endTime = pointInTime;
-        endTime.add(Calendar.MINUTE, selectedRecipe.getPrepTime());
+        viewModel.newCalendarTodo(selectedRecipe.getId(), pointInTime);
+
         if(preferences.getString("Google calendar", "false").equals("true")){
+            Calendar endTime = (Calendar) pointInTime.clone();
+            endTime.add(Calendar.MINUTE, selectedRecipe.getPrepTime());
             Intent intent = new Intent(Intent.ACTION_INSERT)
                     .setData(CalendarContract.Events.CONTENT_URI)
                     .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, pointInTime.getTimeInMillis())
@@ -138,16 +140,15 @@ public class FragmentRecipeSee extends Fragment implements DialogMakeRecipe.Make
                     .putExtra(CalendarContract.Events.DESCRIPTION, "You planned to make this dish");
             startActivity(intent);
         }
-
-        viewModel.newCalendarTodo(selectedRecipe.getId(), pointInTime);
     }
 
     @Override
     public void onDialogPositiveClickBoth(int servings, Calendar pointInTime) {
-        Calendar endTime = pointInTime;
-        endTime.add(Calendar.MINUTE, selectedRecipe.getPrepTime());
+        viewModel.newGroceryAndCalendarTodo(selectedRecipe.getId(), servings, selectedRecipe.getIngredients().size(), pointInTime);
 
         if(preferences.getString("Google calendar", "false").equals("true")){
+            Calendar endTime = (Calendar) pointInTime.clone();
+            endTime.add(Calendar.MINUTE, selectedRecipe.getPrepTime());
             Intent intent = new Intent(Intent.ACTION_INSERT)
                     .setData(CalendarContract.Events.CONTENT_URI)
                     .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, pointInTime.getTimeInMillis())
@@ -156,6 +157,5 @@ public class FragmentRecipeSee extends Fragment implements DialogMakeRecipe.Make
                     .putExtra(CalendarContract.Events.DESCRIPTION, "You planned to make this dish");
             startActivity(intent);
         }
-        viewModel.newGroceryAndCalendarTodo(selectedRecipe.getId(), servings, selectedRecipe.getIngredients().size(), pointInTime);
     }
 }

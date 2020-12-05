@@ -39,6 +39,9 @@ public class FragmentRecipeCreate extends Fragment implements  AdapterNewRecipeI
     String currentTag;
     View rootView;
     SharedPreferences preferences;
+    private String lastActivityNameAndQuantity = "nothing";
+    private String lastActivityUnits = "nothing";
+
 
     //This constructor is for when the user gets a recipe form the internet and views it.
     //This automaticaly fills the fields of the recipe creation in case the user wants to keep the recipe he got.
@@ -99,9 +102,7 @@ public class FragmentRecipeCreate extends Fragment implements  AdapterNewRecipeI
 
         //Add the ingredients form the recipe that was obtained from the internet
         if(internetRecipeTemplate != null){
-            for (int i = 0; i < internetRecipeTemplate.getIngredients().size(); i++) {
-                ingredients.add(internetRecipeTemplate.getIngredients().get(i));
-            }
+            ingredients = internetRecipeTemplate.getIngredients();
         }else
             ingredients.add(new Ingredient());
 
@@ -138,18 +139,18 @@ public class FragmentRecipeCreate extends Fragment implements  AdapterNewRecipeI
         if(ingredients.size() != 0){
             int index = ingredients.size()-1;
             ingredients.remove(index);
-            viewModel.removeLastLine(index);
             ingredientAdapter.notifyDataSetChanged();
         }
     }
 
     public void finishRecipe() {
         //Checks if user filled out all needed fields. Description can be empty
+
         if(name.getText().toString().matches("")
                 || prepTime.getText().toString().matches("")
                 || servingSize.getText().toString().matches("")
                 || tags.getText().toString().matches("")
-                || viewModel.getIngredientsUpdated().size() == 0
+                || ingredients.size() == 0
         ){
             AlertDialog.Builder deleteDialog = new AlertDialog.Builder(rootView.getContext());
             deleteDialog.setTitle("Error");
@@ -165,6 +166,7 @@ public class FragmentRecipeCreate extends Fragment implements  AdapterNewRecipeI
             viewModel.addRecipe(name.getText().toString()
                     , prepTime.getText().toString()
                     , servingSize.getText().toString()
+                    , ingredients
                     , description.getText().toString()
                     , tags.getText().toString()
                     );
@@ -174,11 +176,66 @@ public class FragmentRecipeCreate extends Fragment implements  AdapterNewRecipeI
 
     //Every time the user enters something into the ingredient sections a ingredient is being attempted to create
     // if it is created it will just update it
+    //
     @Override
-    public void onEdit(int position, String textName, String textUnits) {
-        viewModel.ingredientUpdated(position, textName, textUnits);
-        Ingredient selected = ingredients.get(position);
-        selected.setUnitOfMeassure(textUnits);
-        selected.setName(textName);
+    public void onEditNameAndQuantity(int position, String textName) {
+        if(!textName.matches("") ){
+            if(internetRecipeTemplate != null){
+                System.out.println("position: " + position + " textName: " + textName);
+                ingredientUpdatedText(position, textName);
+            }else {
+                System.out.println("position: " + position + " textName: " + textName );
+                ingredientUpdatedText(position, textName);
+            }
+        }
+    }
+
+    @Override
+    public void onEditUnits(int position, String text) {
+        if(internetRecipeTemplate != null){
+            System.out.println("position: " + position + " textUnits:" + text );
+            ingredientUpdatedUnits(position, text);
+        }else {
+            System.out.println("position: " + position + " textUnits:" + text );
+            ingredientUpdatedUnits(position, text);
+        }
+    }
+
+    public void ingredientUpdatedText(int index, String text) {
+        if(!text.matches("")){
+            String[] ingredient = text.split(" ");
+            double amount = 0;
+            int number = 0;
+            for (int i = 0; i < ingredient.length; i++) {
+                try{
+                    amount = Double.parseDouble(ingredient[i]);
+                    number = i;
+
+                }catch(NumberFormatException ignored){
+                }
+            }
+            text = text.substring(0, text.length() - ingredient[number].length());
+            Ingredient newIngredient = new Ingredient(text, amount, "");
+            try{
+                ingredients.get(index);
+                ingredients.set(index, newIngredient);
+            }catch (IndexOutOfBoundsException e){
+                ingredients.add(newIngredient);
+            }
+        }
+    }
+
+    public void ingredientUpdatedUnits(int index, String textUnits) {
+        if(!textUnits.matches("")){
+            Ingredient newIngredient = new Ingredient("", 0, textUnits);
+            try{
+                ingredients.get(index);
+                newIngredient.setName(ingredients.get(index).getName());
+                newIngredient.setQuantity(ingredients.get(index).getQuantity());
+                ingredients.set(index, newIngredient);
+            }catch (IndexOutOfBoundsException e){
+                ingredients.add(newIngredient);
+            }
+        }
     }
 }

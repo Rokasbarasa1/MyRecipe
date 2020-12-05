@@ -75,9 +75,9 @@ public class RecipeTest {
     @Test
     public void TestIngredients(){
         assertEquals(3, recipe.getIngredients().size());
-        assertEquals("1 1.0", recipe.getIngredients().get(0).getRawString());
-        assertEquals("2 2.0", recipe.getIngredients().get(1).getRawString());
-        assertEquals("3 3.0", recipe.getIngredients().get(2).getRawString());
+        assertEquals("1 1.0", recipe.getIngredients().get(0).getAsNameQuantityCombo());
+        assertEquals("2 2.0", recipe.getIngredients().get(1).getAsNameQuantityCombo());
+        assertEquals("3 3.0", recipe.getIngredients().get(2).getAsNameQuantityCombo());
     }
 
     @Test

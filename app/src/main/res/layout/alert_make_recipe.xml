@@ -86,6 +86,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="When do you want to eat this: "
+            android:textColor="@color/colorTextOnP"
             app:layout_constraintBottom_toTopOf="@+id/datePicker"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

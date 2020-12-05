@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.myrecipe.models.Ingredient;
 import com.example.myrecipe.models.dao.IngredientDAO;
 import com.example.myrecipe.models.dao.RecipeDAO;
 import com.example.myrecipe.models.dao.RecipeDatabase;
@@ -71,6 +72,10 @@ public class RepositoryRandomRecipe {
                          public void onResponse(Call<RecipeResponse> call, Response<RecipeResponse> response) {
                              if (response.code() == 200 ) {
                                  currentRecipe.setValue(response.body().getRecipe().getRecipe());
+                                 for (int i = 0; i < currentRecipe.getValue().getIngredients().size(); i++) {
+                                     Ingredient ingredient = currentRecipe.getValue().getIngredients().get(i);
+                                     System.out.println(ingredient.getAsNameQuantityCombo() + " " + ingredient.getUnitOfMeassure());
+                                 }
                              }
                          }
 
