@@ -1,7 +1,5 @@
 package com.example.myrecipe.models;
 
-import com.example.myrecipe.models.Tag;
-
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -15,6 +13,16 @@ public class TagTest {
         tag = new Tag("Name");
     }
 
+    @Test
+    public void TestCreateNoName(){
+        try{
+            tag = new Tag("");
+            fail();
+        }catch (IllegalArgumentException e){
+
+        }
+    }
+
     @Before
     public void SetUp(){
         tag = new Tag("Name");
@@ -23,5 +31,10 @@ public class TagTest {
     @Test
     public void TestGetName(){
         assertEquals("Name", tag.getName());
+    }
+
+    @Test
+    public void TestGetId(){
+        assertEquals(0, tag.getId());
     }
 }

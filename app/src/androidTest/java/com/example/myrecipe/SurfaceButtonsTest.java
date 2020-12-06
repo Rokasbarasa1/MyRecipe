@@ -29,23 +29,13 @@ import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class TestSurfaceButtons {
+public class SurfaceButtonsTest {
 
     @Rule
     public ActivityTestRule<ActivityMain> mActivityTestRule = new ActivityTestRule<>(ActivityMain.class);
 
     @Test
-    public void testSurfaceButtons() {
-        //These test are awful to do due to how bad they function in practice. The testing thing always gets lost
-        //And cant find things in front of it. Due to this no more of these tests were made
-        //Tests buttons of, floating action, up button, schedule, grocery, random, from database, from internet, settings button,
-
-        try {
-            Thread.sleep(7000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
+    public void surfaceButtonsTest() {
         onView(withId(R.id.schedule)).perform(click());
         onView(withId(R.id.grocery)).perform(click());
         onView(withId(R.id.random)).perform(click());
@@ -57,24 +47,5 @@ public class TestSurfaceButtons {
         onView(withId(R.id.schedule)).perform(click());
         onView(withId(R.id.grocery)).perform(click());
         onView(withId(R.id.settings)).perform(click());
-    }
-
-    private static Matcher<View> childAtPosition(
-            final Matcher<View> parentMatcher, final int position) {
-
-        return new TypeSafeMatcher<View>() {
-            @Override
-            public void describeTo(Description description) {
-                description.appendText("Child at position " + position + " in parent ");
-                parentMatcher.describeTo(description);
-            }
-
-            @Override
-            public boolean matchesSafely(View view) {
-                ViewParent parent = view.getParent();
-                return parent instanceof ViewGroup && parentMatcher.matches(parent)
-                        && view.equals(((ViewGroup) parent).getChildAt(position));
-            }
-        };
     }
 }

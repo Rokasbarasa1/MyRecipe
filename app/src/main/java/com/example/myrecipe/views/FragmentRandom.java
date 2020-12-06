@@ -41,8 +41,8 @@ public class FragmentRandom extends Fragment {
     public void onResume() {
         super.onResume();
         toolbarTitle.setText("Random");
+        upArrow.setDisplayHomeAsUpEnabled(false);
         if(name != null){
-            upArrow.setDisplayHomeAsUpEnabled(false);
             name.setText("Get a random recipe by clicking a button bellow");
             prepTime.setText("");
             servingSize.setText("");

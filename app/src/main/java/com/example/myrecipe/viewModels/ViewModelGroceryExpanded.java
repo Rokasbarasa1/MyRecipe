@@ -14,7 +14,6 @@ public class ViewModelGroceryExpanded extends AndroidViewModel {
     public ViewModelGroceryExpanded(@NonNull Application application) {
         super(application);
         repo = RepositoryGrocery.getInstance(application);
-
     }
 
     public void saveChangesToStatus(GroceryTodo groceryTodo) {

@@ -7,7 +7,6 @@ import static org.junit.Assert.*;
 
 public class RecipeTagTest {
 
-
     RecipeTag tag;
 
     @Test

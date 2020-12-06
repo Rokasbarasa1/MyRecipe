@@ -46,8 +46,6 @@ public class ViewModelCreateRecipe extends AndroidViewModel {
         repo.addRecipe(newRecipe);
     }
 
-    //Runs every time a use makes a change. Pretty beefy, but was the only way i could save the state of what
-    //the user entered before removing a ingredient.
-    //Divides
+
 
 }

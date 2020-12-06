@@ -1,7 +1,5 @@
 package com.example.myrecipe.models;
 
-import com.example.myrecipe.models.Ingredient;
-
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -20,6 +18,18 @@ public class IngredientTest {
     }
 
     //Empty constructor
+
+    @Test
+    public void emptyGetId(){
+        ingredient = new Ingredient();
+        assertEquals(0, ingredient.getId());
+    }
+
+    @Test
+    public void emptyGetRecipeId(){
+        ingredient = new Ingredient();
+        assertEquals(0, ingredient.getRecipeId());
+    }
 
     @Test
     public void emptyGetName(){
@@ -46,6 +56,12 @@ public class IngredientTest {
     }
 
     @Test
+    public void emptyGetAsNameQuantityCombo(){
+        ingredient = new Ingredient();
+        assertEquals("", ingredient.getAsNameQuantityCombo());
+    }
+
+    @Test
     public void fullGetQuantity(){
         ingredient = new Ingredient("Name", 0.1, "g");
         assertEquals(0.1, ingredient.getQuantity(), 0.1);
@@ -55,5 +71,11 @@ public class IngredientTest {
     public void fullGetUnitOfMeasure(){
         ingredient = new Ingredient("Name", 0.1, "g");
         assertEquals("g", ingredient.getUnitOfMeassure());
+    }
+
+    @Test
+    public void GetUnitOfMeassure(){
+        ingredient = new Ingredient("Name", 0.1, "g");
+        assertEquals("Name 0.1", ingredient.getAsNameQuantityCombo());
     }
 }

@@ -145,7 +145,6 @@ public class FragmentRecipeCreate extends Fragment implements  AdapterNewRecipeI
 
     public void finishRecipe() {
         //Checks if user filled out all needed fields. Description can be empty
-
         if(name.getText().toString().matches("")
                 || prepTime.getText().toString().matches("")
                 || servingSize.getText().toString().matches("")
@@ -181,10 +180,8 @@ public class FragmentRecipeCreate extends Fragment implements  AdapterNewRecipeI
     public void onEditNameAndQuantity(int position, String textName) {
         if(!textName.matches("") ){
             if(internetRecipeTemplate != null){
-                System.out.println("position: " + position + " textName: " + textName);
                 ingredientUpdatedText(position, textName);
             }else {
-                System.out.println("position: " + position + " textName: " + textName );
                 ingredientUpdatedText(position, textName);
             }
         }
@@ -193,14 +190,18 @@ public class FragmentRecipeCreate extends Fragment implements  AdapterNewRecipeI
     @Override
     public void onEditUnits(int position, String text) {
         if(internetRecipeTemplate != null){
-            System.out.println("position: " + position + " textUnits:" + text );
             ingredientUpdatedUnits(position, text);
         }else {
-            System.out.println("position: " + position + " textUnits:" + text );
             ingredientUpdatedUnits(position, text);
         }
     }
 
+    //These classes ideally should have been in viewmodel. That where it was originaly, but it caused
+    // a massive amount of issues
+    //
+    //Runs every time a user makes a change. Was but was the only way i could save the state of what
+    //the user entered before removing a ingredient.
+    //Divides what it recieves into name of the ingredient and quantity
     public void ingredientUpdatedText(int index, String text) {
         if(!text.matches("")){
             String[] ingredient = text.split(" ");

@@ -18,7 +18,6 @@ public class ViewModelGrocery extends AndroidViewModel {
     public ViewModelGrocery(@NonNull Application application) {
         super(application);
         repo = RepositoryGrocery.getInstance(application);
-
     }
 
     public LiveData<List<Recipe>> getRecipeGroceries() {

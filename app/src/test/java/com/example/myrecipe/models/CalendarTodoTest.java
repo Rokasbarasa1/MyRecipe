@@ -12,7 +12,7 @@ public class CalendarTodoTest {
     CalendarTodo calendarTodo;
     Calendar calendar;
     @Test
-    public void TestCreate(){
+    public void TestCreateDatabaseConstructor(){
         calendar = Calendar.getInstance();
         calendarTodo = new CalendarTodo(1
                 , calendar.get(Calendar.YEAR)
@@ -22,15 +22,16 @@ public class CalendarTodoTest {
                 , calendar.get(Calendar.MINUTE));
     }
 
+    @Test
+    public void TestCreateNormal(){
+        calendar = Calendar.getInstance();
+        calendarTodo = new CalendarTodo(1, (Calendar) calendar.clone());
+    }
+
     @Before
     public void Before(){
         calendar = Calendar.getInstance();
-        calendarTodo = new CalendarTodo(1
-                , calendar.get(Calendar.YEAR)
-                , calendar.get(Calendar.MONTH)
-                , calendar.get(Calendar.DAY_OF_MONTH)
-                , calendar.get(Calendar.HOUR)
-                , calendar.get(Calendar.MINUTE));
+        calendarTodo = new CalendarTodo(1, (Calendar) calendar.clone());
     }
 
     @Test
@@ -40,6 +41,11 @@ public class CalendarTodoTest {
 
     @Test
     public void TestGetRecipeId(){
+        assertEquals(calendarTodo.getRecipeId(), 1);
+    }
+
+    @Test
+    public void TestGetYear(){
         assertEquals(calendarTodo.getYear(), calendar.get(Calendar.YEAR));
     }
 
@@ -70,4 +76,5 @@ public class CalendarTodoTest {
         System.out.println(dateFormat.format(calendar.getTime()) + "from the test class");
         assertEquals(dateFormat.format(calendarTodo.getCalendarTime().getTime()), dateFormat.format(calendar.getTime()));
     }
+
 }
