@@ -66,7 +66,7 @@ public class RepositoryCreateRecipe {
     }
 
     //Goes through the proccess of inserting the recipe, its tags and its ingredients into the database
-    public void insertRecipe(Recipe recipe, List<Tag> newTags, List<Long> associatedTagsIds){
+    private void insertRecipe(Recipe recipe, List<Tag> newTags, List<Long> associatedTagsIds){
         try {
             long recipeId = new InsertRecipeAsync(recipeDAO).execute(recipe).get();
             for (Ingredient ingredient : recipe.getIngredients()) {
